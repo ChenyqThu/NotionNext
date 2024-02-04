@@ -6,6 +6,12 @@
  */
 const Style = () => {
   return (<style jsx global>{`
+    :root {
+        --color-cyan-light: #e3fdf5; /* 示例颜色，应替换为你希望的颜色 */
+        --color-pink-light: #ffe6fa; /* 示例颜色，应替换为你希望的颜色 */
+        --nav-bg: linear-gradient(-225deg, var(--color-cyan-light) 0%, var(--color-pink-light) 100%);
+    }
+  
     // 底色
     body{
         background-color: #f5f5f5
@@ -13,7 +19,79 @@ const Style = () => {
     .dark body{
         background-color: black;
     }
-  
+
+    .waves {
+        width: 100%;
+        height: 15vh;
+        margin-bottom: -.6875rem;
+        min-height: 3.125rem;
+        max-height: 9.375rem;
+        position: relative
+    }
+    
+    @media (max-width: 767px) {
+        .waves {
+            height:10vh
+        }
+    }
+    
+    .parallax>use {
+        -webkit-animation: wave 25s cubic-bezier(.55,.5,.45,.5) infinite;
+        animation: wave 25s cubic-bezier(.55,.5,.45,.5) infinite
+    }
+    
+    .parallax>use:nth-child(1) {
+        -webkit-animation-delay: -2s;
+        animation-delay: -2s;
+        -webkit-animation-duration: 7s;
+        animation-duration: 7s;
+        fill: rgba(253,253,253,0.7)
+    }
+    
+    .parallax>use:nth-child(2) {
+        -webkit-animation-delay: -3s;
+        animation-delay: -3s;
+        -webkit-animation-duration: 10s;
+        animation-duration: 10s;
+        fill: rgba(253,253,253,0.5)
+    }
+    
+    .parallax>use:nth-child(3) {
+        -webkit-animation-delay: -4s;
+        animation-delay: -4s;
+        -webkit-animation-duration: 13s;
+        animation-duration: 13s;
+        fill: rgba(253,253,253,0.3)
+    }
+    
+    .parallax>use:nth-child(4) {
+        -webkit-animation-delay: -5s;
+        animation-delay: -5s;
+        -webkit-animation-duration: 20s;
+        animation-duration: 20s;
+        fill: #fdfdfd
+    }
+    
+    @-webkit-keyframes wave {
+        0% {
+            transform: translate3d(-90px,0,0)
+        }
+    
+        100% {
+            transform: translate3d(85px,0,0)
+        }
+    }
+    
+    @keyframes wave {
+        0% {
+            transform: translate3d(-90px,0,0)
+        }
+    
+        100% {
+            transform: translate3d(85px,0,0)
+        }
+    }
+
     /*  菜单下划线动画 */
     #theme-hexo .menu-link {
         text-decoration: none;

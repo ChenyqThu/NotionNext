@@ -13,6 +13,7 @@ import { siteConfig } from '@/lib/config'
 import SearchButton from './SearchButton'
 import CONFIG from '../config'
 import { useRouter } from 'next/router'
+import DarkModeButton from '@/components/DarkModeButton'
 
 let windowTop = 0
 
@@ -59,14 +60,13 @@ const TopNav = props => {
     const scrollInHeader = header && (scrollS < 10 || scrollS < header?.clientHeight - 50) // 透明导航条的条件
 
     // const textWhite = header && scrollInHeader
-
     if (scrollInHeader) {
-      nav && nav.classList.replace('bg-white', 'bg-none')
+      nav && nav.classList.replace('bg-gradient', 'bg-none')
       nav && nav.classList.replace('border', 'border-transparent')
       nav && nav.classList.replace('drop-shadow-md', 'shadow-none')
       nav && nav.classList.replace('dark:bg-hexo-black-gray', 'transparent')
     } else {
-      nav && nav.classList.replace('bg-none', 'bg-white')
+      nav && nav.classList.replace('bg-none', 'bg-gradient')
       nav && nav.classList.replace('border-transparent', 'border')
       nav && nav.classList.replace('shadow-none', 'drop-shadow-md')
       nav && nav.classList.replace('transparent', 'dark:bg-hexo-black-gray')
@@ -144,6 +144,7 @@ const TopNav = props => {
                     <div onClick={toggleMenuOpen} className='w-8 justify-center items-center h-8 cursor-pointer flex lg:hidden'>
                         {isOpen ? <i className='fas fa-times' /> : <i className='fas fa-bars' />}
                     </div>
+                    <DarkModeButton />
                     {showSearchButton && <SearchButton />}
                 </div>
             </div>

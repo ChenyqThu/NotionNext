@@ -17,8 +17,13 @@ module.exports = {
         hexo: {
           'background-gray': '#f5f5f5',
           'black-gray': '#101414',
-          'light-gray': '#e5e5e5'
-        }
+          'light-gray': '#e5e5e5',
+          'cyan-light': 'var(--color-cyan-light)', 
+          'pink-light': 'var(--color-pink-light)',
+        },
+      },
+      backgroundImage: {
+        'gradient': 'var(--nav-bg)',
       },
       maxWidth: {
         side: '14rem',
