@@ -15,7 +15,8 @@ module.exports = {
           DEFAULT: BLOG.BACKGROUND_DARK || '#111827'
         },
         hexo: {
-          'background-gray': '#f5f5f5',
+          'background-gray': '#fdfdfd',
+          'background-black': '#21252b',
           'black-gray': '#101414',
           'light-gray': '#e5e5e5',
           'cyan-light': 'var(--color-cyan-light)', 
@@ -28,6 +29,9 @@ module.exports = {
       maxWidth: {
         side: '14rem',
         '9/10': '90%'
+      },
+      animation: {
+        'spin-slow': 'spin 6s linear infinite',
       }
     }
   },

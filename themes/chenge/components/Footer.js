@@ -8,22 +8,31 @@ const Footer = ({ title }) => {
 
   return (
     <footer
-      className='relative z-10 dark:bg-black flex-shrink-0 bg-hexo-light-gray justify-center text-center m-auto w-full leading-6  text-gray-600 dark:text-gray-100 text-sm p-6'
-    >
+      className='relative z-10 dark:bg-black flex-shrink-0 bg-hexo-light-gray justify-center text-center m-auto w-full leading-6  text-gray-600 dark:text-gray-100 text-sm p-2'>
       {/* <DarkModeButton/> */}
-
-      <i className='fas fa-copyright' /> {`${copyrightDate}`} <span><i className='mx-1 animate-pulse fas fa-heart'/> <a href={siteConfig('LINK')} className='underline font-bold  dark:text-gray-300 '>{siteConfig('AUTHOR')}</a>.<br/>
-
-      {siteConfig('BEI_AN') && <><i className='fas fa-shield-alt' /> <a href='https://beian.miit.gov.cn/' className='mr-2'>{siteConfig('BEI_AN')}</a><br/></>}
-
-      <span className='hidden busuanzi_container_site_pv'>
-            <i className='fas fa-eye'/><span className='px-1 busuanzi_value_site_pv'> </span>  </span>
-      <span className='pl-2 hidden busuanzi_container_site_uv'>
-        <i className='fas fa-users'/> <span className='px-1 busuanzi_value_site_uv'> </span> </span>
-        <h1 className='text-xs pt-4 text-light-400 dark:text-gray-400'>{title} {siteConfig('BIO') && <>|</>} {siteConfig('BIO')}</h1>
+      <div id="status" className='width-full align-center mt-2'>
+        <div id="copyright" className='flex justify-center items-center'>
+          <span className='inline-block px-1'><i className='iconfont icon-copyright' />
+          </span>
+           {`${copyrightDate}`} 
+          {/* <i className='mx-1 animate-pulse fas fa-heart' /> */}
+          <span className='inline-block animate-spin-slow ml-3 mr-1' style={{color:'pink'}}>
+          <i className='iconfont icon-sakura' /></span>
+          <a href={siteConfig('LINK')} className=' dark:text-gray-300 '>{title}</a><br/>
+          {siteConfig('BEI_AN') && <><i className='fas fa-shield-alt' /> <a href='https://beian.miit.gov.cn/' className='mr-2'>{siteConfig('BEI_AN')}</a><br/></>}
+        </div>
+        <div id="statistics" className='flex justify-center items-center'>
+          <span className='hidden busuanzi_container_site_pv'>
+              <i className='fas fa-eye'/>
+              <span className='px-1 busuanzi_value_site_pv'></span>  
+          </span>
+          <span className='pl-2 hidden busuanzi_container_site_uv'>
+            <i className='fas fa-users'/> <span className='px-1 busuanzi_value_site_uv'> </span> 
+          </span>
+        </div>
+        <h1 className='text-xs pt-2 text-light-400 dark:text-gray-400'>{title} {siteConfig('BIO') && <>|</>} {siteConfig('BIO')}</h1>
         {/* <p className='text-xs pt-2 text-light-500 dark:text-gray-500'>Thankyou by <a href='https://github.com/tangly1024/NotionNext' className='dark:text-gray-300'>NotionNext {siteConfig('VERSION')}</a>.</p> */}
-      </span>
-
+      </div>
     </footer>
   )
 }

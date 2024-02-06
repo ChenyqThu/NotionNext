@@ -19,6 +19,12 @@ class MyDocument extends Document {
                       <link rel="stylesheet" href={BLOG.FONT_AWESOME} crossOrigin="anonymous" referrerPolicy="no-referrer" />
                   </>}
 
+                  {/* 预加载icon font */}
+                  {BLOG.ICON_FONT && <>
+                      <link rel='preload' href={BLOG.ICON_FONT} as="style" crossOrigin="anonymous" />
+                      <link rel="stylesheet" href={BLOG.ICON_FONT} crossOrigin="anonymous" referrerPolicy="no-referrer" />
+                  </>}
+
                   {BLOG.FONT_URL?.map((fontUrl, index) => {
                     if (fontUrl.endsWith('.css')) {
                       return <link key={index} rel="stylesheet" href={fontUrl} />
