@@ -27,8 +27,8 @@ export default function PostHeader({ post, siteInfo }) {
       <header id='article-header-cover'
             className="bg-black bg-opacity-70 absolute top-0 w-full h-96 py-10 flex justify-center items-center ">
 
-        <div className='mt-10'>
-            <div className='mb-3 flex justify-center'>
+        <div className='mt-3'>
+            <div className='mb-2 flex justify-center'>
               {post.category && <>
                 <Link href={`/category/${post.category}`} passHref legacyBehavior>
                   <div className="cursor-pointer px-2 py-1 mb-2 border rounded-sm dark:border-white text-sm font-medium hover:underline duration-200 shadow-text-md text-white">
@@ -69,7 +69,7 @@ export default function PostHeader({ post, siteInfo }) {
             </div>}
           </section>
 
-            <div className='mt-4 mb-1'>
+            <div className='mt-3 mb-1'>
                 {post.tagItems && (
                     <div className="flex justify-center flex-nowrap overflow-x-auto">
                         {post.tagItems.map(tag => (
@@ -78,6 +78,21 @@ export default function PostHeader({ post, siteInfo }) {
                     </div>
                 )}
             </div>
+        </div>
+
+        {/* 波浪效果 */}
+        <div id="waves" className="absolute bottom-0 w-full">
+          <svg className="waves" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+            <defs>
+              <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+            </defs>
+            <g className="parallax">
+              <use xlinkHref="#gentle-wave" x="48" y="0" />
+              <use xlinkHref="#gentle-wave" x="48" y="3" />
+              <use xlinkHref="#gentle-wave" x="48" y="5" />
+              <use xlinkHref="#gentle-wave" x="48" y="7" />
+            </g>
+          </svg>
         </div>
       </header>
     </div>

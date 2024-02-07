@@ -26,17 +26,41 @@ const Hero = props => {
     updateHeaderHeight()
 
     if (!typed && window && document.getElementById('typed')) {
-      changeType(
-        new Typed('#typed', {
-          strings: GREETING_WORDS,
-          typeSpeed: 200,
-          backSpeed: 100,
-          backDelay: 400,
-          showCursor: true,
-          smartBackspace: true
-        })
-      )
+      const typedInstance = new Typed('#typed', {
+        strings: siteConfig('GREETING_WORDS').split(','),
+        typeSpeed: 200,
+        backSpeed: 100,
+        backDelay: 400,
+        showCursor: true,
+        smartBackspace: true,
+        onComplete: () => { // 打字机效果完成后的回调函数
+          if (!window.hitokotoFetched) { // 添加标记确保只触发一次一言的获取和替换
+            window.hitokotoFetched = true; // 设置标记为true
+            setTimeout(() => { // 等待2秒
+              fetch('https://v1.hitokoto.cn')
+                .then(response => response.json())
+                .then(data => {
+                  const typedElement = document.getElementById('typed');
+                  typedElement.classList.add('opacity-0', 'transition-opacity', 'duration-500'); // 开始淡出
+                  setTimeout(() => {
+                    // 更新文本并淡入显示
+                    typedElement.innerHTML = `『 ${data.hitokoto}』—— ${data.from}`;
+                    typedElement.classList.remove('opacity-0'); // 移除淡出效果
+                    typedElement.classList.add('opacity-100'); // 确保文本完全不透明
+                    window.hitokotoFetched = false; // 重置标记为false，以便下次可以触发一言的获取和替换
+                  }, 500); // 根据淡出动画的持续时间来调整
+                })
+                .catch(error => {
+                  console.error('Fetching Hitokoto failed:', error);
+                  window.hitokotoFetched = false; // 如果获取一言失败，也要重置标记为false，以便下次可以触发一言的获取和替换
+                });
+            }, 2000); // 设置2秒延迟
+          }
+        }
+      });
+      changeType(typedInstance);
     }
+    
 
     window.addEventListener('resize', updateHeaderHeight)
     return () => {
@@ -52,45 +76,42 @@ const Hero = props => {
   }
 
   return (
-        <header
-            id="header" style={{ zIndex: 1 }}
-            className="w-full h-screen relative bg-black"
-        >
-
-            <div className="text-white absolute bottom-0 flex flex-col h-full items-center justify-center w-full ">
-                {/* 站点标题 */}
-                <div className='font-black text-4xl md:text-5xl shadow-text'>{siteConfig('TITLE')}</div>
-                {/* 站点欢迎语 */}
-                <div className='mt-2 h-12 items-center text-center font-medium shadow-text text-lg'>
-                    <span id='typed' />
-                </div>
-
-                {/* 首页导航大按钮 */}
-                {siteConfig('HEXO_HOME_NAV_BUTTONS', null, CONFIG) && <NavButtonGroup {...props} />}
-
-                {/* 滚动按钮 */}
-                <div onClick={scrollToWrapper} className="z-10 cursor-pointer w-full text-center py-4 text-3xl absolute bottom-10 text-white">
-                    <div className="opacity-70 animate-bounce text-xs">{siteConfig('HEXO_SHOW_START_READING', null, CONFIG) && locale.COMMON.START_READING}</div>
-                    <i className='opacity-70 animate-bounce fas fa-angle-down' />
-                </div>
-                {/* 波浪效果 */}
-                <div id="waves" className="absolute bottom-0 w-full">
-                  <svg className="waves" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
-                    <defs>
-                      <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-                    </defs>
-                    <g className="parallax">
-                      <use xlinkHref="#gentle-wave" x="48" y="0" />
-                      <use xlinkHref="#gentle-wave" x="48" y="3" />
-                      <use xlinkHref="#gentle-wave" x="48" y="5" />
-                      <use xlinkHref="#gentle-wave" x="48" y="7" />
-                    </g>
-                  </svg>
-                </div>
+        <header id="header" className="w-full relative bg-black z-1 h-[70vh] min-h-[25rem] flex flex-col justify-center items-center">
+          <div className="absolute inset-0 text-white flex flex-col items-center justify-center">
+            {/* 站点标题 */}
+            <div className='font-black text-4xl md:text-5xl shadow-text'>{siteConfig('TITLE')}</div>
+            {/* 站点欢迎语 */}
+            <div className='mt-5 h-12 items-center text-center font-medium shadow-text text-lg'>
+                <span id='typed' />
             </div>
 
-            <LazyImage id='header-cover' src={siteInfo?.pageCover}
-                className={`header-cover w-full h-screen object-cover object-center ${siteConfig('HEXO_HOME_NAV_BACKGROUND_IMG_FIXED', null, CONFIG) ? 'fixed' : ''}`} />
+            {/* 首页导航大按钮 */}
+            {siteConfig('HEXO_HOME_NAV_BUTTONS', null, CONFIG) && <NavButtonGroup {...props} />}
+
+            {/* 滚动按钮 */}
+            <div onClick={scrollToWrapper} className="z-10 cursor-pointer text-center py-4 text-3xl text-white">
+                <div className="opacity-70 animate-bounce text-xs">{siteConfig('HEXO_SHOW_START_READING', null, CONFIG) && locale.COMMON.START_READING}</div>
+                <i className='opacity-70 animate-bounce fas fa-angle-down' />
+            </div>
+          </div>
+
+          {/* 波浪效果 */}
+          <div id="waves" className="absolute bottom-0 w-full">
+            <svg className="waves" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+              <defs>
+                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+              </defs>
+              <g className="parallax">
+                <use xlinkHref="#gentle-wave" x="48" y="0" />
+                <use xlinkHref="#gentle-wave" x="48" y="3" />
+                <use xlinkHref="#gentle-wave" x="48" y="5" />
+                <use xlinkHref="#gentle-wave" x="48" y="7" />
+              </g>
+            </svg>
+          </div>
+
+          <LazyImage id='header-cover' src={siteInfo?.pageCover}
+              className={`header-cover w-full h-screen min-h-[25rem] object-cover object-center ${siteConfig('HEXO_HOME_NAV_BACKGROUND_IMG_FIXED', null, CONFIG) ? 'fixed' : ''}`} />
 
           
         </header>

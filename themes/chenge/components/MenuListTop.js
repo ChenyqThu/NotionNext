@@ -35,8 +35,8 @@ export const MenuListTop = (props) => {
   }
 
   return (<>
-        <nav id='nav-mobile' className='justify-center font-light w-full flex'>
-            {links?.map((link, index) => link && link.show && <MenuItemDrop key={index} link={link} />)}
+        <nav id='nav-mobile' className='justify-center items-center font-medium text-lg w-full flex'>
+            {links?.map((link, index) => link && link.show && <MenuItemDrop key={index} link={link}/>)}
         </nav>
     </>)
 }

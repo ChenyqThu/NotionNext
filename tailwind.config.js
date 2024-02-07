@@ -19,6 +19,8 @@ module.exports = {
           'background-black': '#21252b',
           'black-gray': '#101414',
           'light-gray': '#e5e5e5',
+          'dark-aqua':'#97d3d6',
+          'aqua':'#3e999f',
           'cyan-light': 'var(--color-cyan-light)', 
           'pink-light': 'var(--color-pink-light)',
         },
