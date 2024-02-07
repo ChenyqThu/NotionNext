@@ -76,7 +76,7 @@ const Hero = props => {
   }
 
   return (
-        <header id="header" className="w-full relative bg-black z-1 h-[70vh] min-h-[25rem] flex flex-col justify-center items-center">
+        <header id="header" className="w-full relative bg-black z-1 h-[60vh] min-h-[25rem] min-w-[25rem] flex flex-col justify-center items-center">
           <div className="absolute inset-0 text-white flex flex-col items-center justify-center">
             {/* 站点标题 */}
             <div className='font-black text-4xl md:text-5xl shadow-text'>{siteConfig('TITLE')}</div>
@@ -89,8 +89,8 @@ const Hero = props => {
             {siteConfig('HEXO_HOME_NAV_BUTTONS', null, CONFIG) && <NavButtonGroup {...props} />}
 
             {/* 滚动按钮 */}
-            <div onClick={scrollToWrapper} className="z-10 cursor-pointer text-center py-4 text-3xl text-white">
-                <div className="opacity-70 animate-bounce text-xs">{siteConfig('HEXO_SHOW_START_READING', null, CONFIG) && locale.COMMON.START_READING}</div>
+            <div onClick={scrollToWrapper} className="mt-5 z-10 cursor-pointer text-center py-8 text-3xl text-white">
+                <div className="opacity-70 animate-bounce font-semibold text-sm">{siteConfig('HEXO_SHOW_START_READING', null, CONFIG) && locale.COMMON.START_READING}</div>
                 <i className='opacity-70 animate-bounce fas fa-angle-down' />
             </div>
           </div>

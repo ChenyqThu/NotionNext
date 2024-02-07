@@ -60,11 +60,6 @@ module.exports = withBundleAnalyzer({
       {
         source: '/:path*.html',
         destination: '/:path*'
-      },
-      // 添加新的重写规则
-      {
-        source: '/api/hitokoto',
-        destination: 'https://v1.hitokoto.cn/'
       }
     ]
   },
