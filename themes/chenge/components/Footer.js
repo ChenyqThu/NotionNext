@@ -8,7 +8,7 @@ const Footer = ({ title }) => {
 
   return (
     <footer
-      className='relative z-10 dark:bg-black flex-shrink-0 bg-hexo-light-gray justify-center text-center m-auto w-full leading-6  text-gray-600 dark:text-gray-100 text-sm p-2'>
+      className='relative z-10 dark:bg-hexo-background-black flex-shrink-0 bg-hexo-background-gray justify-center text-center m-auto w-full leading-6  text-gray-600 dark:text-gray-100 text-sm p-2'>
       {/* <DarkModeButton/> */}
       <div id="status" className='width-full align-center mt-2'>
         <div id="copyright" className='flex justify-center items-center'>
@@ -18,8 +18,8 @@ const Footer = ({ title }) => {
           {/* <i className='mx-1 animate-pulse fas fa-heart' /> */}
           <span className='inline-block animate-spin-slow ml-3 mr-1' style={{color:'pink'}}>
           <i className='iconfont icon-sakura' /></span>
-          <a href={siteConfig('LINK')} className=' dark:text-gray-300 '>{title}</a><br/>
-          {siteConfig('BEI_AN') && <><i className='fas fa-shield-alt' /> <a href='https://beian.miit.gov.cn/' className='mr-2'>{siteConfig('BEI_AN')}</a><br/></>}
+          <a href={siteConfig('LINK')} className=' dark:text-gray-300 '>{title}</a>
+          {siteConfig('BEI_AN') && <><i className='fas fa-shield-alt ml-3' /> <a href='https://beian.miit.gov.cn/' className='mr-2'>{siteConfig('BEI_AN')}</a><br/></>}
         </div>
         <div id="statistics" className='flex justify-center items-center'>
           <span className='hidden busuanzi_container_site_pv'>
