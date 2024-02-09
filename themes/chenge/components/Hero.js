@@ -37,7 +37,7 @@ const Hero = props => {
           if (!window.hitokotoFetched) { // 添加标记确保只触发一次一言的获取和替换
             window.hitokotoFetched = true; // 设置标记为true
             setTimeout(() => { // 等待2秒
-              fetch('https://v1.hitokoto.cn')
+              fetch('https://v1.hitokoto.cn/?c=d&c=h&c=i&c=j&c=k')
                 .then(response => response.json())
                 .then(data => {
                   const typedElement = document.getElementById('typed');
@@ -81,7 +81,7 @@ const Hero = props => {
             {/* 站点标题 */}
             <div className='font-black text-4xl md:text-5xl shadow-text'>{siteConfig('TITLE')}</div>
             {/* 站点欢迎语 */}
-            <div className='mt-5 h-12 items-center text-center font-medium shadow-text text-lg'>
+            <div className='mt-5 h-12 items-center text-center font-medium shadow-text text-lg font-serif'>
                 <span id='typed' />
             </div>
 

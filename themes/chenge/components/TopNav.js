@@ -132,7 +132,7 @@ const TopNav = props => {
         <SearchDrawer cRef={searchDrawer} slot={searchDrawerSlot} />
 
         {/* 导航栏 */}
-        <div id='sticky-nav' style={{ backdropFilter: 'blur(3px)' }} className={'top-0 duration-300 transition-all  shadow-none fixed bg-none dark:bg-hexo-black-gray dark:text-gray-200 text-black w-full z-20 transform border-transparent dark:border-transparent'}>
+        <div id='sticky-nav' style={{ backdropFilter: 'blur(3px)' }} className={'top-0 duration-300 transition-all shadow-none fixed bg-none dark:bg-hexo-black-gray dark:text-gray-200 text-black w-full z-20 transform border-transparent dark:border-transparent'}>
             <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex justify-between items-center py-2'>
                 <div className='flex justify-start items-center space-x-4'>
                     <Logo {...props} />
