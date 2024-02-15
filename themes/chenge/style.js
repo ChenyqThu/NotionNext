@@ -13,9 +13,10 @@ const Style = () => {
         --grey-a5: rgba(253,253,253,0.5);
         --grey-a3: rgba(253,253,253,0.3);
         --grey-a0: #fdfdfd;
+        --grey: #333;
+        --aqua: #3e999f;
         --color-purple: #928CEE;
-        --color-aqua: #3e999f;
-        --menu-bg: linear-gradient(90deg, var(--color-aqua) 0%, var(--color-aqua) 100%);
+        --menu-bg: linear-gradient(90deg, var(--aqua) 0%, var(--aqua) 100%);
         --nav-bg: linear-gradient(-225deg, var(--color-cyan-light) 0%, var(--color-pink-light) 100%);
     }
 
@@ -25,8 +26,9 @@ const Style = () => {
         --grey-a7: rgba(34,34,34,0.7);
         --grey-a5: rgba(34,34,34,0.5);
         --grey-a3: rgba(34,34,34,0.3);
-        --color-aqua: #97d3d6;
-        --grey-a0: #21252b
+        --grey: #aaa;
+        --aqua: #97d3d6;
+        --grey-a0: #21252b;
     }
 
     // iconfont 图标支持
@@ -129,7 +131,7 @@ const Style = () => {
     
     #theme-hexo .menu-link:hover {
         background-size: 100% 2px;
-        color: var(--color-aqua);
+        color: var(--aqua);
     }
 
     /* 设置了从上到下的渐变黑色 */
