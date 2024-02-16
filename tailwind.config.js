@@ -27,6 +27,7 @@ module.exports = {
       },
       backgroundImage: {
         'gradient': 'var(--nav-bg)',
+        'tab': 'var(--tab-bg)'
       },
       maxWidth: {
         side: '14rem',

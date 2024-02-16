@@ -44,44 +44,55 @@ export default function SideRight(props) {
     return null
   }
 
+  // 判断是否在文章页面，并且文章有目录
+  const isArticlePage = post && post.toc && post.toc.length > 1;
+
   return (
     <div id='sideRight' className={className}>
-      <InfoCard {...props} />
-      {siteConfig('HEXO_WIDGET_ANALYTICS', null, CONFIG) && <AnalyticsCard {...props} />}
-
-      {showCategory && (
-        <Card>
-          <div className='ml-2 mb-1 '>
-            <i className='fas fa-th' /> {locale.COMMON.CATEGORY}
+      {isArticlePage ? (
+        <>     
+          <div className='sticky top-7'>
+            <Catalog toc={post.toc} {...props} />
+            {rightAreaSlot}
+            <FaceBookPage/>
+            <Live2D />
           </div>
-          <CategoryGroup
-            currentCategory={currentCategory}
-            categories={categories}
-          />
-        </Card>
-      )}
-      {showTag && (
-        <Card>
-          <TagGroups tags={tags} currentTag={currentTag} />
-        </Card>
-      )}
-      {siteConfig('HEXO_WIDGET_LATEST_POSTS', null, CONFIG) && latestPosts && latestPosts.length > 0 && <Card>
-        <LatestPostsGroup {...props} />
-      </Card>}
-
-      <Announcement post={notice}/>
-
-      {siteConfig('COMMENT_WALINE_SERVER_URL') && siteConfig('COMMENT_WALINE_RECENT') && <HexoRecentComments/>}
-
-      <div className='sticky top-20'>
-        {post && post.toc && post.toc.length > 1 && <Card>
-          <Catalog toc={post.toc} />
+        </>
+      ): (
+      <>
+        <InfoCard {...props} />
+        {siteConfig('HEXO_WIDGET_LATEST_POSTS', null, CONFIG) && latestPosts && latestPosts.length > 0 && <Card>
+          <LatestPostsGroup {...props} />
         </Card>}
+        {siteConfig('HEXO_WIDGET_ANALYTICS', null, CONFIG) && <AnalyticsCard {...props} />}
 
-        {rightAreaSlot}
-        <FaceBookPage/>
-        <Live2D />
-      </div>
+        {showCategory && (
+          <Card>
+            <div className='ml-2 mb-1 '>
+              <i className='fas fa-th' /> {locale.COMMON.CATEGORY}
+            </div>
+            <CategoryGroup
+              currentCategory={currentCategory}
+              categories={categories}
+            />
+          </Card>
+        )}
+        {showTag && (
+          <Card>
+            <TagGroups tags={tags} currentTag={currentTag} />
+          </Card>
+        )}
+
+        <Announcement post={notice}/>
+
+        {siteConfig('COMMENT_WALINE_SERVER_URL') && siteConfig('COMMENT_WALINE_RECENT') && <HexoRecentComments/>}
+        <div className='sticky top-7'>
+            {rightAreaSlot}
+            <FaceBookPage/>
+            <Live2D />
+          </div>
+      </>
+      )}
 
     </div>
   )

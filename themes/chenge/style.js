@@ -16,8 +16,11 @@ const Style = () => {
         --grey: #333;
         --aqua: #3e999f;
         --color-purple: #928CEE;
+        --color-pink:#ed6ea0;
+        --color-orange: #ec8c69;
         --menu-bg: linear-gradient(90deg, var(--aqua) 0%, var(--aqua) 100%);
         --nav-bg: linear-gradient(-225deg, var(--color-cyan-light) 0%, var(--color-pink-light) 100%);
+        --tab-bg: linear-gradient(to right,var(--color-pink) 0,var(--color-orange) 100%);
     }
 
     .dark {
