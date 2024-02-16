@@ -132,7 +132,7 @@ const TopNav = props => {
 
         {/* 导航栏 */}
         <div id='sticky-nav' style={{ backdropFilter: 'blur(3px)' }} className={'top-0 duration-300 transition-all shadow-none fixed bg-none dark:bg-hexo-black-grey text-hexo-grey w-full z-20 transform border-transparent dark:border-transparent'}>
-            <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex justify-between items-center py-1'>
+            <div className='lg:max-w-75p mx-auto px-4 sm:px-6 lg:px-8 w-full flex justify-between items-center py-1'>
                 <div className='flex justify-start items-center space-x-4'>
                     <Logo {...props} />
                     <div className='hidden lg:flex'> <MenuListTop {...props} /></div>

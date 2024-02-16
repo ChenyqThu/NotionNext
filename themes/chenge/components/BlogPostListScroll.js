@@ -58,8 +58,8 @@ const BlogPostListScroll = ({ posts = [], currentSearch, showSummary = siteConfi
 
       {/* 文章列表 */}
       <div className="space-y-6 px-2">
-        {postsToShow.map(post => (
-          <BlogPostCard key={post.id} post={post} showSummary={showSummary} siteInfo={siteInfo}/>
+        {postsToShow.map((post,index) => (
+          <BlogPostCard key={post.id} post={post} index={index} showSummary={showSummary} siteInfo={siteInfo}/>
         ))}
       </div>
 

@@ -73,7 +73,7 @@ const LayoutBase = props => {
 
   return (
     <ThemeGlobalHexo.Provider value={{ searchModal }}>
-        <div id='theme-hexo'>
+        <div id='theme-hexo' className="bg-hexo-background-gray dark:bg-hexo-background-black">
             <Style/>
 
             {/* 顶部导航 */}
@@ -95,9 +95,9 @@ const LayoutBase = props => {
             </Transition>
 
             {/* 主区块 */}
-            <main id="wrapper" className={`${siteConfig('HEXO_HOME_BANNER_ENABLE', null, CONFIG) ? '' : 'pt-16'} bg-hexo-background-gray dark:bg-hexo-background-black w-full py-8 md:px-8 lg:px-24 min-h-screen relative`}>
+            <main id="wrapper" className={`${siteConfig('HEXO_HOME_BANNER_ENABLE', null, CONFIG) ? '' : 'pt-16'} bg-hexo-background-gray dark:bg-hexo-background-black w-full lg:max-w-75p mx-auto px-2 sm:px-6 lg:px-8 py-8 min-h-screen relative`}>
                 <div id="container-inner" className={(JSON.parse(siteConfig('LAYOUT_SIDEBAR_REVERSE')) ? 'flex-row-reverse' : '') + ' w-full mx-auto lg:flex lg:space-x-4 justify-center relative z-10'} >
-                    <div className={`${className || ''} w-full ${fullWidth ? '' : 'max-w-4xl'} h-full overflow-hidden`}>
+                    <div className={`w-full ${className || ''} ${fullWidth ? '' : 'lg:max-w-custom'} h-full overflow-hidden`}>
 
                         <Transition
                             show={!onLoading}

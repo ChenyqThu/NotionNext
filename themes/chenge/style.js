@@ -12,7 +12,7 @@ const Style = () => {
         --grey-a7: rgba(253,253,253,0.7);
         --grey-a5: rgba(253,253,253,0.5);
         --grey-a3: rgba(253,253,253,0.3);
-        --grey-a0: #fdfdfd;
+        --grey-a0: #f5f5f5;
         --grey: #333;
         --aqua: #3e999f;
         --color-purple: #928CEE;
@@ -26,9 +26,9 @@ const Style = () => {
         --grey-a7: rgba(34,34,34,0.7);
         --grey-a5: rgba(34,34,34,0.5);
         --grey-a3: rgba(34,34,34,0.3);
+        --grey-a0: #21252b;
         --grey: #aaa;
         --aqua: #97d3d6;
-        --grey-a0: #21252b;
     }
 
     // iconfont 图标支持
@@ -45,6 +45,16 @@ const Style = () => {
     }
     .dark body{
         background-color: black;
+    }
+
+    //文章封面
+    .left-clip-path {
+        -webkit-clip-path: polygon(0 0,92% 0,100% 100%,0 100%);
+        clip-path: polygon(0 0,92% 0,100% 100%,0 100%);
+    }
+    .right-clip-path {
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 8% 100%);
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 8% 100%);
     }
 
     .waves {

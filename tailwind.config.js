@@ -30,7 +30,12 @@ module.exports = {
       },
       maxWidth: {
         side: '14rem',
-        '9/10': '90%'
+        '9/10': '90%',
+        '75p': '75%', 
+        'custom':'calc(100% - 21rem);'
+      },
+      width:{
+        '50p':'50%',
       },
       animation: {
         'spin-slow': 'spin 6s linear infinite',
