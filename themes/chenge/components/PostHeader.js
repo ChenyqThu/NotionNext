@@ -48,22 +48,24 @@ export default function PostHeader({ post, siteInfo }) {
                 <Link
                   href={`/archive#${formatDateFmt(post?.publishDate, 'yyyy-MM')}`}
                   passHref
-                  className="pl-1 mr-2 cursor-pointer hover:underline">
-
-                  {locale.COMMON.POST_TIME}: {post?.publishDay}
+                  className="pl-1 mr-4 cursor-pointer hover:underline">
+                  <i className="iconfont icon-calendar mr-1" />{post?.publishDay}
+                  {/* {locale.COMMON.POST_TIME}: {post?.publishDay} */}
 
                 </Link>
               </>
             )}
-            <div className="pl-1 mr-2">
-              {locale.COMMON.LAST_EDITED_TIME}: {post.lastEditedDay}
+            <div className="pl-1 mr-5">
+              <i className="iconfont icon-pen mr-1" />{post.lastEditedDay}
+              {/* {locale.COMMON.LAST_EDITED_TIME}: {post.lastEditedDay} */}
             </div>
           </div>
 
-          {JSON.parse(siteConfig('ANALYTICS_BUSUANZI_ENABLE')) && <div className="busuanzi_container_page_pv font-light mr-2">
-            <span className="mr-2 busuanzi_value_page_pv" />
+          {JSON.parse(siteConfig('ANALYTICS_BUSUANZI_ENABLE')) && (<div className="busuanzi_container_page_pv font-light mr-2">
+            <i className="iconfont icon-eye mr-1" />
+            <span className="mr-1 busuanzi_value_page_pv" />
             {locale.COMMON.VIEWS}
-          </div>}
+          </div>)}
         </section>
 
         <div className='mt-3 mb-1'>

@@ -77,7 +77,7 @@ const Hero = props => {
 
   return (
         <header id="header" className="w-full relative bg-black z-1 h-[60vh] min-h-[25rem] min-w-[25rem] flex flex-col justify-center items-center">
-          <div className="absolute inset-0 text-white flex flex-col items-center justify-center">
+          <div className="absolute inset-0 text-white flex flex-col items-center justify-center z-10">
             {/* 站点标题 */}
             <div className='font-black text-4xl md:text-5xl shadow-text'>{siteConfig('TITLE')}</div>
             {/* 站点欢迎语 */}
@@ -96,7 +96,7 @@ const Hero = props => {
           </div>
 
           {/* 波浪效果 */}
-          <div id="waves" className="absolute bottom-0 w-full">
+          <div id="waves" className="absolute bottom-0 w-full z-10">
             <svg className="waves" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
               <defs>
                 <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
@@ -111,7 +111,7 @@ const Hero = props => {
           </div>
 
           <LazyImage id='header-cover' src={siteInfo?.pageCover}
-              className={`header-cover w-full h-screen min-h-[25rem] object-cover object-center ${siteConfig('HEXO_HOME_NAV_BACKGROUND_IMG_FIXED', null, CONFIG) ? 'fixed' : ''}`} />
+              className={`header-cover w-full h-screen min-h-[25rem] object-cover object-center ${siteConfig('HEXO_HOME_NAV_BACKGROUND_IMG_FIXED', null, CONFIG) ? 'fixed z-1' : ''}`} />
 
           
         </header>

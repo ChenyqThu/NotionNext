@@ -22,7 +22,7 @@ const LatestPostsGroup = ({ latestPosts, siteInfo }) => {
   }
 
   return <>
-        <div className=" mb-2 px-1 flex flex-nowrap justify-between">
+        <div className=" mb-2 mt-2 px-1 flex flex-nowrap justify-between">
             <div>
                 <i className="mr-2 fas fas fa-history" />
                 {locale.COMMON.LATEST_POSTS}
@@ -47,8 +47,8 @@ const LatestPostsGroup = ({ latestPosts, siteInfo }) => {
                     <div
                         className={
                             (selected ? ' text-indigo-400 ' : 'dark:text-gray-400 ') +
-                            ' text-sm overflow-x-hidden hover:text-indigo-600 px-2 duration-200 w-full rounded ' +
-                            ' hover:text-indigo-400 cursor-pointer items-center flex'
+                            ' text-sm overflow-x-hidden px-2 duration-200 w-full rounded ' +
+                            'cursor-pointer items-center flex'
                         }
                     >
                         <div>

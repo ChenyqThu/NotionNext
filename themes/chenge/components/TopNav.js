@@ -54,7 +54,7 @@ const TopNav = props => {
   const topNavStyleHandler = useCallback(throttle(() => {
     const scrollS = window.scrollY
     const nav = document.querySelector('#sticky-nav')
-    //const menu = document.querySelector('#menu-item')
+    const menu = document.querySelector('#active-menu')
     // 首页和文章页会有头图
     const header = document.querySelector('#header')
     // 导航栏和头图是否重叠
@@ -65,16 +65,20 @@ const TopNav = props => {
       nav && nav.classList.replace('bg-gradient', 'bg-none')
       nav && nav.classList.replace('border', 'border-transparent')
       nav && nav.classList.replace('drop-shadow-md', 'shadow-none')
+      nav && nav.classList.replace('shadowtext-none','text-shadow')
       nav && nav.classList.replace('dark:bg-hexo-black-grey', 'transparent')
       nav && nav.classList.replace('text-hexo-grey', 'text-white')
-      //nav && menu.classList.replace('text-hexo-aqua','text-white')
+      menu && menu.classList.replace('text-hexo-aqua','text-white')
+      menu && menu.classList.replace('border-hexo-aqua', 'border-white')
     } else {
       nav && nav.classList.replace('bg-none', 'bg-gradient')
       nav && nav.classList.replace('border-transparent', 'border')
       nav && nav.classList.replace('shadow-none', 'drop-shadow-md')
+      nav && nav.classList.replace('text-shadow', 'shadowtext-none')
       nav && nav.classList.replace('transparent', 'dark:bg-hexo-black-grey')
       nav && nav.classList.replace('text-white', 'text-hexo-grey')
-      //nav && menu.classList.replace('text-white','text-hexo-aqua')
+      menu && menu.classList.replace('text-white','text-hexo-aqua')
+      menu && menu.classList.replace('border-white','border-hexo-aqua')
     }
 
     // 导航栏不在头图里，且页面向下滚动一定程度 隐藏导航栏
@@ -131,7 +135,7 @@ const TopNav = props => {
         <SearchDrawer cRef={searchDrawer} slot={searchDrawerSlot} />
 
         {/* 导航栏 */}
-        <div id='sticky-nav' style={{ backdropFilter: 'blur(3px)' }} className={'top-0 duration-300 transition-all shadow-none fixed bg-none dark:bg-hexo-black-grey text-hexo-grey w-full z-20 transform border-transparent dark:border-transparent'}>
+        <div id='sticky-nav' style={{ backdropFilter: 'blur(3px)' }} className={'top-0 duration-300 transition-all shadow-none fixed bg-none text-shadow dark:bg-hexo-black-grey text-hexo-grey w-full z-20 transform border-transparent dark:border-transparent'}>
             <div className='lg:max-w-75p mx-auto px-4 sm:px-6 lg:px-8 w-full flex justify-between items-center py-1'>
                 <div className='flex justify-start items-center space-x-4'>
                     <Logo {...props} />

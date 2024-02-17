@@ -14,15 +14,13 @@ export default function RightFloatArea({ floatSlot }) {
     const targetRef = document.getElementById('wrapper')
     const clientHeight = targetRef?.clientHeight
     const scrollY = window.pageYOffset
-    const fullHeight = clientHeight - window.outerHeight
+    const fullHeight = document.body.scrollHeight - window.innerHeight
     let per = parseFloat(((scrollY / fullHeight) * 100).toFixed(0))
     if (per > 100) per = 100
-    const shouldShow = scrollY > 100 && per > 0
+    const shouldShow = scrollY > 100
 
-    // 右下角显示悬浮按钮
-    if (shouldShow !== showFloatButton) {
-      switchShow(shouldShow)
-    }
+    // 直接使用状态更新函数，避免依赖外部状态变量
+    switchShow(show => shouldShow !== show ? shouldShow : show)
   }, 200))
 
   useEffect(() => {
@@ -31,7 +29,7 @@ export default function RightFloatArea({ floatSlot }) {
   }, [])
 
   return (
-        <div className={(showFloatButton ? 'opacity-100 ' : 'invisible opacity-0') + '  duration-300 transition-all bottom-12 right-1 fixed justify-end z-20  text-white bg-indigo-500 dark:bg-hexo-black-gray rounded-sm'}>
+        <div className={(showFloatButton ? 'opacity-100 ' : 'invisible opacity-0') + ' duration-300 transition-all bottom-[5rem] left-1 fixed justify-end z-20  text-white bg-tab dark:bg-hexo-black-gray rounded-sm'}>
                 <div className={'justify-center  flex flex-col items-center cursor-pointer'}>
                     {/* <FloatDarkModeButton /> */}
                     {floatSlot}

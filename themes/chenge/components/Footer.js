@@ -1,6 +1,6 @@
 import { siteConfig } from '@/lib/config'
 
-const Footer = ({ title }) => {
+const Footer = ({ title, fullWidth }) => {
   const d = new Date()
   const currentYear = d.getFullYear()
   const since = siteConfig('SINCE')
@@ -8,9 +8,9 @@ const Footer = ({ title }) => {
 
   return (
     <footer
-      className='relative z-10 dark:bg-hexo-background-black flex-shrink-0 bg-hexo-background-gray justify-center text-center m-auto w-full leading-6  text-gray-600 dark:text-gray-100 text-sm p-2'>
+      className={`relative z-1 dark:bg-hexo-background-black lg:max-w-75p flex-shrink-0 bg-hexo-background-gray justify-center text-center m-auto leading-6  text-gray-600 dark:text-gray-100 text-sm p-2`}>
       {/* <DarkModeButton/> */}
-      <div id="status" className='width-full align-center mt-2'>
+      <div id="status" className={`width-full align-center mt-2 ${fullWidth ? '' : 'lg:max-w-custom'}`}>
         <div id="copyright" className='flex justify-center items-center'>
           <span className='inline-block px-1'><i className='iconfont icon-copyright' />
           </span>

@@ -88,7 +88,7 @@ const BLOG = {
     '"Apple Color Emoji"'
   ],
   FONT_AWESOME: process.env.NEXT_PUBLIC_FONT_AWESOME_PATH || 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css', // font-awesome 字体图标地址; 可选 /css/all.min.css ， https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css
-  ICON_FONT: process.env.NEXT_PUBLIC_ICON_FONT || 'https://at.alicdn.com/t/c/font_2601021_70r43h9en3j.css',
+  ICON_FONT: process.env.NEXT_PUBLIC_ICON_FONT || 'https://at.alicdn.com/t/c/font_2601021_5rcdwnlejt8.css',
 
   // END ************网站字体*****************
   CAN_COPY: process.env.NEXT_PUBLIC_CAN_COPY || true, // 是否允许复制页面内容 默认允许，如果设置为false、则全栈禁止复制内容。

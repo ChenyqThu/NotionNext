@@ -4,6 +4,7 @@ import LatestPostsGroup from './LatestPostsGroup'
 import TagGroups from './TagGroups'
 import Catalog from './Catalog'
 import { InfoCard } from './InfoCard'
+import Progress from './Progress'
 import { AnalyticsCard } from './AnalyticsCard'
 import CONFIG from '../config'
 import dynamic from 'next/dynamic'
@@ -11,6 +12,8 @@ import Announcement from './Announcement'
 import { useGlobal } from '@/lib/global'
 import Live2D from '@/components/Live2D'
 import { siteConfig } from '@/lib/config'
+import { useEffect, useState, useCallback } from 'react';
+import throttle from 'lodash.throttle';
 
 const HexoRecentComments = dynamic(() => import('./HexoRecentComments'))
 const FaceBookPage = dynamic(
@@ -47,11 +50,25 @@ export default function SideRight(props) {
   // 判断是否在文章页面，并且文章有目录
   const isArticlePage = post && post.toc && post.toc.length > 1;
 
+  const [showFloatButton, switchShow] = useState(false)
+  const scrollListener = useCallback(throttle(() => {
+    const scrollY = window.pageYOffset
+    const shouldShow = scrollY > 300
+
+    // 直接使用状态更新函数，避免依赖外部状态变量
+    switchShow(show => shouldShow !== show ? shouldShow : show)
+  }, 200))
+
+  useEffect(() => {
+    document.addEventListener('scroll', scrollListener)
+    return () => document.removeEventListener('scroll', scrollListener)
+  }, [])
+
   return (
-    <div id='sideRight' className={className}>
+    <div id='sideRight' className={`${className} sticky top-5 overflow-auto max-h-screen`}>
       {isArticlePage ? (
         <>     
-          <div className='sticky top-7'>
+          <div className='top-7'>
             <Catalog toc={post.toc} {...props} />
             {rightAreaSlot}
             <FaceBookPage/>
@@ -61,9 +78,7 @@ export default function SideRight(props) {
       ): (
       <>
         <InfoCard {...props} />
-        {siteConfig('HEXO_WIDGET_LATEST_POSTS', null, CONFIG) && latestPosts && latestPosts.length > 0 && <Card>
-          <LatestPostsGroup {...props} />
-        </Card>}
+        {siteConfig('HEXO_WIDGET_LATEST_POSTS', null, CONFIG) && latestPosts && latestPosts.length > 0 && <div className={className}><LatestPostsGroup {...props} /></div>}
         {siteConfig('HEXO_WIDGET_ANALYTICS', null, CONFIG) && <AnalyticsCard {...props} />}
 
         {showCategory && (
@@ -93,7 +108,8 @@ export default function SideRight(props) {
           </div>
       </>
       )}
-
+      {/* 进度条 */}
+      <div className={(showFloatButton ? 'opacity-100 ' : 'invisible opacity-0 ') + `duration-200 transition-all fixed bottom-0 l-0 z-50 w-full max-w-[200px]`}><Progress /></div>
     </div>
   )
 }

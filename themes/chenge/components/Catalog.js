@@ -76,7 +76,8 @@ const Catalog = ({ toc,...props }) => {
   }
 
   return (
-    <Card className="relative">
+    // <Card className="relative">
+    <>
       <div className="flex justify-center items-center pb-6 space-x-4">
         <div
           className={`cursor-pointer px-4 py-2 text-sm rounded-lg text-gray-600 bg-gray-200 transition duration-200 ease-out ${
@@ -115,9 +116,6 @@ const Catalog = ({ toc,...props }) => {
       <div className={`${activeTab === 'catalog' ? 'opacity-100 translate-y-0 transition-all duration-500 ease-out transform ' : 'opacity-0 translate-y-10 max-h-0'} `}>
         <div className='px-3 py-1'>
           <div className='w-full'><i className='mr-1 fas fa-stream' />{locale.COMMON.TABLE_OF_CONTENTS}</div>
-          <div className='w-full py-3'>
-            <Progress />
-          </div>
           <div className='overflow-y-auto max-h-36 lg:max-h-96 overscroll-none scroll-hidden' ref={tRef}>
             <nav className='h-full  text-black'>
               {toc.map((tocItem) => {
@@ -142,8 +140,8 @@ const Catalog = ({ toc,...props }) => {
           </div>
         </div>
       </div>
-      
-    </Card>    
+    </>
+    // </Card>    
   )
 }
 

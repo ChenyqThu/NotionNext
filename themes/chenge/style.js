@@ -31,6 +31,8 @@ const Style = () => {
         --grey-a3: rgba(34,34,34,0.3);
         --grey-a0: #21252b;
         --grey: #aaa;
+        --color-pink: rgba(241,139,179,0.8);
+        --color-orange: rgba(240,163,135,0.8);
         --aqua: #97d3d6;
     }
 
@@ -59,6 +61,24 @@ const Style = () => {
         -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 8% 100%);
         clip-path: polygon(0 0, 100% 0, 100% 100%, 8% 100%);
     }
+
+    //标题阴影
+    .text-shadow {
+        text-shadow: 0 0.2rem 0.3rem rgba(0,0,0,.5);
+    }
+
+    @media (min-width: 768px) {
+    .md\:left-clip-path { 
+        -webkit-clip-path: polygon(0 0, 92% 0, 100% 100%, 0 100%);
+        clip-path: polygon(0 0, 92% 0, 100% 100%, 0 100%);
+    }
+
+    .md\:right-clip-path {
+        -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 8% 100%);
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 8% 100%);
+    }
+    }
+
 
     .waves {
         width: 100%;

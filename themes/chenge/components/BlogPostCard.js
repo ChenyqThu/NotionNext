@@ -32,7 +32,7 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
 
                 {/* 图片封面 */}
                 {showPageCover && (
-                    <div className={`md:w-5/12 ${siteConfig('HEXO_POST_LIST_IMG_CROSSOVER', null, CONFIG) && index % 2 === 1 ? 'left-clip-path' : 'right-clip-path'} overflow-hidden`}>
+                    <div className={`md:w-5/12 ${siteConfig('HEXO_POST_LIST_IMG_CROSSOVER', null, CONFIG) && index % 2 === 1 ? 'md:left-clip-path' : 'md:right-clip-path'} overflow-hidden`}>
                         <Link href={url} passHref legacyBehavior>
                             <a>
                                 <LazyImage priority={index === 1} src={post?.pageCoverThumbnail} className='h-56 w-full object-cover object-center group-hover:scale-110 duration-500' />

@@ -20,6 +20,7 @@ export const MenuItemDrop = ({ link }) => {
 
         {!hasSubMenu &&
             <Link
+                id={isActive ? `active-menu` : 'menu-item'}
                 href={link?.to} target={link?.to?.indexOf('http') === 0 ? '_blank' : '_self'}
                 className={`${isActive ? 'text-hexo-aqua border-b-2 border-hexo-aqua': 'menu-link'} font-sans px-1 mx-3 tracking-widest pb-1`}>
                 {link?.icon && <i className={link?.icon}/>} {link?.name}
@@ -36,7 +37,7 @@ export const MenuItemDrop = ({ link }) => {
         {/* 子菜单 */}
         {hasSubMenu && <ul style={{ backdropFilter: 'blur(3px)' }} className={`${show ? 'visible opacity-100 top-[3rem]' : 'invisible opacity-0 top-[7rem]'} drop-shadow-md overflow-hidden rounded-tr-lg rounded-bl-lg text-black dark:text-hexo-grey bg-white dark:bg-black transition-all duration-300 z-20 absolute block  `}>
             {link.subMenus.map((sLink, index) => {
-              return <li key={index} className='cursor-pointer hover:bg-indigo-300 hover:text-black tracking-widest transition-all duration-200 dark:border-gray-800  py-2 pr-6 pl-3'>
+              return <li key={index} className='cursor-pointer hover:bg-tab hover:text-black tracking-widest transition-all duration-200 dark:border-gray-800  py-2 pr-6 pl-3 hover:scale-105'>
                     <Link href={sLink.to} target={link?.to?.indexOf('http') === 0 ? '_blank' : '_self'}>
                         <span className='text-sm text-nowrap font-medium'>{link?.icon && <i className={sLink?.icon} > &nbsp; </i>}{sLink.title}</span>
                     </Link>

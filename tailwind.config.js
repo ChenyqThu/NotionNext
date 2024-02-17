@@ -15,14 +15,15 @@ module.exports = {
           DEFAULT: BLOG.BACKGROUND_DARK || '#111827'
         },
         hexo: {
-          'background-grey': '#fdfdfd',
+          'background-grey': '#f5f5f5',
           'background-black': '#21252b',
           'black-gray': '#101414',
           'light-gray': '#e5e5e5',
           'aqua':'var(--aqua)',
           'cyan-light': 'var(--color-cyan-light)', 
           'pink-light': 'var(--color-pink-light)',
-          'grey': 'var(--grey)'
+          'grey': 'var(--grey)',
+          'orange':'var(--color-orange)'
         },
       },
       backgroundImage: {
@@ -33,7 +34,7 @@ module.exports = {
         side: '14rem',
         '9/10': '90%',
         '75p': '75%', 
-        'custom':'calc(100% - 21rem);'
+        'custom':'calc(100% - 18rem);'
       },
       width:{
         '50p':'50%',

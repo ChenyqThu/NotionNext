@@ -14,9 +14,9 @@ export function InfoCard(props) {
   const { className, siteInfo } = props
   const router = useRouter()
   return (
-        <Card className={className}>
+        <div className={className}>
             <div
-                className='justify-center items-center flex pb-3 dark:text-gray-100  transform duration-200 cursor-pointer'
+                className='justify-center items-center flex pb-1 dark:text-gray-100  transform duration-200 cursor-pointer'
                 onClick={() => {
                   router.push('/')
                 }}
@@ -28,6 +28,6 @@ export function InfoCard(props) {
             <div className='text-md text-center'>{siteConfig('BIO')}</div>
             <MenuGroupCard {...props} />
             <SocialButton />
-        </Card>
+        </div>
   )
 }

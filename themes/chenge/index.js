@@ -95,9 +95,9 @@ const LayoutBase = props => {
             </Transition>
 
             {/* 主区块 */}
-            <main id="wrapper" className={`${siteConfig('HEXO_HOME_BANNER_ENABLE', null, CONFIG) ? '' : 'pt-16'} bg-hexo-background-gray dark:bg-hexo-background-black w-full lg:max-w-75p mx-auto px-2 sm:px-6 lg:px-8 py-8 min-h-screen relative`}>
-                <div id="container-inner" className={(JSON.parse(siteConfig('LAYOUT_SIDEBAR_REVERSE')) ? 'flex-row-reverse' : '') + ' w-full mx-auto lg:flex lg:space-x-4 justify-center relative z-10'} >
-                    <div className={`w-full ${className || ''} ${fullWidth ? '' : 'lg:max-w-custom'} h-full overflow-hidden`}>
+            <main id="wrapper" className={`${siteConfig('HEXO_HOME_BANNER_ENABLE', null, CONFIG) ? '' : 'pt-16'} bg-hexo-background-grey dark:bg-hexo-background-black w-full px-2 sm:px-6 lg:px-8 pt-8 min-h-screen relative`}>
+                <div id="container-inner" className={(JSON.parse(siteConfig('LAYOUT_SIDEBAR_REVERSE')) ? 'flex-row-reverse' : '') + 'lg:max-w-75p mx-auto lg:flex lg:space-x-4 justify-center relative z-10'} >
+                    <div id="content-wrapper" className={`w-full ${className || ''} ${fullWidth ? '' : 'lg:max-w-custom'} h-full overflow-hidden`}>
 
                         <Transition
                             show={!onLoading}
@@ -118,7 +118,7 @@ const LayoutBase = props => {
                     </div>
 
                     {/* 右侧栏 */}
-                    <SideRight {...props} className={`space-y-4 lg:w-80 pt-4 ${post ? 'lg:pt-0' : 'lg:pt-4'}`} />
+                    <SideRight {...props} className={`space-y-4 lg:w-60 pt-4 ${post ? 'lg:pt-0' : 'lg:pt-4'}`} />
                 </div>
             </main>
 
@@ -127,13 +127,13 @@ const LayoutBase = props => {
             </div>
 
             {/* 悬浮菜单 */}
-            <RightFloatArea floatSlot={floatSlot} />
+            {/* <RightFloatArea floatSlot={floatSlot} /> */}
 
             {/* 全文搜索 */}
             <AlgoliaSearchModal cRef={searchModal} {...props}/>
 
             {/* 页脚 */}
-            <Footer title={siteConfig('TITLE') } />
+            <Footer title={siteConfig('TITLE')} fullWidth={fullWidth} />
         </div>
     </ThemeGlobalHexo.Provider>
   )
