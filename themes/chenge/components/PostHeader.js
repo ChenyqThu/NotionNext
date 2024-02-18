@@ -44,7 +44,7 @@ export default function PostHeader({ post, siteInfo }) {
         <section className="flex-wrap shadow-text-md flex text-xs justify-center mt-2 text-white dark:text-gray-200 font-light leading-8">
 
           <div className='flex justify-center dark:text-gray-200 text-opacity-70'>
-            {post?.type !== 'Page' && (
+            {post?.type !== 'Page' && post?.publishDay && (
               <>
                 <Link
                   href={`/archive#${formatDateFmt(post?.publishDate, 'yyyy-MM')}`}
