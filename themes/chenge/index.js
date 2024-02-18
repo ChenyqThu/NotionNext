@@ -88,11 +88,11 @@ const LayoutBase = props => {
                 show={!onLoading}
                 appear={true}
                 enter="transition ease-in-out duration-700 transform order-first"
-                enterFrom="opacity-0 -translate-y-16"
+                enterFrom="opacity-0 -translate-y-0"
                 enterTo="opacity-100"
                 leave="transition ease-in-out duration-300 transform"
                 leaveFrom="opacity-100"
-                leaveTo="opacity-0 translate-y-16"
+                leaveTo="opacity-0 translate-y-0"
                 unmount={false}
             >
                 {headerSlot}
@@ -107,11 +107,11 @@ const LayoutBase = props => {
                             show={!onLoading}
                             appear={true}
                             enter="transition ease-in-out duration-700 transform order-first"
-                            enterFrom="opacity-0 translate-y-16"
+                            enterFrom="opacity-0 translate-y-0"
                             enterTo="opacity-100"
                             leave="transition ease-in-out duration-300 transform"
                             leaveFrom="opacity-100 translate-y-0"
-                            leaveTo="opacity-0 -translate-y-16"
+                            leaveTo="opacity-0 -translate-y-0"
                             unmount={false}
                         >
                             {/* 主区上部嵌入 */}

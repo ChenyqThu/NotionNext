@@ -22,10 +22,10 @@ export default function PostHeader({ post, siteInfo }) {
   const headerImage = post?.pageCover ? post.pageCover : siteInfo?.pageCover
 
   return (
-    <div id="header" className="w-full h-[60vh] relative md:flex-shrink-0 z-10 min-h-[25rem] min-w-[25rem] flex flex-col items-center" >
+    <div id="header" className="w-full h-[50vh] relative md:flex-shrink-0 z-10 min-h-[25rem] min-w-[25rem] flex flex-col items-center justify-center" >
       <LazyImage priority={true} src={headerImage} className='w-full h-full object-cover object-center absolute top-0'/>
       <div id = 'article-header-cover' className='bg-black bg-opacity-70 absolute top-0 w-full h-full py-10' />
-      <header className="absolute top-0 mt-[7rem] flex flex-col justify-center items-center">
+      <header className="flex flex-col justify-center items-center z-10">
         <div className='mb-2 flex justify-center'>
           {post.category && <>
             <Link href={`/category/${post.category}`} passHref legacyBehavior>
