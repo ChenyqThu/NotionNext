@@ -20,7 +20,7 @@ export const BlogPostCardInfo = ({ post, showPreview, showPageCover, showSummary
             href={url}
             passHref
             className={`line-clamp-2 replace cursor-pointer text-2xl ${showPreview ? 'text-center' : ''
-                } leading-tight font-normal text-hexo-primary `}>
+                } leading-tight font-normal text-hexo-primary`}>
 
             <span className='menu-link '>{post.title}</span>
 

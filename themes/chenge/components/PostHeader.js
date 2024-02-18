@@ -5,6 +5,7 @@ import NotionIcon from '@/components/NotionIcon'
 import LazyImage from '@/components/LazyImage'
 import { formatDateFmt } from '@/lib/formatDate'
 import { siteConfig } from '@/lib/config'
+import WordCount from '@/components/WordCount'
 
 export default function PostHeader({ post, siteInfo }) {
   const { locale, fullWidth } = useGlobal()
@@ -40,7 +41,7 @@ export default function PostHeader({ post, siteInfo }) {
           <NotionIcon icon={post.pageIcon} className='text-4xl mx-1' />{post.title}
         </div>
 
-        <section className="flex-wrap shadow-text-md flex text-sm justify-center mt-2 text-white dark:text-gray-400 font-light leading-8">
+        <section className="flex-wrap shadow-text-md flex text-xs justify-center mt-2 text-white dark:text-gray-200 font-light leading-8">
 
           <div className='flex justify-center dark:text-gray-200 text-opacity-70'>
             {post?.type !== 'Page' && (
@@ -49,14 +50,14 @@ export default function PostHeader({ post, siteInfo }) {
                   href={`/archive#${formatDateFmt(post?.publishDate, 'yyyy-MM')}`}
                   passHref
                   className="pl-1 mr-4 cursor-pointer hover:underline">
-                  <i className="iconfont icon-calendar mr-1" />{post?.publishDay}
+                  <i className="iconfont icon-calendar mr-1" />发表于 {post?.publishDay}
                   {/* {locale.COMMON.POST_TIME}: {post?.publishDay} */}
 
                 </Link>
               </>
             )}
             <div className="pl-1 mr-5">
-              <i className="iconfont icon-pen mr-1" />{post.lastEditedDay}
+              <i className="iconfont icon-calendar-check mr-1" />最后修改于 {post.lastEditedDay}
               {/* {locale.COMMON.LAST_EDITED_TIME}: {post.lastEditedDay} */}
             </div>
           </div>
@@ -67,6 +68,7 @@ export default function PostHeader({ post, siteInfo }) {
             {locale.COMMON.VIEWS}
           </div>)}
         </section>
+        <div className='flex-wrap shadow-text-md flex text-xs justify-center text-white dark:text-gray-200 font-light leading-8'><WordCount /></div>
 
         <div className='mt-3 mb-1'>
             {post.tagItems && (

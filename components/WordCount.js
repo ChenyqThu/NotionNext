@@ -11,15 +11,15 @@ export default function WordCount() {
     countWords()
   })
 
-  return <span id='wordCountWrapper' className='flex gap-3 font-light'>
+  return <span id='wordCountWrapper' className='flex gap-3'>
         <span className='flex whitespace-nowrap items-center'>
-            <i className='pl-1 pr-2 fas fa-file-word' />
-            <span id='wordCount'>0</span>
+            <i className='pl-1 pr-1 iconfont icon-pen' />
+            本文字数&nbsp;<span id='wordCount'>0</span>&nbsp;字
         </span>
         <span className='flex whitespace-nowrap items-center'>
-            <i className='mr-1 fas fa-clock' />
+            <i className='pl-1 pr-1 iconfont icon-clock' />
             <span></span>
-            <span id='readTime'>0</span>&nbsp;{locale.COMMON.MINUTE}
+            阅读时长&nbsp;<span id='readTime'>0</span>&nbsp;{locale.COMMON.MINUTE}
         </span>
     </span>
 }

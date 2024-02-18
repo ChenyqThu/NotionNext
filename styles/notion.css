@@ -428,6 +428,10 @@ summary > .notion-h {
     font-weight:lighter;
 }
 
+.notion-toggle .notion-h .notion-h-title::before,
+.notion-toggle .notion-h .notion-h-title::after {
+  content: none !important;
+}
 
 .notion-h1 .notion-h-title::after { content: '1'; }
 .notion-h2 .notion-h-title::after { content: '2'; }
