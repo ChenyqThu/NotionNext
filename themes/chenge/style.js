@@ -118,7 +118,7 @@ const Style = () => {
 
     .waves {
         width: 100%;
-        height: 8vh;
+        height: 10vh;
         //margin-bottom: -.6875rem;
         min-height: 3.125rem;
         max-height: 9.375rem;
