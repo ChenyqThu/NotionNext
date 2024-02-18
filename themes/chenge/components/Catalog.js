@@ -4,11 +4,14 @@ import { uuidToId } from 'notion-utils'
 import Progress from './Progress'
 import { useGlobal } from '@/lib/global'
 import { useRouter } from 'next/router'
+import { InfoCard } from './InfoCard'
+import LatestPostsGroup from './LatestPostsGroup'
 import Card from './Card'
 import SocialButton from './SocialButton'
 import MenuGroupCard from './MenuGroupCard'
 import LazyImage from '@/components/LazyImage'
 import { siteConfig } from '@/lib/config'
+import CONFIG from '../config'
 
 /**
  * 目录导航组件
@@ -99,24 +102,13 @@ const Catalog = ({ toc,...props }) => {
         </div>
       </div>
       <div className={`${activeTab === 'infoCard' ? 'opacity-100 translate-y-0 transition-all duration-500 ease-out transform' : 'opacity-0 translate-y-10 max-h-0'}`}>
-        <div
-            className='justify-center items-center flex pb-3 dark:text-gray-100  transform duration-200 cursor-pointer'
-            onClick={() => {
-              router.push('/')
-            }}
-        >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <LazyImage src={siteInfo?.icon} className='rounded-full' width={120} alt={siteConfig('AUTHOR')} />
-        </div>
-        <div className='font-medium text-center text-xl pb-2'>{siteConfig('AUTHOR')}</div>
-        <div className='text-md text-center'>{siteConfig('BIO')}</div>
-        <MenuGroupCard {...props} />
-        <SocialButton />
+        <InfoCard {...props} />
+        {siteConfig('HEXO_WIDGET_LATEST_POSTS', null, CONFIG) && <div className="space-y-4 lg:w-60 pt-4 ${post ? 'lg:pt-0' : 'lg:pt-4'}"><LatestPostsGroup {...props} /></div>}
       </div>
       <div className={`${activeTab === 'catalog' ? 'opacity-100 translate-y-0 transition-all duration-500 ease-out transform ' : 'opacity-0 translate-y-10 max-h-0'} `}>
         <div className='px-3 py-1'>
-          <div className='w-full'><i className='mr-1 fas fa-stream' />{locale.COMMON.TABLE_OF_CONTENTS}</div>
-          <div className='overflow-y-auto max-h-36 lg:max-h-96 overscroll-none scroll-hidden' ref={tRef}>
+          <div className='w-full text-hexo-front mb-2'><i className='mr-1 fas fa-stream' />{locale.COMMON.TABLE_OF_CONTENTS}</div>
+          <div className={`overflow-y-auto ${activeTab === 'catalog' ? 'h-[70vh]' : 'h-0'} overscroll-none scroll-hidden' ref={tRef}`}>
             <nav className='h-full  text-black'>
               {toc.map((tocItem) => {
                 const id = uuidToId(tocItem.id)
@@ -129,7 +121,7 @@ const Catalog = ({ toc,...props }) => {
                   notion-table-of-contents-item-indent-level-${tocItem.indentLevel} `}
                   >
                     <span style={{ display: 'inline-block', marginLeft: tocItem.indentLevel * 16 }}
-                      className={`${activeSection === id && ' font-bold text-indigo-600'}`}
+                      className={`${activeSection === id && ' font-bold text-hexo-primary'}`}
                     >
                       {tocItem.text}
                     </span>

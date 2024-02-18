@@ -8,7 +8,7 @@ const Footer = ({ title, fullWidth }) => {
 
   return (
     <footer
-      className={`relative z-1 dark:bg-hexo-background-black lg:max-w-75p flex-shrink-0 bg-hexo-background-gray justify-center text-center m-auto leading-6  text-gray-600 dark:text-gray-100 text-sm p-2`}>
+      className={`relative z-1 dark:bg-hexo-background-black lg:max-w-75p flex-shrink-0 bg-hexo-background-gray justify-center text-center m-auto leading-6  text-gray-600 dark:text-gray-100 text-sm pt-8 pb-2`}>
       {/* <DarkModeButton/> */}
       <div id="status" className={`width-full align-center mt-2 ${fullWidth ? '' : 'lg:max-w-custom'}`}>
         <div id="copyright" className='flex justify-center items-center'>

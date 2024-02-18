@@ -57,7 +57,7 @@ const BlogPostListScroll = ({ posts = [], currentSearch, showSummary = siteConfi
     return <div id='container' ref={targetRef} className='w-full'>
 
       {/* 文章列表 */}
-      <div className="space-y-6 px-2">
+      <div className="space-y-6 px-4">
         {postsToShow.map((post,index) => (
           <BlogPostCard key={post.id} post={post} index={index} showSummary={showSummary} siteInfo={siteInfo}/>
         ))}

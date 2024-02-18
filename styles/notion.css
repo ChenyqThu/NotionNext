@@ -458,7 +458,7 @@ summary > .notion-h {
 
 .notion-h1:hover .notion-h-title::before,.notion-h2:hover .notion-h-title::before,.notion-h3:hover .notion-h-title::before,
 .notion-h1:hover .notion-h-title::after,.notion-h2:hover .notion-h-title::after,.notion-h3:hover .notion-h-title::after{
-  color:var(--select-color-0)
+  color:var(--color-red)
 }
 
 /* .notion-h1:hover::after,.notion-h2:hover::after,.notion-h3:hover::after{
@@ -493,7 +493,7 @@ summary > .notion-h {
 }
 
 .notion-h:hover .notion-hash-link {
-  fill: var(--select-color-0)
+  fill: var(--color-red)
 }
 
 .notion-hash-link {

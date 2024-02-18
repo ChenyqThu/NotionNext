@@ -65,10 +65,10 @@ export default function SideRight(props) {
   }, [])
 
   return (
-    <div id='sideRight' className={`${className} sticky top-5 overflow-auto max-h-screen`}>
+    <div id='sideRight' className={`${className} sticky top-5 overflow-auto max-h-screen text-hexo-front`}>
       {isArticlePage ? (
         <>     
-          <div className='top-7'>
+          <div className='pt-8'>
             <Catalog toc={post.toc} {...props} />
             {rightAreaSlot}
             <FaceBookPage/>

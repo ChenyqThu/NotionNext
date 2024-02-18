@@ -15,6 +15,7 @@ import SearchNav from './components/SearchNav'
 import BlogPostArchive from './components/BlogPostArchive'
 import { ArticleLock } from './components/ArticleLock'
 import PostHeader from './components/PostHeader'
+import CatHeader from './components/CatHeader'
 import JumpToCommentButton from './components/JumpToCommentButton'
 import TocDrawer from './components/TocDrawer'
 import TocDrawerButton from './components/TocDrawerButton'
@@ -48,11 +49,14 @@ const LayoutBase = props => {
   const { onLoading, fullWidth } = useGlobal()
 
   const router = useRouter()
+  const headerPaths = ['/archive', '/category', '/tag'];
   const headerSlot = post
     ? <PostHeader {...props} />
     : (router.route === '/' && siteConfig('HEXO_HOME_BANNER_ENABLE', null, CONFIG)
         ? <Hero {...props} />
-        : null)
+        : (headerPaths.includes(router.route)
+        ? <CatHeader {...props} />
+        : null))
 
   const drawerRight = useRef(null)
   const tocRef = isBrowser ? document.getElementById('article-wrapper') : null
@@ -73,7 +77,7 @@ const LayoutBase = props => {
 
   return (
     <ThemeGlobalHexo.Provider value={{ searchModal }}>
-        <div id='theme-hexo' className="bg-hexo-background-gray dark:bg-hexo-background-black">
+        <div id='theme-hexo' className="bg-hexo-background">
             <Style/>
 
             {/* 顶部导航 */}
@@ -95,9 +99,9 @@ const LayoutBase = props => {
             </Transition>
 
             {/* 主区块 */}
-            <main id="wrapper" className={`${siteConfig('HEXO_HOME_BANNER_ENABLE', null, CONFIG) ? '' : 'pt-16'} bg-hexo-background-grey dark:bg-hexo-background-black w-full px-2 sm:px-6 lg:px-8 pt-8 min-h-screen relative`}>
+            <main id="wrapper" className={`${siteConfig('HEXO_HOME_BANNER_ENABLE', null, CONFIG) ? '' : 'pt-16'} bg-hexo-background w-full px-2 sm:px-6 lg:px-8 pt-8 min-h-screen relative`}>
                 <div id="container-inner" className={(JSON.parse(siteConfig('LAYOUT_SIDEBAR_REVERSE')) ? 'flex-row-reverse' : '') + 'lg:max-w-75p mx-auto lg:flex lg:space-x-4 justify-center relative z-10'} >
-                    <div id="content-wrapper" className={`w-full ${className || ''} ${fullWidth ? '' : 'lg:max-w-custom'} h-full overflow-hidden`}>
+                    <div id="content-wrapper" className={`w-full ${className || ''} ${fullWidth ? '' : 'lg:max-w-custom'} h-full rounded-md overflow-hidden ${post ? 'shadow-main' : ''}`}>
 
                         <Transition
                             show={!onLoading}
@@ -202,7 +206,7 @@ const LayoutArchive = (props) => {
   const { archivePosts } = props
   return <div className='pt-8'>
         <Card className='w-full'>
-            <div className="mb-10 pb-20 bg-white md:p-12 p-3 min-h-full dark:bg-hexo-black-gray">
+            <div className="mb-10 md:p-5 p-3 min-h-full ">
                 {Object.keys(archivePosts).map(archiveTitle => (
                     <BlogPostArchive
                         key={archiveTitle}
@@ -225,7 +229,7 @@ const LayoutSlug = props => {
 
   return (
         <>
-            <div className="w-full lg:hover:shadow lg:border rounded-t-xl lg:rounded-xl lg:px-2 lg:py-4 bg-white dark:bg-hexo-black-gray dark:border-black article">
+            <div className="w-full lg:hover:shadow rounded-md lg:rounded-md lg:px-2 lg:py-4 article">
                 {lock && <ArticleLock validPassword={validPassword} />}
 
                 {!lock && <div id="article-wrapper" className="overflow-x-auto flex-grow mx-auto md:w-full px-3">
@@ -249,7 +253,7 @@ const LayoutSlug = props => {
                     <div className='pt-4 border-dashed'></div>
 
                     {/* 评论互动 */}
-                    <div className="duration-200 overflow-x-auto bg-white dark:bg-hexo-black-gray px-3">
+                    <div className="duration-200 overflow-x-auto px-3">
                         <Comment frontMatter={post} />
                     </div>
                 </div>}

@@ -17,6 +17,10 @@ const Style = () => {
         --grey-7: #333;
         --grey-8: #222;
         --grey-9: #000;
+        --grey-1-a0: rgba(253,253,253,0);
+        --grey-1-a7: rgba(253,253,253,0.7);
+        --grey-1-a5: rgba(253,253,253,0.5);
+        --grey-1-a3: rgba(253,253,253,0.3);
         --color-cyan-light: #e3fdf5; 
         --color-pink-light: #ffe6fa; 
         --grey-a7: rgba(253,253,253,0.7);
@@ -28,9 +32,11 @@ const Style = () => {
         --color-purple: #928CEE;
         --color-pink:#ed6ea0;
         --color-orange: #ec8c69;
+        --color-red: #e9546b;
         --menu-bg: linear-gradient(90deg, var(--aqua) 0%, var(--aqua) 100%);
         --nav-bg: linear-gradient(-225deg, var(--color-cyan-light) 0%, var(--color-pink-light) 100%);
         --tab-bg: linear-gradient(to right,var(--color-pink) 0,var(--color-orange) 100%);
+        --body-bg-shadow: var(--grey-2);
     }
 
     .dark {
@@ -44,6 +50,10 @@ const Style = () => {
         --grey-7: #ddd;
         --grey-8: #eee;
         --grey-9: #f7f7f7;
+        --grey-1-a7: rgba(34,34,34,0.7);
+        --grey-1-a5: rgba(34,34,34,0.5);
+        --grey-1-a3: rgba(34,34,34,0.3);
+        --grey-1-a0: rgba(34,34,34,0);
         --color-cyan-light: #2d3230;
         --color-pink-light: #322d31;
         --grey-a7: rgba(34,34,34,0.7);
@@ -53,7 +63,9 @@ const Style = () => {
         --grey: #aaa;
         --color-pink: rgba(241,139,179,0.8);
         --color-orange: rgba(240,163,135,0.8);
+        --color-red: rgba(237,118,137,0.9);
         --aqua: #97d3d6;
+        --body-bg-shadow: #000;
     }
 
     // iconfont 图标支持
@@ -85,6 +97,10 @@ const Style = () => {
     //标题阴影
     .text-shadow {
         text-shadow: 0 0.2rem 0.3rem rgba(0,0,0,.5);
+    }
+
+    .text-shadow-none {
+        text-shadow: none;
     }
 
     @media (min-width: 768px) {
@@ -125,7 +141,7 @@ const Style = () => {
         animation-delay: -2s;
         -webkit-animation-duration: 7s;
         animation-duration: 7s;
-        fill: var(--grey-a7)
+        fill: var(--grey-1-a7)
     }
     
     .parallax>use:nth-child(2) {
@@ -133,7 +149,7 @@ const Style = () => {
         animation-delay: -3s;
         -webkit-animation-duration: 10s;
         animation-duration: 10s;
-        fill: var(--grey-a5)
+        fill: var(--grey-1-a5)
     }
     
     .parallax>use:nth-child(3) {
@@ -141,7 +157,7 @@ const Style = () => {
         animation-delay: -4s;
         -webkit-animation-duration: 13s;
         animation-duration: 13s;
-        fill: var(--grey-a3)
+        fill: var(--grey-1-a3)
     }
     
     .parallax>use:nth-child(4) {
@@ -149,7 +165,7 @@ const Style = () => {
         animation-delay: -5s;
         -webkit-animation-duration: 20s;
         animation-duration: 20s;
-        fill: var(--grey-a0)
+        fill: var(--grey-1)
     }
     
     @-webkit-keyframes wave {

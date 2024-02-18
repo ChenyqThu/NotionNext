@@ -35,7 +35,7 @@ export const MenuItemDrop = ({ link }) => {
         </>}
 
         {/* 子菜单 */}
-        {hasSubMenu && <ul style={{ backdropFilter: 'blur(3px)' }} className={`${show ? 'visible opacity-100 top-[3rem]' : 'invisible opacity-0 top-[7rem]'} drop-shadow-md overflow-hidden rounded-tr-lg rounded-bl-lg text-black dark:text-hexo-grey bg-white dark:bg-black transition-all duration-300 z-20 absolute block  `}>
+        {hasSubMenu && <ul style={{ backdropFilter: 'blur(3px)' }} className={`${show ? 'visible opacity-100 top-[3rem]' : 'invisible opacity-0 top-[7rem]'} drop-shadow-md text-shadow-none overflow-hidden rounded-tr-lg rounded-bl-lg text-black dark:text-hexo-grey bg-white dark:bg-black transition-all duration-300 z-20 absolute block  `}>
             {link.subMenus.map((sLink, index) => {
               return <li key={index} className='cursor-pointer hover:bg-tab hover:text-black tracking-widest transition-all duration-200 dark:border-gray-800  py-2 pr-6 pl-3 hover:scale-105'>
                     <Link href={sLink.to} target={link?.to?.indexOf('http') === 0 ? '_blank' : '_self'}>
