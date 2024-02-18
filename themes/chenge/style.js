@@ -7,6 +7,16 @@
 const Style = () => {
   return (<style jsx global>{`
     :root {
+        --grey-0: #fff;
+        --grey-1: #fdfdfd;
+        --grey-2: #f7f7f7;
+        --grey-3: #eff2f3;
+        --grey-4: #ccc;
+        --grey-5: #999;
+        --grey-6: #666;
+        --grey-7: #333;
+        --grey-8: #222;
+        --grey-9: #000;
         --color-cyan-light: #e3fdf5; 
         --color-pink-light: #ffe6fa; 
         --grey-a7: rgba(253,253,253,0.7);
@@ -24,6 +34,16 @@ const Style = () => {
     }
 
     .dark {
+        --grey-0: #222;
+        --grey-1: #21252b;
+        --grey-2: #363636;
+        --grey-3: #444;
+        --grey-4: #666;
+        --grey-5: #aaa;
+        --grey-6: #ccc;
+        --grey-7: #ddd;
+        --grey-8: #eee;
+        --grey-9: #f7f7f7;
         --color-cyan-light: #2d3230;
         --color-pink-light: #322d31;
         --grey-a7: rgba(34,34,34,0.7);
