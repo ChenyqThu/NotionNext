@@ -65,7 +65,7 @@ export default function SideRight(props) {
   }, [])
 
   return (
-    <div id='sideRight' className={`${className} sticky top-5 overflow-auto max-h-screen text-hexo-front`}>
+    <div id='sideRight' className={`hidden ${className} sticky top-5 overflow-auto max-h-screen text-hexo-front lg:block`}>
       {isArticlePage ? (
         <>     
           <div className='pt-8'>

@@ -33,6 +33,7 @@ import { Style } from './style'
 import replaceSearchResult from '@/components/Mark'
 import { siteConfig } from '@/lib/config'
 import AlgoliaSearchModal from '@/components/AlgoliaSearchModal'
+import JumpToBottomButton from '../next/components/JumpToBottomButton'
 
 // 主题全局状态
 const ThemeGlobalHexo = createContext()
@@ -69,7 +70,7 @@ const LayoutBase = props => {
                 }}
             />
         </div>}
-        <JumpToCommentButton />
+        {post && <JumpToCommentButton />}
     </>
 
   // Algolia搜索框
@@ -131,7 +132,7 @@ const LayoutBase = props => {
             </div>
 
             {/* 悬浮菜单 */}
-            {/* <RightFloatArea floatSlot={floatSlot} /> */}
+            <RightFloatArea floatSlot={floatSlot} />
 
             {/* 全文搜索 */}
             <AlgoliaSearchModal cRef={searchModal} {...props}/>
