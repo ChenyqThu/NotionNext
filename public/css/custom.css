@@ -209,13 +209,14 @@
 #tool .player>.mbtn {
     font-family: ic;
     font-weight: 400;
-    width: 1.875rem;
+    width: 2rem;
+    height: 1.75rem;
+    font-size:18px;
     text-align: center;
 }
 
 #tool .player>.mbtn+.mbtn {
     margin-top: 0.25rem;
-    margin-bottom: 0.35rem;
 }
 
 #tool .player .music {

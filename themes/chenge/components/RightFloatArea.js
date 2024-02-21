@@ -33,8 +33,8 @@ export default function RightFloatArea({ floatSlot }) {
         <div className={(showFloatButton ? 'opacity-100 ' : 'invisible opacity-0') + ' duration-300 transition-all bottom-[2rem] left-3 fixed justify-end z-20  text-white bg-tab dark:bg-hexo-black-gray rounded-sm'}>
                 <div id="tool" className={'justify-center  flex flex-col items-center cursor-pointer audio affix'}>
                     {/* <FloatDarkModeButton /> */}
-                    {floatSlot}
                     <MusicPlayer />
+                    {floatSlot}
                     <JumpToTopButton />
                 </div>
             </div>

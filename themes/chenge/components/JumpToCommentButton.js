@@ -21,8 +21,8 @@ const JumpToCommentButton = () => {
     // commentElement?.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' })
   }
 
-  return (<div className='flex space-x-1 items-center justify-center transform hover:scale-105 duration-200 w-7 h-7 text-center' onClick={navToComment} >
-    <i className='fas fa-comment text-xs' />
+  return (<div className='items-center justify-center opacity-80 transform hover:opacity-100 duration-200 w-8 h-7 text-center' onClick={navToComment} >
+    <i className='fas fa-comment text-md' />
   </div>)
 }
 
