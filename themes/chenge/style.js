@@ -33,6 +33,10 @@ const Style = () => {
         --color-pink:#ed6ea0;
         --color-orange: #ec8c69;
         --color-red: #e9546b;
+        --color-yellow: #eab700;
+        --color-green: #0a7426;
+        --color-aqua: #3e999f;
+        --color-blue: #38a1db;
         --menu-bg: linear-gradient(90deg, var(--aqua) 0%, var(--aqua) 100%);
         --nav-bg: linear-gradient(-225deg, var(--color-cyan-light) 0%, var(--color-pink-light) 100%);
         --tab-bg: linear-gradient(to right,var(--color-pink) 0,var(--color-orange) 100%);
@@ -225,22 +229,58 @@ const Style = () => {
     }
 
     // 自定义滚动条
+    // ::-webkit-scrollbar {
+    //     width: 0.5rem;
+    //     height: 0.5rem;
+    // }
+
+    // ::-webkit-scrollbar-track {
+    //     background: transparent;
+    // }
+
+    // ::-webkit-scrollbar-thumb {
+    //     background-color: #6b6c6d;
+    // }
+
     ::-webkit-scrollbar {
-        width: 5px;
-        height: 5px;
+        width: 0.3125rem;
+        height: .3125rem;
+        background: 0 0
     }
 
     ::-webkit-scrollbar-track {
-        background: transparent;
+        border-radius: .3125rem;
+        background: 0 0
+    }
+
+    ::-webkit-scrollbar-track-piece {
+        background: 0 0
+    }
+
+    ::-webkit-scrollbar-button {
+        background: 0 0;
+        height: 0
     }
 
     ::-webkit-scrollbar-thumb {
-        background-color: #6b6c6d;
-    }
-
-    * {
-        scrollbar-width:thin;
-        scrollbar-color: #6b6c6d transparent
+        border-radius: 1.25rem;
+        background-clip: padding-box;
+        background-color: var(--color-pink-light) ;
+        background-image: linear-gradient(
+            45deg,
+            var(--color-pink) 20%,
+            transparent 20%,
+            transparent 40%,
+            var(--color-pink) 40%,
+            var(--color-pink) 60%,
+            transparent 60%,
+            transparent 80%,
+            var(--color-pink) 80%)
+        // background-image: linear-gradient(
+        //     0deg,
+        //     var(--color-pink) 0%,
+        //     var(--color-orange) 100%
+        // )
     }
     
 

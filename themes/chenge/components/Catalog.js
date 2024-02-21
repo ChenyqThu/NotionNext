@@ -45,6 +45,41 @@ const Catalog = ({ toc,...props }) => {
   // 同步选中目录事件
   const [activeSection, setActiveSection] = useState(null)
 
+  const generateTocWithSerialNumbers = (toc) => {
+    let h1Count = 0, h2Count = 0, h3Count = 0;
+    const serialNumbers = {};
+  
+    toc.forEach((item, index) => {
+      if (item.indentLevel === 0) {
+        h1Count++;
+        h2Count = 0; // Reset for new H1 section
+        serialNumbers[item.id] = `${h1Count}.`;
+      } else if (item.indentLevel === 1) {
+        h2Count++;
+        h3Count = 0; // Reset for new H2 section
+        serialNumbers[item.id] = `${h1Count}.${h2Count}`;
+      } else if (item.indentLevel === 2) {
+        h3Count++;
+        serialNumbers[item.id] = `${h1Count}.${h2Count}.${h3Count}`;
+      }
+      // Extend this logic for deeper levels if needed.
+    });
+  
+    return toc.map(item => ({ ...item, serialNumber: serialNumbers[item.id] }));
+  };
+
+  const getSerialNumberFromId = (tocWithSerialNumbers, id) => {
+    // 统一处理id格式，移除所有连字符
+    if (id){
+      const normalizedId = id.replace(/-/g, '');
+      const tocItem = tocWithSerialNumbers.find(item => item.id.replace(/-/g, '') === normalizedId);
+      return tocItem ? tocItem.serialNumber : '0';
+    }else{
+      return '0'
+    }
+
+  };  
+
   const throttleMs = 200
   const actionSectionScrollSpy = useCallback(throttle(() => {
     const sections = document.getElementsByClassName('notion-h')
@@ -77,6 +112,7 @@ const Catalog = ({ toc,...props }) => {
   if (!toc || toc.length < 1) {
     return <></>
   }
+  const tocWithSerialNumbers = generateTocWithSerialNumbers(toc);
 
   return (
     // <Card className="relative">
@@ -108,9 +144,22 @@ const Catalog = ({ toc,...props }) => {
       <div className={`${activeTab === 'catalog' ? 'opacity-100 translate-y-0 transition-all duration-500 ease-out transform ' : 'opacity-0 translate-y-10 max-h-0'} `}>
         <div className='px-3 py-1'>
           <div className='w-full text-hexo-front mb-2'><i className='mr-1 fas fa-stream' />{locale.COMMON.TABLE_OF_CONTENTS}</div>
-          <div className={`overflow-y-auto ${activeTab === 'catalog' ? 'h-[70vh]' : 'h-0'} overscroll-none scroll-hidden' ref={tRef}`}>
+          <div ref={tRef} className={`overflow-y-auto ${activeTab === 'catalog' ? 'h-[70vh]' : 'h-0'} overscroll-none scroll-hidden`}>
             <nav className='h-full  text-black'>
-              {toc.map((tocItem) => {
+              {tocWithSerialNumbers.map((tocItem) => {
+                // 判断是否应该展示当前目录项
+                // console.log(activeSection)
+                // console.log(tocItem)
+                // console.log('-----------')
+                const activeSerialNumber = getSerialNumberFromId(tocWithSerialNumbers, activeSection);
+  
+                // 判断是否应该显示这个目录项
+                const shouldShow = tocItem.indentLevel === 0 || tocItem.serialNumber.startsWith(activeSerialNumber.charAt(0));
+
+                if (!shouldShow) {
+                  return null; // 或者根据你的逻辑决定怎么处理不显示的情况
+                }
+
                 const id = uuidToId(tocItem.id)
                 tocIds.push(id)
                 return (
@@ -123,7 +172,7 @@ const Catalog = ({ toc,...props }) => {
                     <span style={{ display: 'inline-block', marginLeft: tocItem.indentLevel * 16 }}
                       className={`${activeSection === id && ' font-bold text-hexo-primary'}`}
                     >
-                      {tocItem.text}
+                    {tocItem.serialNumber} {tocItem.text}
                     </span>
                   </a>
                 )

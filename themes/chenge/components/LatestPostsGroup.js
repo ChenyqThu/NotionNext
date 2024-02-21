@@ -16,6 +16,7 @@ const LatestPostsGroup = ({ latestPosts, siteInfo }) => {
   // 获取当前路径
   const currentPath = useRouter().asPath
   const { locale } = useGlobal()
+  const sliceCount = 4
 
   if (!latestPosts) {
     return <></>
@@ -28,7 +29,7 @@ const LatestPostsGroup = ({ latestPosts, siteInfo }) => {
                 {locale.COMMON.LATEST_POSTS}
             </div>
         </div>
-        {latestPosts.map(post => {
+        {latestPosts.slice(0,sliceCount).map(post => {
           const headerImage = post?.pageCoverThumbnail ? post.pageCoverThumbnail : siteInfo?.pageCover
           const url = checkContainHttp(post.slug) ? sliceUrlFromHttp(post.slug) : `${siteConfig('SUB_PATH', '')}/${post.slug}`
           const selected = currentPath === url

@@ -65,7 +65,7 @@ export default function SideRight(props) {
   }, [])
 
   return (
-    <div id='sideRight' className={`hidden ${className} sticky top-5 overflow-auto max-h-screen text-hexo-front lg:block`}>
+    <div id='sideRight' className={`hidden ${className} sticky top-10 overflow-y-auto overflow-x-hidden max-h-screen scroll-hidden text-hexo-front lg:block`}>
       {isArticlePage ? (
         <>     
           <div className='pt-8'>
@@ -78,7 +78,7 @@ export default function SideRight(props) {
       ): (
       <>
         <InfoCard {...props} />
-        {siteConfig('HEXO_WIDGET_LATEST_POSTS', null, CONFIG) && latestPosts && latestPosts.length > 0 && <div className={className}><LatestPostsGroup {...props} /></div>}
+        {siteConfig('HEXO_WIDGET_LATEST_POSTS', null, CONFIG) && latestPosts && latestPosts.length > 0 && <div className={`${className} pb-20`}><LatestPostsGroup {...props} /></div>}
         {siteConfig('HEXO_WIDGET_ANALYTICS', null, CONFIG) && <AnalyticsCard {...props} />}
 
         {showCategory && (

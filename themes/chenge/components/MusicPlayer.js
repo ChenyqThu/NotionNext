@@ -11,6 +11,7 @@ const MusicPlayer = () => {
   const [player, setPlayer] = useState()
   const ref = useRef(null)
   const order = siteConfig('MUSIC_PLAYER_ORDER')
+  // const autoPlay = siteConfig('MUSIC_PLAYER_AUTOPLAY', false, CONFIG)
   const audioConfig = siteConfig('MUSIC_PLAYER_AUDIO_LIST')
   let audio;
   try {
@@ -40,6 +41,10 @@ const MusicPlayer = () => {
         setPlayer(playerInstance)
         // 加载播放列表
         playerInstance.player.load(audio);
+        // 自动播放音乐
+        // if (autoPlay) {
+        //   playerInstance.player.play();
+        // }
       }
     } catch (error) {
       console.error('音乐播放器加载异常', error)
