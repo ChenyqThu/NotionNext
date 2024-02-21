@@ -1,12 +1,6 @@
 var NOWPLAYING = null
-console.clear = (function(origClear) {
-    return function() {
-      debugger; // 或者在浏览器的Sources面板手动添加一个断点
-      // origClear(); // 可选：调用原始的console.clear函数
-    };
-  })(console.clear);  
 const isMobile = /mobile/i.test(window.navigator.userAgent);
-var originTitle, titleTime;
+var originTitle;
 const pageScroll = function(target, offset, complete) {
   // 计算滚动目标的顶部位置
   const targetTop = typeof target === 'number' ? target : 
@@ -15,13 +9,11 @@ const pageScroll = function(target, offset, complete) {
   const scrollToPosition = offset || targetTop;
 
   // 执行平滑滚动
-  window.scrollTo({
+  target.scrollIntoView({
       top: scrollToPosition,
       behavior: 'smooth'
   });
 
-  // 如果需要在滚动完成后执行某些操作，可以尝试使用setTimeout
-  // 注意：这不是一个完美的解决方案，因为它并不真正检测滚动何时完成
   if (complete) {
       setTimeout(complete, 500); // 假设滚动大约需要500毫秒完成
   }
@@ -237,10 +229,17 @@ const mediaPlayer = function(t, config) {
     controls: ['mode', 'backward', 'play-pause', 'forward', 'volume'],
     events: {
       "play-pause": function(event) {
+          var playPauseButtons = document.querySelectorAll('.play-pause');
           if(source.paused) {
             t.player.play()
+            playPauseButtons.forEach(function(btn) {
+                  btn.className = 'iconfont icon-pause play-pause mbtn';
+            })
           } else {
             t.player.pause()
+            playPauseButtons.forEach(function(btn) {
+              btn.className = 'iconfont icon-play play-pause mbtn';
+            })
           }
       },
       "music": function(event) {
@@ -278,7 +277,6 @@ const mediaPlayer = function(t, config) {
         var res = patt.exec(link)
         if (res !== null) {
           result = [rule[1], rule[2], res[1]]
-          console.log("Parsed link: ", result)
         }
       })
       return result
@@ -290,7 +288,6 @@ const mediaPlayer = function(t, config) {
         source.forEach(function(raw) {
           var meta = utils.parse(raw)
           if(meta[0]) {
-            console.log("Fetching data for: ", meta);
             var skey = JSON.stringify(meta)
             var playlist = store.get(skey)
             if(playlist) {
@@ -304,13 +301,11 @@ const mediaPlayer = function(t, config) {
                   store.set(skey, JSON.stringify(json))
                   list.push.apply(list, json);
                   resolve(list);
-                  console.log("Data fetched and processed: ", json);
                 }).catch(function(ex) {console.error("Fetch error: ", ex);})
             }
           } else {
             list.push(raw);
             resolve(list);
-            console.log("Added raw item to list: ", raw);
           }
         })
       })
@@ -337,7 +332,6 @@ const mediaPlayer = function(t, config) {
     group: true,
     // 加载播放列表
     load: function(newList) {
-      console.log("Loading new list: ", newList);
       var d = ""
       var that = this
 
@@ -346,7 +340,7 @@ const mediaPlayer = function(t, config) {
           this.options.rawList = newList;
           playlist.clear()
           // 获取新列表
-          this.fetch()
+          //this.fetch()
         }
       } else {
         // 没有列表时，隐藏按钮
@@ -580,7 +574,6 @@ const mediaPlayer = function(t, config) {
         item.type = item.type || 'normal';
 
         that.data.push(item);
-        console.log("Added item to playlist: ", item);
       });
     },
     clear: function() {
@@ -596,7 +589,6 @@ const mediaPlayer = function(t, config) {
       var el = this.el
 
       this.data.map(function(item, index) {
-        console.log("Creating playlist item in DOM for: ", item);
         if(item.el)
           return
 
@@ -634,7 +626,6 @@ const mediaPlayer = function(t, config) {
 
         return item
       })
-      console.log("Playlist created with items: ", this.data.length);
       tabFormat()
     },
     current: function() {
@@ -771,7 +762,7 @@ const mediaPlayer = function(t, config) {
     create: function () {
       var current = playlist.current()
 
-      this.el.innerHTML = '<div class="cover"><div class="disc"><img src="'+(current.cover)+'" class="blur" /></div></div>'
+      this.el.innerHTML = '<div class="cover"><div class="disc"><img src="'+(current.cover)+'" class="music-blur" /></div></div>'
       + '<div class="info"><h4 class="title">'+current.name+'</h4><span>'+current.artist+'</span>'
       + '<div class="lrc"></div></div>'
 
@@ -802,7 +793,7 @@ const mediaPlayer = function(t, config) {
         this.el.attr('data-dtime', utils.secondToTime(0))
 
         this.bar = this.el.createChild('div', {
-          className: 'bar',
+          className: 'mbar',
         })
 
         current.addClass('current')
@@ -878,25 +869,26 @@ const mediaPlayer = function(t, config) {
 
         switch(item) {
           case 'volume':
-            opt.className = ' ' + (source.muted ? 'off' : 'on')
-            opt.innerHTML = '<div class="bar"></div>'
+            opt.className = 'iconfont icon-'+ item + (source.muted ? '-off' : '-on') + ' mbtn text-xl leading-loose'
+            opt.innerHTML = '<div class="mbar"></div>'
             opt['on'+utils.nameMap.dragStart] = that.events['volume']
             opt.onclick = null
             break;
+          case 'play-pause':
+            opt.className = 'iconfont ' + (source.paused ? 'icon-play' : 'icon-pause') + ' ' + item + ' mbtn'
+            break;
           case 'mode':
-            opt.className = 'iconfont icon-' + t.player.options.mode + ' '
+            opt.className = item + ' iconfont icon-' + t.player.options.mode + ' mbtn text-xl leading-loose'
             break;
           default:
-            opt.className = 'iconfont icon-'
+            opt.className = 'iconfont icon-' + item + ' mbtn text-xl leading-loose'
             break;
         }
-
-        opt.className = opt.className + item + ' btn'
 
         that.btns[item] = that.el.createChild('div', opt)
       })
 
-      that.btns['volume'].bar = that.btns['volume'].child('.bar')
+      that.btns['volume'].bar = that.btns['volume'].child('.mbar')
     },
     events: {
       mode: function(e) {
@@ -911,7 +903,7 @@ const mediaPlayer = function(t, config) {
             t.player.options.mode = 'loop'
         }
 
-        controller.btns['mode'].className = 'mode iconfont icon-' + t.player.options.mode + ' btn'
+        controller.btns['mode'].className = 'mode iconfont icon-' + t.player.options.mode + ' mbtn text-xl leading-loose'
         store.set('_PlayerMode', t.player.options.mode)
       },
       volume: function(e) {
@@ -958,7 +950,7 @@ const mediaPlayer = function(t, config) {
       },
     },
     update: function(percent) {
-      controller.btns['volume'].className = 'iconfont icon-volume-'+ (!source.muted && percent > 0? 'on' :'off') +' btn'
+      controller.btns['volume'].className = 'iconfont icon-volume-'+ (source.muted ? 'off' :'on') +' mbtn text-xl leading-loose'
       controller.btns['volume'].bar.width(Math.floor(percent * 100) + '%')
     },
     percent: function(e, el) {
@@ -1015,7 +1007,7 @@ const mediaPlayer = function(t, config) {
           return;
 
         that.el[item] = t.createChild('div', {
-            className: item + ' btn',
+            className:'iconfont icon-' + (item === 'play-pause' ? 'play play-pause' : item) + ' mbtn',
             onclick: function(event){
               t.player.fetch().then(function() {
                 t.player.options.events[item](event)
