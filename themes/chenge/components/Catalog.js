@@ -147,34 +147,40 @@ const Catalog = ({ toc,...props }) => {
           <div ref={tRef} className={`overflow-y-auto ${activeTab === 'catalog' ? 'h-[70vh]' : 'h-0'} overscroll-none scroll-hidden`}>
             <nav className='h-full  text-black'>
               {tocWithSerialNumbers.map((tocItem) => {
-                // 判断是否应该展示当前目录项
-                // console.log(activeSection)
-                // console.log(tocItem)
-                // console.log('-----------')
                 const activeSerialNumber = getSerialNumberFromId(tocWithSerialNumbers, activeSection);
   
                 // 判断是否应该显示这个目录项
                 const shouldShow = tocItem.indentLevel === 0 || tocItem.serialNumber.startsWith(activeSerialNumber.charAt(0));
 
-                if (!shouldShow) {
-                  return null; // 或者根据你的逻辑决定怎么处理不显示的情况
-                }
+                // if (!shouldShow) {
+                //   return null; // 或者根据你的逻辑决定怎么处理不显示的情况
+                // }
 
                 const id = uuidToId(tocItem.id)
                 tocIds.push(id)
+
+                // 使用 Tailwind 的动画类，只有进入动画
+                const animationClass = shouldShow ? 'opacity-100' : 'opacity-0 max-h-0';
+                const transitionClass = 'transition-all ease-in-out duration-250';
+
                 return (
-                  <a
+                  <div
                     key={id}
-                    href={`#${id}`}
-                    className={`notion-table-of-contents-item duration-300 transform font-light dark:text-gray-200
-                  notion-table-of-contents-item-indent-level-${tocItem.indentLevel} `}
+                    className={`${animationClass} ${transitionClass} transform`}
                   >
-                    <span style={{ display: 'inline-block', marginLeft: tocItem.indentLevel * 16 }}
-                      className={`${activeSection === id && ' font-bold text-hexo-primary'}`}
+                    <a
+                      key={id}
+                      href={`#${id}`}
+                      className={`notion-table-of-contents-item duration-300 transform font-light dark:text-gray-200
+                    notion-table-of-contents-item-indent-level-${tocItem.indentLevel} `}
                     >
-                    {tocItem.serialNumber} {tocItem.text}
-                    </span>
-                  </a>
+                      <span style={{ display: 'inline-block', marginLeft: tocItem.indentLevel * 16 }}
+                        className={`${(activeSection === id || (tocItem.indentLevel === 0 && tocItem.serialNumber.startsWith(activeSerialNumber.charAt(0)))) && ' font-bold text-hexo-primary'}`}
+                      >
+                      {tocItem.serialNumber} {tocItem.text}
+                      </span>
+                    </a>
+                  </div>
                 )
               })}
             </nav>
