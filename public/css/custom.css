@@ -240,11 +240,11 @@
     max-width: 25rem
 }
 
-@media (max-width: 767px) {
+/* @media (max-width: 767px) {
     #tool .player-info {
         right:2.5rem
     }
-}
+} */
 
 #tool .player-info .nav {
     font-size: .75em;
@@ -284,7 +284,7 @@
 }
 
 #tool.affix .player-info {
-    left: 2.5rem
+    left: 3rem
 }
 
 @media (min-width: 1200px) {
@@ -293,12 +293,12 @@
     }
 }
 
-@media (max-width: 991px) {
+/* @media (max-width: 991px) {
     #tool.affix .player-info {
         right:2.5rem;
         left: auto
     }
-}
+} */
 
 #tool.affix .player-info.show {
     display: block
