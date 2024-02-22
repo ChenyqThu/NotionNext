@@ -7,6 +7,11 @@ import { formatDateFmt } from '@/lib/formatDate'
 import { siteConfig } from '@/lib/config'
 import { useRouter } from 'next/router';
 
+/**
+ * 归档/近期/标签页的头部
+ * @param {*} props
+ * @returns
+ */
 export default function CatHeader({ post, siteInfo }) {
   const { locale, fullWidth } = useGlobal()
   const router = useRouter()
