@@ -233,7 +233,7 @@ const LayoutSlug = props => {
             <div className="w-full lg:hover:shadow rounded-md lg:rounded-md lg:px-2 lg:py-4 article">
                 {lock && <ArticleLock validPassword={validPassword} />}
 
-                {!lock && <div id="article-wrapper" className="overflow-x-auto flex-grow mx-auto md:w-full px-3">
+                {!lock && <div id="article-wrapper" className="overflow-x-auto flex-grow mx-auto md:w-full px-3 font-serif">
 
                     <article itemScope itemType="https://schema.org/Movie" className="subpixel-antialiased overflow-y-hidden" >
                         {/* Notion文章主体 */}
