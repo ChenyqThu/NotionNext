@@ -53,7 +53,7 @@ const Progress = ({ targetRef, showPercent = false }) => {
   return (
     <div className="flex flex-col items-center">
       {/* 按钮容器 */}
-      <div className="absolute top-0 -translate-y-full flex justify-center items-center z-10">
+      <div className="absolute top-0 -translate-y-full flex w-full bg-hexo-background justify-center items-center z-10">
         <button onClick={scrollToTop} className="px-4 text-gray-500 hover:text-hexo-orange">
           <i className="iconfont icon-arrow-up"></i>
         </button>
@@ -64,7 +64,7 @@ const Progress = ({ targetRef, showPercent = false }) => {
           <i className="iconfont icon-arrow-down"></i> 
         </button>
       </div>
-      <div className="min-h-[0.25rem] w-full shadow-2xl bg-none rounded-sm relative">
+      <div className="min-h-[0.25rem] w-full shadow-2xl bg-hexo-background rounded-sm relative">
         <div className="min-h-[0.25rem] left-0 bg-tab duration-200 rounded-sm w-full z-1" style={{ width: `${percent}%` , pointerEvents: 'none'}}>
           {showPercent && (
             <div className="text-right text-white text-xs">{percent}%</div>

@@ -265,17 +265,28 @@ const Style = () => {
     ::-webkit-scrollbar-thumb {
         border-radius: 1.25rem;
         background-clip: padding-box;
-        background-color: var(--color-pink-light) ;
-        background-image: linear-gradient(
-            45deg,
-            var(--color-pink) 20%,
-            transparent 20%,
-            transparent 40%,
-            var(--color-pink) 40%,
-            var(--color-pink) 60%,
-            transparent 60%,
-            transparent 80%,
-            var(--color-pink) 80%)
+        background-color: var(--color-red) ;
+        // background-image: linear-gradient(
+        //     45deg,
+        //     var(--color-pink) 10%,
+        //     transparent 10%,
+        //     transparent 20%,
+        //     var(--color-pink) 20%,
+        //     var(--color-pink) 30%,
+        //     transparent 30%,
+        //     transparent 40%,
+        //     var(--color-pink) 40%,
+        //     var(--color-pink) 50%,
+        //     transparent 50%,
+        //     transparent 60%,
+        //     var(--color-pink) 60%,
+        //     var(--color-pink) 70%,
+        //     transparent 70%,
+        //     transparent 80%,
+        //     var(--color-pink) 80%,
+        //     var(--color-pink) 90%,
+        //     transparent 90%,
+        //     transparent 100%)
         // background-image: linear-gradient(
         //     0deg,
         //     var(--color-pink) 0%,
