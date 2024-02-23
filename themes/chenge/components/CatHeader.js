@@ -21,25 +21,25 @@ export default function CatHeader({ post, siteInfo }) {
       case '/archive':
         return (
           <div>
-            <i class="fas fa-clock-rotate-left"> &nbsp; </i>
+            <i className="fas fa-clock-rotate-left"> &nbsp; </i>
             {locale.NAV.ARCHIVE}
           </div>  )
       case '/category':
         return (
           <div>
-            <i class="fas fa-th"> &nbsp; </i>
+            <i className="fas fa-th"> &nbsp; </i>
             {locale.COMMON.CATEGORY}
           </div>  ); 
       case '/tag':
         return (
           <div>
-            <i class="fas fa-tag"> &nbsp; </i>
+            <i className="fas fa-tag"> &nbsp; </i>
             {locale.COMMON.TAGS}
           </div>  ); 
       case '/memos':
         return (
           <div>
-            <i class="fa-regular fa-wand-magic-sparkles"> &nbsp; </i>
+            <i className="fa-solid fa-wand-magic-sparkles"> &nbsp; </i>
             {locale.COMMON.MEMOS}
           </div>  ); 
       default:

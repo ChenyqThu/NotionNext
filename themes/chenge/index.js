@@ -226,13 +226,27 @@ const LayoutArchive = (props) => {
  * @returns
  */
 const LayoutMemos = (props) => {
-  return <div className='pt-8'>
-        <Card className='w-full'>
-            <div className="mb-10 md:p-5 p-3 min-h-full ">
-              <BlogMemos {...props}/>
-            </div>
-        </Card>
+  const memoPageInfo = {
+    id: "9e6c78642def47bcbabe35f526307639", // 固定ID，确保唯一性
+    type: "Memos",
+    title: "我的说说",
+  };
+  return  (
+  <div className="w-full lg:hover:shadow rounded-md lg:rounded-md lg:px-2 lg:py-4 article">
+    <div id="article-wrapper" className="overflow-x-auto flex-grow mx-auto md:w-full px-3 font-serif">
+      <article itemScope itemType="https://schema.org/Movie" className="subpixel-antialiased overflow-y-hidden overflow-x-hidden" >
+        {/* Notion文章主体 */}
+        <section className='justify-center mx-auto max-w-2xl lg:max-w-full'>
+            <BlogMemos {...props}/>
+        </section>
+      </article>
+      <div className='pt-4 border-dashed'></div>
+      {/* 评论互动 */}
+      <div className="duration-200 overflow-x-auto px-3">
+        <Comment frontMatter={memoPageInfo} />
+      </div>
     </div>
+  </div>)
 }
 
 /**

@@ -10,9 +10,11 @@ import { useRouter } from 'next/router'
  */
 const GlobalHead = (props) => {
   const { children } = props
+  const router = useRouter()
+  const global = useGlobal()
   let url = siteConfig('PATH')?.length ? `${siteConfig('LINK')}/${siteConfig('SUB_PATH', '')}` : siteConfig('LINK')
   let image
-  const meta = getSEOMeta(props, useRouter(), useGlobal())
+  const meta = getSEOMeta(props, router, global)
   if (meta) {
     url = `${url}/${meta.slug}`
     image = meta.image || '/bg_image.jpg'

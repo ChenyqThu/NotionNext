@@ -18,7 +18,6 @@
     };
     var callback_error = function (element) {
         logElementEvent("💀 ERROR", element);
-        element.src = "/assets/img/error.png";
     };
     var callback_finish = function () {
         logElementEvent("✔️ FINISHED", document.documentElement);
@@ -48,8 +47,8 @@
 
 // Memos Start
 var memo = {
-    host: 'http://admin.chenge.ink:5230',
-    limit: '30',
+    host: 'https://memos.chenge.ink',
+    limit: '10',
     creatorId: '1',
     domId: '#memos',
     username: '陈源泉',
@@ -189,7 +188,7 @@ function updateHTMl(data) {
     var memoResult = "", resultAll = "";
 
     // 解析 TAG 标签，添加样式
-    const TAG_REG = /#([^\s#]+?) /g;
+    const TAG_REG = /#([^\s#]+?)(?=\s|$)/g;
 
     // 解析 BiliBili
     const BILIBILI_REG = /<a\shref="https:\/\/www\.bilibili\.com\/video\/((av[\d]{1,10})|(BV([\w]{10})))\/?">.*<\/a>/g;
@@ -248,8 +247,8 @@ function updateHTMl(data) {
                 if (resexlink) {
                     resLink = resexlink
                 } else {
-                    fileId = resourceList[j].publicId || resourceList[j].filename
-                    resLink = memos+'/o/r/'+resourceList[j].id+'/'+fileId
+                    fileId = resourceList[j].publicId || resourceList[j].name
+                    resLink = memos+'/o/r/'+fileId
                 }
                 if (resType == 'image') {
                     imgUrl += '<div class="resimg"><img loading="lazy" src="' + resLink + '"/></div>'
@@ -277,6 +276,10 @@ function updateHTMl(data) {
     //取消这行注释解析豆瓣电影和豆瓣阅读
     // fetchDB()
     document.querySelector('button.button-load').textContent = '加载更多';
+    // 更新DOM后调用highlightAll进行代码高亮
+    if (window.hljs) {
+        window.hljs.highlightAll();
+    }
 }
 // Memos End
 
