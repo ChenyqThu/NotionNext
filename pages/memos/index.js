@@ -6,21 +6,19 @@ import React from 'react'
 import BLOG from '@/blog.config'
 
 const MemosIndex = props => {
-    // 根据页面路径加载不同Layout文件   
-    const Layout = getLayoutByTheme({ theme: siteConfig('THEME'), router: useRouter() })
+  const Layout = getLayoutByTheme({ theme: siteConfig('THEME'), router: useRouter() })
 
-    return <Layout {...props} />
-    //return <div>Hello World</div>
+  return <Layout {...props} />
 }
 
 export async function getStaticProps() {
-    const from = 'tag-index-props'
-    const props = await getGlobalData({ from })
-    delete props.allPages
-    return {
-      props,
-      revalidate: parseInt(BLOG.NEXT_REVALIDATE_SECOND)
-    }
+  const from = 'tag-index-props'
+  const props = await getGlobalData({ from })
+  delete props.allPages
+  return {
+    props,
+    revalidate: parseInt(BLOG.NEXT_REVALIDATE_SECOND)
+  }
 }
 
 export default MemosIndex
