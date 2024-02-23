@@ -33,7 +33,7 @@ import { Style } from './style'
 import replaceSearchResult from '@/components/Mark'
 import { siteConfig } from '@/lib/config'
 import AlgoliaSearchModal from '@/components/AlgoliaSearchModal'
-import JumpToBottomButton from '../next/components/JumpToBottomButton'
+import BlogMemos from './components/BlogMemos'
 
 // 主题全局状态
 const ThemeGlobalHexo = createContext()
@@ -50,7 +50,7 @@ const LayoutBase = props => {
   const { onLoading, fullWidth } = useGlobal()
 
   const router = useRouter()
-  const headerPaths = ['/archive', '/category', '/tag'];
+  const headerPaths = ['/archive', '/category', '/tag','/memos'];
   const headerSlot = post
     ? <PostHeader {...props} />
     : (router.route === '/' && siteConfig('HEXO_HOME_BANNER_ENABLE', null, CONFIG)
@@ -221,6 +221,21 @@ const LayoutArchive = (props) => {
 }
 
 /**
+ * 说说
+ * @param {*} props
+ * @returns
+ */
+const LayoutMemos = (props) => {
+  return <div className='pt-8'>
+        <Card className='w-full'>
+            <div className="mb-10 md:p-5 p-3 min-h-full ">
+              <BlogMemos {...props}/>
+            </div>
+        </Card>
+    </div>
+}
+
+/**
  * 文章详情
  * @param {*} props
  * @returns
@@ -360,6 +375,7 @@ export {
   LayoutIndex,
   LayoutSearch,
   LayoutArchive,
+  LayoutMemos,
   LayoutSlug,
   Layout404,
   LayoutCategoryIndex,
