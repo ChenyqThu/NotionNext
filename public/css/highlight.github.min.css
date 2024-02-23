@@ -21,7 +21,7 @@ body.light-theme,
   --color-hljs-deletion-bg: #ffeef0;
 }
 
-body.dark-theme {
+.dark {
   /* dark theme colors */
   --color-hljs-hljs: #adbac7;
   --color-hljs-hljs-bg: #22272e;
@@ -43,9 +43,8 @@ body.dark-theme {
   --color-hljs-deletion-bg: #78191b;
 }
 
-@media (prefers-color-scheme: light) {
+/* @media (prefers-color-scheme: light) {
   body:not(.dark-theme) {
-    /* light theme color */
     --color-hljs-hljs: #24292e;
     --color-hljs-hljs-bg: #fff;
     --color-hljs-tag: #d73a49;
@@ -69,7 +68,6 @@ body.dark-theme {
 
 @media (prefers-color-scheme: dark) {
   body:not(.light-theme) {
-    /* dark theme colors */
     --color-hljs-hljs: #adbac7;
     --color-hljs-hljs-bg: #22272e;
     --color-hljs-tag: #f47067;
@@ -89,7 +87,7 @@ body.dark-theme {
     --color-hljs-deletion: #ffd8d3;
     --color-hljs-deletion-bg: #78191b;
   }
-}
+} */
 
 pre code.hljs {
   display: block;
