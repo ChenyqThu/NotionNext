@@ -4,7 +4,7 @@ body.light-theme,
     --color-main: #222;
     --color-background: #fff;
     --color-text-bg: #eaeaea;
-    --color-text-hover: #eeeef1;
+    --color-text-hover: #d2d2d4;
     --color-memos-id: #536471;
     --color-img-border: #cfd9de;
     --color-tag: #2563eb;
@@ -25,7 +25,7 @@ body.light-theme,
     --color-main: #ffffff;
     --color-background: #1c2128;
     --color-text-bg: #4e535a;
-    --color-text-hover: #9aa4b1;
+    --color-text-hover: #6e7277;
     --color-memos-id: #d5dce4;
     --color-img-border: #292a2d;
     --color-tag: #539bf5;
@@ -206,14 +206,14 @@ h2 {
     margin-bottom: 1.5rem;
 }
 
-.timeline:hover .memos__text:before {
+/* .timeline:hover .memos__text:before {
     background: var(--color-text-hover);
     z-index: 1;
 }
 
 .timeline:hover .memos__text {
     background: var(--color-text-hover);
-}
+} */
 
 .memos__text {
     width: 100%;
