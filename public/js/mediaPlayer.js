@@ -1,6 +1,6 @@
 var NOWPLAYING = null
 const isMobile = /mobile/i.test(window.navigator.userAgent);
-var originTitle;
+var originTitle = document.title;
 const pageScroll = function(target, offset, complete) {
   // 计算滚动目标的顶部位置
   const targetTop = typeof target === 'number' ? target : 
