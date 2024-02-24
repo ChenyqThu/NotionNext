@@ -2,7 +2,7 @@ import { siteConfig } from '@/lib/config'
 import dynamic from 'next/dynamic'
 import LA51 from './LA51'
 import WebWhiz from './Webwhiz'
-import TianLiGPT from './TianliGPT'
+// import TianLiGPT from './TianliGPT'
 import { GlobalStyle } from './GlobalStyle'
 
 import { CUSTOM_EXTERNAL_CSS, CUSTOM_EXTERNAL_JS, IMG_SHADOW } from '@/blog.config'
@@ -76,7 +76,7 @@ const ExternalPlugin = (props) => {
   const ANALYTICS_51LA_ID = siteConfig('ANALYTICS_51LA_ID')
   const ANALYTICS_51LA_CK = siteConfig('ANALYTICS_51LA_CK')
   const DIFY_CHATBOT_ENABLED = siteConfig('DIFY_CHATBOT_ENABLED')
-  const TIANLI_KEY = siteConfig('TianliGPT_KEY')
+  // const TIANLI_KEY = siteConfig('TianliGPT_KEY')
   const GLOBAL_JS = siteConfig('GLOBAL_JS')
   const CLARITY_ID = siteConfig('CLARITY_ID')
 

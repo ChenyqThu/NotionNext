@@ -3,10 +3,9 @@ import mediumZoom from '@fisch0920/medium-zoom'
 import { useEffect, useRef, useState } from 'react'
 import 'katex/dist/katex.min.css'
 import { compressImage, mapImgUrl } from '@/lib/notion/mapImage'
-import { isBrowser } from '@/lib/utils'
+import { isBrowser, loadExternalResource } from '@/lib/utils'
 import { siteConfig } from '@/lib/config'
 import { NotionRenderer } from 'react-notion-x'
-import { loadExternalResource } from '@/lib/utils'
 
 const Code = dynamic(() =>
   import('react-notion-x/build/third-party/code').then(async (m) => {
@@ -65,29 +64,29 @@ const NotionPage = ({ post, className }) => {
     autoScrollToTarget()
   }, [])
 
-  //引入tianliGPT
+  // 引入tianliGPT
   const [isResourcesLoaded, setResourcesLoaded] = useState(false);
 
   const tianliKey = siteConfig('TianliGPT_KEY')
   useEffect(() => {
     // 并行加载CSS文件
     if (tianliKey) {
-        loadExternalResource('/css/tianliGPT.css', 'css').then(() => {
-          setResourcesLoaded(true); // 设置资源加载完成的状态
-        })
+      loadExternalResource('/css/tianliGPT.css', 'css').then(() => {
+        setResourcesLoaded(true); // 设置资源加载完成的状态
+      })
     }
   }, []);
   useEffect(() => {
     if (isResourcesLoaded) {
-        // 当所有资源加载完成后，加载 memos.js
-        const script = document.createElement('script');
-        script.src = '/js/tianliGPT.js';
-        script.async = true;
-        document.body.appendChild(script);
-        return () => {
-            // 组件卸载时移除script
-            document.body.removeChild(script);
-        };
+      // 当所有资源加载完成后，加载 memos.js
+      const script = document.createElement('script');
+      script.src = '/js/tianliGPT.js';
+      script.async = true;
+      document.body.appendChild(script);
+      return () => {
+        // 组件卸载时移除script
+        document.body.removeChild(script);
+      };
     }
   }, [isResourcesLoaded]); // 依赖于资源加载状态
 
