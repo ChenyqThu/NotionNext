@@ -54,7 +54,7 @@ const LatestPostsGroup = ({ latestPosts, siteInfo }) => {
                     >
                         <div>
                             <div className='line-clamp-2 menu-link'>{post.title}</div>
-                            <div className="text-gray-500">{post.lastEditedDay}</div>
+                            <div className="text-gray-500">{post.publishDay}</div>
                         </div>
                     </div>
 

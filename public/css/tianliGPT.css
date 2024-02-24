@@ -105,7 +105,7 @@
     --style-border-forever: 2px solid var(--heo-main);
   }
   
-  [data-theme=dark], body.dark, body.dark-theme {
+  .dark {
     --heo-theme: #f2b94b;
     --heo-theme-op: #f2b94b23;
     --heo-theme-op-deep: #f2b94bdd;
@@ -189,6 +189,7 @@
     font-size: 15px;
     line-height: 1.4;
     display: flex;
+    color: var(--heo-fontcolor);
   }
   
   .tianliGPT-suggestions {
