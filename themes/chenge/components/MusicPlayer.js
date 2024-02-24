@@ -47,7 +47,7 @@ const MusicPlayer = () => {
 
   useEffect(() => {
     const loadResourcesAndInitPlayer = async () => {
-      if (!document.querySelector('link[href="css/player.css"]')) {
+      if (!document.querySelector('link[href="/css/player.css"]')) {
         loadExternalResource('css/player.css', 'css');
       }
       if (!document.querySelector('script[src="/js/mediaPlayer.js"]')) {

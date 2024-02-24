@@ -137,7 +137,7 @@ const ExternalPlugin = (props) => {
         {!CAN_COPY && <DisableCopy />}
         {WEB_WHIZ_ENABLED && <WebWhiz />}
         {AD_WWADS_BLOCK_DETECT && <AdBlockDetect />}
-        {TIANLI_KEY && <TianLiGPT/>}
+        {/* {TIANLI_KEY && <TianLiGPT/>} */}
         <VConsole />
         <LoadingProgress />
         <AosAnimation />
