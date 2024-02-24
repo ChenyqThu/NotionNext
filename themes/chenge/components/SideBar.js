@@ -25,7 +25,9 @@ const SideBar = (props) => {
                     <MenuGroupCard {...props} />
                 </div>
             </div>
-            <MenuListSide {...props} />
+            <div className="px-4 pt-4 ">
+                <MenuListSide {...props}/>
+            </div>
         </div>
   )
 }

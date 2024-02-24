@@ -34,7 +34,8 @@ const MusicPlayer = () => {
   // 开启音乐播放器
   const initMusicPlayer = async () => {
     try {
-      // 动态加载mediaPlayer.js
+      // 动态加载css和mediaPlayer.js
+      loadExternalResource('css/player.css','css')
       await loadExternalResource('/js/mediaPlayer.js', 'js')
       // 检查全局变量是否存在，这假设mediaPlayer.js定义了一个全局变量或函数来初始化播放器
       if (mediaPlayer) {

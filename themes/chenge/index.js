@@ -63,7 +63,7 @@ const LayoutBase = props => {
   const tocRef = isBrowser ? document.getElementById('article-wrapper') : null
 
   const floatSlot = <>
-        {post?.toc?.length > 1 && <div className="block lg:hidden">
+        {post && <div className="block lg:hidden">
             <TocDrawerButton
                 onClick={() => {
                   drawerRight?.current?.handleSwitchVisible()
@@ -128,7 +128,7 @@ const LayoutBase = props => {
             </main>
 
             <div className='block lg:hidden'>
-              <TocDrawer post={post} cRef={drawerRight} targetRef={tocRef} />
+              <TocDrawer props={props} post={post} cRef={drawerRight} targetRef={tocRef} />
             </div>
 
             {/* 悬浮菜单 */}

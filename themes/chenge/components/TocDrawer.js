@@ -8,7 +8,7 @@ import { useImperativeHandle, useState } from 'react'
  * @returns {JSX.Element}
  * @constructor
  */
-const TocDrawer = ({ post, cRef }) => {
+const TocDrawer = ({ post, cRef, props }) => {
   // 暴露给父组件 通过cRef.current.handleMenuClick 调用
   useImperativeHandle(cRef, () => {
     return {
@@ -25,10 +25,10 @@ const TocDrawer = ({ post, cRef }) => {
       <div
         className={(showDrawer ? 'animate__slideInRight ' : ' -mr-72 animate__slideOutRight') +
         ' shadow-card animate__animated animate__faster' +
-        ' w-60 h-full duration-200 fixed right-0 bottom-0 rounded py-10 bg-white dark:bg-hexo-background'}>
+        ' w-60 h-full duration-200 fixed right-0 bottom-0 rounded py-10 px-4 bg-white dark:bg-hexo-background'}>
           {post && <>
            <div className='dark:text-gray-400 text-gray-600'>
-             <Catalog toc={post.toc}/>
+             <Catalog toc={post.toc} props={props}/>
            </div>
           </>
           }

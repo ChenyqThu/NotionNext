@@ -12,6 +12,7 @@ import MenuGroupCard from './MenuGroupCard'
 import LazyImage from '@/components/LazyImage'
 import { siteConfig } from '@/lib/config'
 import CONFIG from '../config'
+import { MenuListSide } from './MenuListSide'
 
 /**
  * 目录导航组件
@@ -19,7 +20,17 @@ import CONFIG from '../config'
  * @returns {JSX.Element}
  * @constructor
  */
-const Catalog = ({ toc,...props }) => {
+const Catalog = ({ toc, props }) => {
+  // 无目录就直接返回菜单目录
+  if (!toc || toc.length < 1) {
+    return <div className={`opacity-100 translate-y-0 transition-all duration-500 ease-out transform}`}>
+      <InfoCard {...props} />
+      <div className = "pt-4">
+        <MenuListSide {...props} />
+      </div>
+    </div>
+  }
+
   const { locale } = useGlobal()
   // 监听滚动事件
   useEffect(() => {
@@ -108,10 +119,6 @@ const Catalog = ({ toc,...props }) => {
     tRef?.current?.scrollTo({ top: 28 * index, behavior: 'smooth' })
   }, throttleMs))
 
-  // 无目录就直接返回空
-  if (!toc || toc.length < 1) {
-    return <></>
-  }
   const tocWithSerialNumbers = generateTocWithSerialNumbers(toc);
 
   return (

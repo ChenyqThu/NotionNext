@@ -69,7 +69,7 @@ export default function SideRight(props) {
       {isArticlePage ? (
         <>     
           <div className='pt-8'>
-            <Catalog toc={post.toc} {...props} />
+            <Catalog toc={post.toc} props={props} />
             {rightAreaSlot}
             <FaceBookPage/>
             <Live2D />
