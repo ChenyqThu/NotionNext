@@ -36,7 +36,7 @@ const TianLiGPT = () => {
     await loadExternalResource(tianliJs, 'js').then(() => {
       console.log('TianliGPT JS loaded');
       window.tianliGPT(true)
-  });
+    });
   }
   return <></>
 }
