@@ -46,7 +46,7 @@ function tianliGPT(usePjax) {
     const aiTagDiv = document.createElement('div');
     aiTagDiv.className = 'tianliGPT-tag';
     aiTagDiv.id = 'tianliGPT-tag';
-    aiTagDiv.textContent = 'TianliGPT';
+    aiTagDiv.textContent = 'chengeGPT';
     aiTitleDiv.appendChild(aiTagDiv);
 
     const aiExplanationDiv = document.createElement('div');
