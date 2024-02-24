@@ -15,7 +15,13 @@ const MusicPlayer = () => {
   const audioConfig = siteConfig('MUSIC_PLAYER_AUDIO_LIST')
   let audio;
   try {
-    audio = JSON.parse(audioConfig);
+    if (typeof audioConfig === 'string') {
+      // 如果是字符串，则使用JSON.parse解析
+      audio = JSON.parse(audioConfig);
+    } else {
+      // 如果不是字符串（即已经是对象），则直接使用
+      audio = audioConfig;
+    }
   } catch (error) {
     console.error('解析音乐播放列表出错:', error);
     audio = [];
