@@ -1,79 +1,75 @@
-import CONFIG from '../config'
-import { siteConfig } from '@/lib/config'
-import { loadExternalResource } from '@/lib/utils'
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react';
+import CONFIG from '../config';
+import { siteConfig } from '@/lib/config';
+import { loadExternalResource } from '@/lib/utils';
 
-/**
- * 音乐播放器
- * @returns
- */
 const MusicPlayer = () => {
-  const [player, setPlayer] = useState()
-  const ref = useRef(null)
-  const order = siteConfig('MUSIC_PLAYER_ORDER')
-  // const autoPlay = siteConfig('MUSIC_PLAYER_AUTOPLAY', false, CONFIG)
-  const audioConfig = siteConfig('MUSIC_PLAYER_AUDIO_LIST')
+  const [player, setPlayer] = useState(null);
+  const ref = useRef(null);
+  const order = siteConfig('MUSIC_PLAYER_ORDER');
+  // const autoPlay = siteConfig('MUSIC_PLAYER_AUTOPLAY', false, CONFIG);
+  const audioConfig = siteConfig('MUSIC_PLAYER_AUDIO_LIST');
   let audio;
+
   try {
-    if (typeof audioConfig === 'string') {
-      // 如果是字符串，则使用JSON.parse解析
-      audio = JSON.parse(audioConfig);
-    } else {
-      // 如果不是字符串（即已经是对象），则直接使用
-      audio = audioConfig;
-    }
+    audio = typeof audioConfig === 'string' ? JSON.parse(audioConfig) : audioConfig;
   } catch (error) {
     console.error('解析音乐播放列表出错:', error);
     audio = [];
   }
 
-  // 没有开启音乐播放器，直接返回空
   if (!siteConfig('MUSIC_PLAYER', null, CONFIG)) {
-    return <></>
+    return <></>;
   }
-  // 开启音乐播放器
+
   const initMusicPlayer = async () => {
-    try {
-      // 动态加载css和mediaPlayer.js
-      loadExternalResource('css/player.css','css')
-      await loadExternalResource('/js/mediaPlayer.js', 'js')
-      // 检查全局变量是否存在，这假设mediaPlayer.js定义了一个全局变量或函数来初始化播放器
-      if (mediaPlayer) {
+    if (window.mediaPlayer) {
+      try {
         const config = {
           type: 'audio',
-          mode: order
+          mode: order,
+        };
+        // 初始化 mediaPlayer 并获取返回值 t
+        const t = window.mediaPlayer(ref.current, config);
+        // 由于 mediaPlayer 函数返回的是 t，播放器实例实际上位于 t.player
+        // 现在使用 t.player.load 方法加载音频列表
+        if(t && t.player && typeof t.player.load === 'function') {
+          t.player.load(audio); // 这样调用不会报错
+        } else {
+          console.error('播放器加载函数不存在');
         }
-        // 初始化播放器，并将其保存到状态中
-        const playerInstance = mediaPlayer(ref.current, config)
-        setPlayer(playerInstance)
-        // 加载播放列表
-        playerInstance.player.load(audio);
-        // 自动播放音乐
-        // if (autoPlay) {
-        //   playerInstance.player.play();
-        // }
+      } catch (error) {
+        console.error('音乐播放器加载异常', error);
       }
-    } catch (error) {
-      console.error('音乐播放器加载异常', error)
     }
-  }
+  };
+  
 
-  // 组件挂载时初始化播放器，组件卸载时进行清理
   useEffect(() => {
-    initMusicPlayer()
-    return () => {
-      // 清理播放器资源，例如停止播放、解绑事件等
-      if (player && player.destroy) {
-        player.destroy()
+    const loadResourcesAndInitPlayer = async () => {
+      if (!document.querySelector('link[href="css/player.css"]')) {
+        loadExternalResource('css/player.css', 'css');
       }
-    }
-  }, [])
+      if (!document.querySelector('script[src="/js/mediaPlayer.js"]')) {
+        await loadExternalResource('/js/mediaPlayer.js', 'js');
+      }
+      initMusicPlayer();
+    };
+
+    loadResourcesAndInitPlayer();
+
+    return () => {
+      if (player && player.destroy) {
+        player.destroy();
+      }
+    };
+  }, []);
 
   return (
-      <div ref={ref} className='item player'>
+    <div ref={ref} className="item player">
       {/* 播放器容器，mediaPlayer将在这个元素内进行初始化 */}
-      </div>
-  )
-}
+    </div>
+  );
+};
 
-export default MusicPlayer
+export default MusicPlayer;

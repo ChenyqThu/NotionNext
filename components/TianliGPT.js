@@ -23,7 +23,7 @@ const TianLiGPT = () => {
   }
 
   const initArtalk = async () => {
-    console.log('loading tianliGPT', tianliKey, tianliCss, tianliJs)
+    // console.log('loading tianliGPT', tianliKey, tianliCss, tianliJs)
 
     if (!tianliKey) {
       return
@@ -33,7 +33,10 @@ const TianLiGPT = () => {
     window.tianliGPT_postSelector = '#notion-article';
     window.tianliGPT_key = tianliKey;
 
-    await loadExternalResource(tianliJs, 'js')
+    await loadExternalResource(tianliJs, 'js').then(() => {
+      console.log('TianliGPT JS loaded');
+      window.tianliGPT(true)
+  });
   }
   return <></>
 }

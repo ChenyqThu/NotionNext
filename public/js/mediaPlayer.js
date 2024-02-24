@@ -1,227 +1,228 @@
 var NOWPLAYING = null
 const isMobile = /mobile/i.test(window.navigator.userAgent);
 var originTitle = document.title;
-const pageScroll = function(target, offset, complete) {
-  // 计算滚动目标的顶部位置
-  const targetTop = typeof target === 'number' ? target : 
-                    (target ? target.getBoundingClientRect().top + window.pageYOffset - 15 : 0);
-  // 考虑传入的offset
-  const scrollToPosition = offset || targetTop;
-
-  // 执行平滑滚动
-  target.scrollIntoView({
-      top: scrollToPosition,
-      behavior: 'smooth'
-  });
-
-  if (complete) {
-      setTimeout(complete, 500); // 假设滚动大约需要500毫秒完成
-  }
-};
-
-const store = {
-    get: function(item) {
-        return localStorage.getItem(item);
-    },
-    set: function(item, str) {
-        localStorage.setItem(item, str);
-        return str;
-    },
-    del: function(item) {
-        localStorage.removeItem(item);
-    }
-}
-const $ = function(selector, element) {
-  element = element || document;
-  if(selector.indexOf('#') === 0) {
-    return element.getElementById(selector.replace('#', ''))
-  }
-  return element.querySelector(selector)
-};
-
-$.all = function(selector, element) {
-  element = element || document;
-  return element.querySelectorAll(selector)
-};
-
-$.each = function(selector, callback, element) {
-  return $.all(selector, element).forEach(callback)
-}
-const tabFormat = function() {
-  // tab
-  var first_tab
-  $.each('div.tab', function(element, index) {
-    if(element.attr('data-ready'))
-      return
-
-    var id = element.attr('data-id');
-    var title = element.attr('data-title');
-    var box = $('#' + id);
-    if(!box) {
-      box = document.createElement('div');
-      box.className = 'tabs';
-      box.id = id;
-      box.innerHTML = '<div class="show-btn"></div>'
-
-      var showBtn = box.child('.show-btn');
-      showBtn.addEventListener('click', function(event) {
-        pageScroll(box)
-      });
-
-      element.parentNode.insertBefore(box, element);
-      first_tab = true;
-    } else {
-      first_tab = false;
-    }
-
-    var ul = box.child('.nav ul');
-    if(!ul) {
-      ul = box.createChild('div', {
-        className: 'nav',
-        innerHTML: '<ul></ul>'
-      }).child('ul');
-    }
-
-    var li = ul.createChild('li', {
-      innerHTML: title
+const mediaPlayer = function(t, config) {
+  const pageScroll = function(target, offset, complete) {
+    // 计算滚动目标的顶部位置
+    const targetTop = typeof target === 'number' ? target : 
+                      (target ? target.getBoundingClientRect().top + window.pageYOffset - 15 : 0);
+    // 考虑传入的offset
+    const scrollToPosition = offset || targetTop;
+  
+    // 执行平滑滚动
+    target.scrollIntoView({
+        top: scrollToPosition,
+        behavior: 'smooth'
     });
-
-    if(first_tab) {
-      li.addClass('active');
-      element.addClass('active');
+  
+    if (complete) {
+        setTimeout(complete, 500); // 假设滚动大约需要500毫秒完成
     }
-
-    li.addEventListener('click', function(event) {
-      var target = event.currentTarget;
-      box.find('.active').forEach(function(el) {
-        el.removeClass('active');
-      })
-      element.addClass('active');
-      target.addClass('active');
-    });
-
-    box.appendChild(element);
-    element.attr('data-ready', true)
-  });
-}
-const showtip = function(msg) {
-  if(!msg)
-    return
-  const BODY = document.getElementsByTagName('body')[0];
-  var tipbox = BODY.createChild('div', {
-    innerHTML: msg,
-    className: 'tip'
-  });
-
-  setTimeout(function() {
-    tipbox.addClass('hide')
-    setTimeout(function() {
-      BODY.removeChild(tipbox);
-    }, 300);
-  }, 3000);
-}
-Object.assign(HTMLElement.prototype, {
-    createChild: function(tag, obj, positon) {
-      var child = document.createElement(tag);
-      Object.assign(child, obj)
-      switch(positon) {
-        case 'after':
-          this.insertAfter(child)
-          break;
-        case 'replace':
-          this.innerHTML = ""
-        default:
-          this.appendChild(child)
+  };
+  
+  const store = {
+      get: function(item) {
+          return localStorage.getItem(item);
+      },
+      set: function(item, str) {
+          localStorage.setItem(item, str);
+          return str;
+      },
+      del: function(item) {
+          localStorage.removeItem(item);
       }
-      return child
-    },
-    wrap: function (obj) {
-      var box = document.createElement('div');
-      Object.assign(box, obj)
-      this.parentNode.insertBefore(box, this);
-      this.parentNode.removeChild(this);
-      box.appendChild(this);
-    },
-    height: function(h) {
-      if(h) {
-        this.style.height = typeof h == 'number' ? h + 'rem' : h;
-      }
-      return this.getBoundingClientRect().height
-    },
-    width: function(w) {
-      if(w) {
-        this.style.width = typeof w == 'number' ? w + 'rem' : w;
-      }
-      return this.getBoundingClientRect().width
-    },
-    top: function() {
-      return this.getBoundingClientRect().top
-    },
-    left:function() {
-      return this.getBoundingClientRect().left
-    },
-    attr: function(type, value) {
-      if(value === null) {
-        return this.removeAttribute(type)
+  }
+  const $ = function(selector, element) {
+    element = element || document;
+    if(selector.indexOf('#') === 0) {
+      return element.getElementById(selector.replace('#', ''))
+    }
+    return element.querySelector(selector)
+  };
+  
+  $.all = function(selector, element) {
+    element = element || document;
+    return element.querySelectorAll(selector)
+  };
+  
+  $.each = function(selector, callback, element) {
+    return $.all(selector, element).forEach(callback)
+  }
+  const tabFormat = function() {
+    // tab
+    var first_tab
+    $.each('div.tab', function(element, index) {
+      if(element.attr('data-ready'))
+        return
+  
+      var id = element.attr('data-id');
+      var title = element.attr('data-title');
+      var box = $('#' + id);
+      if(!box) {
+        box = document.createElement('div');
+        box.className = 'tabs';
+        box.id = id;
+        box.innerHTML = '<div class="show-btn"></div>'
+  
+        var showBtn = box.child('.show-btn');
+        showBtn.addEventListener('click', function(event) {
+          pageScroll(box)
+        });
+  
+        element.parentNode.insertBefore(box, element);
+        first_tab = true;
+      } else {
+        first_tab = false;
       }
   
-      if(value) {
-        this.setAttribute(type, value)
-        return this
-      } else {
-        return this.getAttribute(type)
+      var ul = box.child('.nav ul');
+      if(!ul) {
+        ul = box.createChild('div', {
+          className: 'nav',
+          innerHTML: '<ul></ul>'
+        }).child('ul');
       }
-    },
-    insertAfter: function(element) {
-      var parent = this.parentNode;
-      if(parent.lastChild == this){
-          parent.appendChild(element);
-      }else{
-          parent.insertBefore(element, this.nextSibling);
+  
+      var li = ul.createChild('li', {
+        innerHTML: title
+      });
+  
+      if(first_tab) {
+        li.addClass('active');
+        element.addClass('active');
       }
-    },
-    display: function(d) {
-      if(d == null) {
-        return this.style.display
-      } else {
-        this.style.display = d;
-        return this
-      }
-    },
-    child: function(selector) {
-      return $(selector, this)
-    },
-    find: function(selector) {
-      return $.all(selector, this)
-    },
-    _class: function(type, className, display) {
-      var classNames = className.indexOf(' ') ?  className.split(' ') : [className];
-      var that = this;
-      classNames.forEach(function(name) {
-        if(type == 'toggle') {
-          that.classList.toggle(name, display)
-        } else {
-          that.classList[type](name)
+  
+      li.addEventListener('click', function(event) {
+        var target = event.currentTarget;
+        box.find('.active').forEach(function(el) {
+          el.removeClass('active');
+        })
+        element.addClass('active');
+        target.addClass('active');
+      });
+  
+      box.appendChild(element);
+      element.attr('data-ready', true)
+    });
+  }
+  const showtip = function(msg) {
+    if(!msg)
+      return
+    const BODY = document.getElementsByTagName('body')[0];
+    var tipbox = BODY.createChild('div', {
+      innerHTML: msg,
+      className: 'tip'
+    });
+  
+    setTimeout(function() {
+      tipbox.addClass('hide')
+      setTimeout(function() {
+        BODY.removeChild(tipbox);
+      }, 300);
+    }, 3000);
+  }
+  Object.assign(HTMLElement.prototype, {
+      createChild: function(tag, obj, positon) {
+        var child = document.createElement(tag);
+        Object.assign(child, obj)
+        switch(positon) {
+          case 'after':
+            this.insertAfter(child)
+            break;
+          case 'replace':
+            this.innerHTML = ""
+          default:
+            this.appendChild(child)
         }
-      })
-    },
-    addClass: function(className) {
-      this._class('add', className);
-      return this;
-    },
-    removeClass: function(className) {
-      this._class('remove', className);
-      return this;
-    },
-    toggleClass: function(className, display) {
-      this._class('toggle', className, display);
-      return this;
-    },
-    hasClass: function(className) {
-      return this.classList.contains(className)
-    }
-});
-const mediaPlayer = function(t, config) {
+        return child
+      },
+      wrap: function (obj) {
+        var box = document.createElement('div');
+        Object.assign(box, obj)
+        this.parentNode.insertBefore(box, this);
+        this.parentNode.removeChild(this);
+        box.appendChild(this);
+      },
+      height: function(h) {
+        if(h) {
+          this.style.height = typeof h == 'number' ? h + 'rem' : h;
+        }
+        return this.getBoundingClientRect().height
+      },
+      width: function(w) {
+        if(w) {
+          this.style.width = typeof w == 'number' ? w + 'rem' : w;
+        }
+        return this.getBoundingClientRect().width
+      },
+      top: function() {
+        return this.getBoundingClientRect().top
+      },
+      left:function() {
+        return this.getBoundingClientRect().left
+      },
+      attr: function(type, value) {
+        if(value === null) {
+          return this.removeAttribute(type)
+        }
+    
+        if(value) {
+          this.setAttribute(type, value)
+          return this
+        } else {
+          return this.getAttribute(type)
+        }
+      },
+      insertAfter: function(element) {
+        var parent = this.parentNode;
+        if(parent.lastChild == this){
+            parent.appendChild(element);
+        }else{
+            parent.insertBefore(element, this.nextSibling);
+        }
+      },
+      display: function(d) {
+        if(d == null) {
+          return this.style.display
+        } else {
+          this.style.display = d;
+          return this
+        }
+      },
+      child: function(selector) {
+        return $(selector, this)
+      },
+      find: function(selector) {
+        return $.all(selector, this)
+      },
+      _class: function(type, className, display) {
+        var classNames = className.indexOf(' ') ?  className.split(' ') : [className];
+        var that = this;
+        classNames.forEach(function(name) {
+          if(type == 'toggle') {
+            that.classList.toggle(name, display)
+          } else {
+            that.classList[type](name)
+          }
+        })
+      },
+      addClass: function(className) {
+        this._class('add', className);
+        return this;
+      },
+      removeClass: function(className) {
+        this._class('remove', className);
+        return this;
+      },
+      toggleClass: function(className, display) {
+        this._class('toggle', className, display);
+        return this;
+      },
+      hasClass: function(className) {
+        return this.classList.contains(className)
+      }
+  });
+  
   var option = {
     type: 'audio',
     mode: 'random',
@@ -1043,3 +1044,5 @@ const mediaPlayer = function(t, config) {
 
   return t;
 }
+
+window.mediaPlayer = mediaPlayer;
