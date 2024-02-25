@@ -34,6 +34,7 @@ import replaceSearchResult from '@/components/Mark'
 import { siteConfig } from '@/lib/config'
 import AlgoliaSearchModal from '@/components/AlgoliaSearchModal'
 import BlogMemos from './components/BlogMemos'
+import AISummary from './components/AISummary'
 
 // 主题全局状态
 const ThemeGlobalHexo = createContext()
@@ -267,7 +268,8 @@ const LayoutSlug = props => {
                     <article itemScope itemType="https://schema.org/Movie" className="subpixel-antialiased overflow-y-hidden" >
                         {/* Notion文章主体 */}
                         <section className='justify-center mx-auto max-w-2xl lg:max-w-full'>
-                            {post && <NotionPage post={post} />}
+                          {post && <AISummary post={post} />}
+                          {post && <NotionPage post={post} />}
                         </section>
 
                         {/* 分享 */}

@@ -58,6 +58,12 @@ module.exports = {
           7: '#D1D5DB',
           8: '#E5E7EB'
         },
+        ai:{
+          'bg':'var(--ai-bg)',
+          'title':'var(--ai-title)',
+          'title-text':'var(--ai-title-text)',
+          'card-bg':'var(--ai-card-bg)'
+        },
         primary: '#3758F9',
         'blue-dark': '#1B44C8',
         secondary: '#13C296',
@@ -67,7 +73,7 @@ module.exports = {
         stroke: '#DFE4EA',
         'gray-1': '#F9FAFB',
         'gray-2': '#F3F4F6',
-        'gray-7': '#CED4DA'
+        'gray-7': '#CED4DA',
       },
       backgroundImage: {
         'gradient': 'var(--nav-bg)',
@@ -79,6 +85,12 @@ module.exports = {
         '90p': '90%',
         '75p': '75%', 
         'custom':'calc(100% - 18rem);'
+      },
+      borderWidth: {
+        'ai-card': '1px',
+      },
+      borderColor: {
+        'ai-card': 'var(--ai-card-border)',
       },
       width:{
         '50p':'50%',
