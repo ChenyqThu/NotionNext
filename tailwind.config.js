@@ -46,7 +46,7 @@ module.exports = {
           'orange':'var(--color-orange)',
           'primary':'var(--color-red)'
         },
-        black: '#212b36',
+        // black: '#212b36',
         'dark-700': '#090e34b3',
         dark: {
           DEFAULT: '#111928',
