@@ -4,7 +4,7 @@ function tianliGPT(usePjax) {
   var tianliGPTIsRunning = false;
   var tianliGPT_postSelector = '#notion-article';
   var tianliGPT_key = '633d5445b832cb5d8e59';
-  let tianliGPT_wordLimit = 5000;
+  let tianliGPT_wordLimit = 4000;
   let tianliGPT_postURL = ['*/article/*', '*/about*'];
   function insertAIDiv(selector) {
     // 首先移除现有的 "post-TianliGPT" 类元素（如果有的话）
