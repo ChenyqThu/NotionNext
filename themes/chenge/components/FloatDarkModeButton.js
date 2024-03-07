@@ -1,5 +1,5 @@
 import { useGlobal } from '@/lib/global'
-import { saveDarkModeToCookies } from '@/themes/theme'
+// import { saveDarkModeToCookies } from '@/themes/theme'
 import CONFIG from '../config'
 import { siteConfig } from '@/lib/config'
 
@@ -14,7 +14,7 @@ export default function FloatDarkModeButton () {
   const handleChangeDarkMode = () => {
     const newStatus = !isDarkMode
     saveDarkModeToCookies(newStatus)
-    updateDarkMode(newStatus)
+    // updateDarkMode(newStatus)
     const htmlElement = document.getElementsByTagName('html')[0]
     htmlElement.classList?.remove(newStatus ? 'light' : 'dark')
     htmlElement.classList?.add(newStatus ? 'dark' : 'light')
