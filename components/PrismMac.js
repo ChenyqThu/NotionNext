@@ -56,6 +56,18 @@ const PrismMac = () => {
     })
   }, [router, isDarkMode])
 
+  useEffect(() => {
+    const observer = new MutationObserver((mutationsList) => {
+      for (const mutation of mutationsList) {
+        if (mutation.type === 'childList') {
+          renderCustomCode();
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+    return () => observer.disconnect();
+  }, []);
+  
   return <></>
 }
 
@@ -83,7 +95,7 @@ const loadPrismThemeCSS = (isDarkMode, prismThemeSwitch, prismThemeDarkPath, pri
   }
 }
 
-/*
+/**
  * 将代码块转为可折叠对象
  */
 const renderCollapseCode = (codeCollapse, codeCollapseExpandDefault) => {
@@ -93,7 +105,7 @@ const renderCollapseCode = (codeCollapse, codeCollapseExpandDefault) => {
   const codeBlocks = document.querySelectorAll('.code-toolbar')
   for (const codeBlock of codeBlocks) {
     // 判断当前元素是否被包裹
-    if (codeBlock.closest('.collapse-wrapper')) {
+    if (codeBlock.closest('.collapse-wrapper') || containsCustomCodeBlock(codeBlock)) {
       continue // 如果被包裹了，跳过当前循环
     }
 
@@ -139,7 +151,7 @@ const renderCollapseCode = (codeCollapse, codeCollapseExpandDefault) => {
 /**
  * 将mermaid语言 渲染成图片
  */
-const renderMermaid = async(mermaidCDN) => {
+const renderMermaid = async (mermaidCDN) => {
   const observer = new MutationObserver(async mutationsList => {
     for (const m of mutationsList) {
       if (m.target.className === 'notion-code language-mermaid') {
@@ -175,6 +187,118 @@ const renderMermaid = async(mermaidCDN) => {
     observer.observe(document.querySelector('#notion-article'), { attributes: true, subtree: true })
   }
 }
+
+/**
+ * @author https://github.com/chenyqthu, 基于 RylanBot
+ * 代码块类型为 Html, CSS, JS
+ * 且第一行出现注释 <!-- custom -->, \* custom *\, // custom
+ * (第二个对应 css 注释写法, 这里无法正常打出, notion 代码块中正常使用左斜杠 / 即可)
+ * (空格不能少)
+ * 则自动替换，将内容替换为实际代码执行
+ */
+const containsCustomCodeBlock = (block) => {
+  const textContent = block.textContent || '';
+  return (
+    textContent.includes('<!-- custom -->') ||
+    textContent.includes('/* custom */') ||
+    textContent.includes('/* custom-link */') ||
+    textContent.includes('// custom')
+  );
+};
+
+const renderCustomCode = () => {
+  const toolbars = document.querySelectorAll('div.code-toolbar');
+
+  const processCodeElement = (codeElement, language) => {
+    const firstChild = codeElement.firstChild;
+    if (firstChild && firstChild.classList.contains('comment')) {
+      const firstComment = firstChild.textContent || '';
+      const isCustomLink = {
+        css: firstComment.includes('/* custom-link */'),
+        javascript: firstComment.includes('// custom-link'),
+      }[language];
+      const isCustom = {
+        html: firstComment.includes('<!-- custom -->'),
+        css: firstComment.includes('/* custom */'),
+        javascript: firstComment.includes('// custom')
+      }[language];
+      
+      let originalCode = codeElement.textContent;
+      const toolbarParent = codeElement.closest('div.code-toolbar').parentNode;
+
+      if (isCustomLink) {
+        // 移除 custom-link 注释
+        originalCode = originalCode.replace('// custom-link', '').replace('/* custom-link */', '').trim();
+
+        // 使用临时 div 容器解析 HTML
+        const tempContainer = document.createElement('div');
+        tempContainer.innerHTML = originalCode;
+
+        // 遍历临时容器的子节点，特殊处理 <script> 标签
+        Array.from(tempContainer.childNodes).forEach((node) => {
+          if (node.nodeName === 'SCRIPT' && node.src) {
+            // 动态创建并插入脚本
+            const script = document.createElement('script');
+            script.src = node.src;
+            script.defer = node.defer;
+            toolbarParent.insertBefore(script, codeElement.closest('div.code-toolbar'));
+          } else {
+            // 直接插入其他类型的节点
+            toolbarParent.insertBefore(node.cloneNode(true), codeElement.closest('div.code-toolbar'));
+          }
+        });
+      } else if (isCustom) {
+        // 移除 custom 注释
+        if(language === 'html') {
+          originalCode = originalCode.replace('<!-- custom -->', '');
+        } else if(language === 'css') {
+          originalCode = originalCode.replace('/* custom */', '');
+        } else if(language === 'javascript') {
+          originalCode = originalCode.replace('// custom', '');
+        }
+
+        // 根据语言类型创建新元素并插入处理后的代码
+        let newElement;
+        switch (language) {
+          case 'html':
+            newElement = document.createElement('div');
+            newElement.style.width = '100%'; // 设置宽度为100%
+            newElement.innerHTML = originalCode;
+            break;
+          case 'css':
+            newElement = document.createElement('style');
+            newElement.textContent = originalCode;
+            break;
+          case 'javascript':
+            // 直接执行 JavaScript 代码
+            const script = document.createElement('script');
+            script.textContent = originalCode;
+            newElement = script;
+            break;
+        }
+        if (newElement) {
+          toolbarParent.insertBefore(newElement, codeElement.closest('div.code-toolbar'));
+        }
+      }
+
+      // 移除原始代码块容器
+      if (toolbarParent) {
+        toolbarParent.removeChild(codeElement.closest('div.code-toolbar'));
+      }
+    }
+  };
+
+  toolbars.forEach((toolbarEl) => {
+    const codeHtml = toolbarEl.querySelector('code.language-html');
+    const codeCss = toolbarEl.querySelector('code.language-css');
+    const codeJs = toolbarEl.querySelector('code.language-javascript');
+
+    if (codeHtml) processCodeElement(codeHtml, 'html');
+    if (codeCss) processCodeElement(codeCss, 'css');
+    if (codeJs) processCodeElement(codeJs, 'javascript');
+  });
+};
+
 
 function renderPrismMac(codeLineNumbers) {
   const container = document?.getElementById('notion-article')
