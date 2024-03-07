@@ -67,7 +67,7 @@ const PrismMac = () => {
     observer.observe(document.body, { childList: true, subtree: true });
     return () => observer.disconnect();
   }, []);
-  
+
   return <></>
 }
 
@@ -215,14 +215,13 @@ const renderCustomCode = () => {
       const firstComment = firstChild.textContent || '';
       const isCustomLink = {
         css: firstComment.includes('/* custom-link */'),
-        javascript: firstComment.includes('// custom-link'),
-      }[language];
+        javascript: firstComment.includes('// custom-link')
+      }[language]
       const isCustom = {
         html: firstComment.includes('<!-- custom -->'),
         css: firstComment.includes('/* custom */'),
         javascript: firstComment.includes('// custom')
       }[language];
-      
       let originalCode = codeElement.textContent;
       const toolbarParent = codeElement.closest('div.code-toolbar').parentNode;
 
@@ -249,11 +248,11 @@ const renderCustomCode = () => {
         });
       } else if (isCustom) {
         // 移除 custom 注释
-        if(language === 'html') {
+        if (language === 'html') {
           originalCode = originalCode.replace('<!-- custom -->', '');
-        } else if(language === 'css') {
+        } else if (language === 'css') {
           originalCode = originalCode.replace('/* custom */', '');
-        } else if(language === 'javascript') {
+        } else if (language === 'javascript') {
           originalCode = originalCode.replace('// custom', '');
         }
 
@@ -262,7 +261,7 @@ const renderCustomCode = () => {
         switch (language) {
           case 'html':
             newElement = document.createElement('div');
-            newElement.style.width = '100%'; // 设置宽度为100%
+            newElement.style.width = '100%';
             newElement.innerHTML = originalCode;
             break;
           case 'css':
@@ -270,10 +269,8 @@ const renderCustomCode = () => {
             newElement.textContent = originalCode;
             break;
           case 'javascript':
-            // 直接执行 JavaScript 代码
-            const script = document.createElement('script');
-            script.textContent = originalCode;
-            newElement = script;
+            newElement = document.createElement('script');
+            newElement.textContent = originalCode;
             break;
         }
         if (newElement) {
@@ -298,7 +295,6 @@ const renderCustomCode = () => {
     if (codeJs) processCodeElement(codeJs, 'javascript');
   });
 };
-
 
 function renderPrismMac(codeLineNumbers) {
   const container = document?.getElementById('notion-article')
