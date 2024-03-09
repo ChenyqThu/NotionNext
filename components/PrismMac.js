@@ -209,90 +209,89 @@ const containsCustomCodeBlock = (block) => {
 const renderCustomCode = () => {
   const toolbars = document.querySelectorAll('div.code-toolbar');
 
-  const processCodeElement = (codeElement, language) => {
-    const firstChild = codeElement.firstChild;
-    if (firstChild && firstChild.classList.contains('comment')) {
-      const firstComment = firstChild.textContent || '';
-      const isCustomLink = {
-        css: firstComment.includes('/* custom-link */'),
-        javascript: firstComment.includes('// custom-link')
-      }[language]
-      const isCustom = {
-        html: firstComment.includes('<!-- custom -->'),
-        css: firstComment.includes('/* custom */'),
-        javascript: firstComment.includes('// custom')
-      }[language];
-      let originalCode = codeElement.textContent;
-      const toolbarParent = codeElement.closest('div.code-toolbar').parentNode;
-
-      if (isCustomLink) {
-        // 移除 custom-link 注释
-        originalCode = originalCode.replace('// custom-link', '').replace('/* custom-link */', '').trim();
-
-        // 使用临时 div 容器解析 HTML
-        const tempContainer = document.createElement('div');
-        tempContainer.innerHTML = originalCode;
-
-        // 遍历临时容器的子节点，特殊处理 <script> 标签
-        Array.from(tempContainer.childNodes).forEach((node) => {
-          if (node.nodeName === 'SCRIPT' && node.src) {
-            // 动态创建并插入脚本
-            const script = document.createElement('script');
-            script.src = node.src;
-            script.defer = node.defer;
-            toolbarParent.insertBefore(script, codeElement.closest('div.code-toolbar'));
-          } else {
-            // 直接插入其他类型的节点
-            toolbarParent.insertBefore(node.cloneNode(true), codeElement.closest('div.code-toolbar'));
-          }
-        });
-      } else if (isCustom) {
-        // 移除 custom 注释
-        if (language === 'html') {
-          originalCode = originalCode.replace('<!-- custom -->', '');
-        } else if (language === 'css') {
-          originalCode = originalCode.replace('/* custom */', '');
-        } else if (language === 'javascript') {
-          originalCode = originalCode.replace('// custom', '');
-        }
-
-        // 根据语言类型创建新元素并插入处理后的代码
-        let newElement;
-        switch (language) {
-          case 'html':
-            newElement = document.createElement('div');
-            newElement.style.width = '100%';
-            newElement.innerHTML = originalCode;
-            break;
-          case 'css':
-            newElement = document.createElement('style');
-            newElement.textContent = originalCode;
-            break;
-          case 'javascript':
-            newElement = document.createElement('script');
-            newElement.textContent = originalCode;
-            break;
-        }
-        if (newElement) {
-          toolbarParent.insertBefore(newElement, codeElement.closest('div.code-toolbar'));
-        }
-      }
-
-      // 移除原始代码块容器
-      if (toolbarParent) {
-        toolbarParent.removeChild(codeElement.closest('div.code-toolbar'));
-      }
-    }
-  };
-
   toolbars.forEach((toolbarEl) => {
-    const codeHtml = toolbarEl.querySelector('code.language-html');
-    const codeCss = toolbarEl.querySelector('code.language-css');
-    const codeJs = toolbarEl.querySelector('code.language-javascript');
+    const codeElements = toolbarEl.querySelectorAll('code');
+    codeElements.forEach(codeElement => {
+      const language = codeElement.className.replace('language-', '');
+      const firstChild = codeElement.firstChild;
+      if (firstChild && firstChild.classList.contains('comment')) {
+        const firstComment = firstChild.textContent || '';
+        const isCustomLink = {
+          css: firstComment.includes('/* custom-link */'),
+          javascript: firstComment.includes('// custom-link')
+        }[language];
+        const isCustom = {
+          html: firstComment.includes('<!-- custom -->'),
+          css: firstComment.includes('/* custom */'),
+          javascript: firstComment.includes('// custom')
+        }[language];
+        let originalCode = codeElement.textContent;
+        const toolbarParent = codeElement.closest('div.code-toolbar').parentNode;
 
-    if (codeHtml) processCodeElement(codeHtml, 'html');
-    if (codeCss) processCodeElement(codeCss, 'css');
-    if (codeJs) processCodeElement(codeJs, 'javascript');
+        if (isCustomLink || isCustom) {
+          // 移除 custom 注释
+          originalCode = originalCode.replace(/(\/\/ custom-link)|(\/\* custom-link \*\/)|(<!-- custom -->)|(\/\* custom \*\/)|(\/\/ custom)/, '').trim();
+
+          switch (language) {
+            case 'html': {
+              const htmlContainer = document.createElement('div');
+              htmlContainer.innerHTML = originalCode;
+              Array.from(htmlContainer.childNodes).forEach(node => {
+                toolbarParent.insertBefore(node.cloneNode(true), toolbarEl);
+              });
+              break;
+            }
+            case 'css': {
+              if (isCustomLink) {
+                // 将原始代码按行分割，每行视为一个独立的CSS链接
+                const urls = originalCode.split('\n').filter(line => line.trim() !== '');
+                urls.forEach(url => {
+                  const linkElement = document.createElement('link');
+                  linkElement.rel = 'stylesheet';
+                  linkElement.href = url.trim();
+                  document.head.appendChild(linkElement);
+                });
+              } else {
+                const styleElement = document.createElement('style');
+                styleElement.textContent = originalCode;
+                document.head.appendChild(styleElement);
+              }
+              break;
+            }
+            case 'javascript': {
+              if (isCustomLink) {
+                const scriptContainer = document.createElement('div');
+                scriptContainer.innerHTML = originalCode;
+                Array.from(scriptContainer.querySelectorAll('script')).forEach(script => {
+                  const newScript = document.createElement('script');
+                  if (script.src) {
+                    newScript.src = script.src;
+                    if (script.defer) newScript.defer = true;
+                    if (script.async) newScript.async = true;
+                  } else {
+                    newScript.textContent = script.textContent;
+                  }
+
+                  const insertIntoHead = script.getAttribute('head') !== null;
+                  if (insertIntoHead) {
+                    document.head.appendChild(newScript);
+                  } else {
+                    document.body.appendChild(newScript);
+                  }
+                });
+              } else {
+                const scriptElement = document.createElement('script');
+                scriptElement.textContent = originalCode;
+                document.body.appendChild(scriptElement);
+              }
+              break;
+            }
+          }
+          // 移除原始代码块容器
+          toolbarParent.removeChild(toolbarEl);
+        }
+      }
+    });
   });
 };
 
