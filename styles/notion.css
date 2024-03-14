@@ -449,7 +449,8 @@ summary > .notion-h {
 .notion-h1 {
   font-size: 1.5em;
   margin-top: 0.625em;
-  @apply w-full
+  border-bottom: none;
+  @apply w-full;
 }
 .notion-h2 {
   @apply w-full;
@@ -459,7 +460,9 @@ summary > .notion-h {
 }
 
 .notion-h1:hover .notion-h-title::before,.notion-h2:hover .notion-h-title::before,.notion-h3:hover .notion-h-title::before,
-.notion-h1:hover .notion-h-title::after,.notion-h2:hover .notion-h-title::after,.notion-h3:hover .notion-h-title::after{
+.notion-h1:hover .notion-h-title::after,.notion-h2:hover .notion-h-title::after,.notion-h3:hover .notion-h-title::after, 
+.notion-h1:hover .notion-hash-link, .notion-h2:hover .notion-hash-link, .notion-h3:hover .notion-hash-link,
+.notion-h1:hover .notion-h-title, .notion-h2:hover .notion-h-title, .notion-h3:hover .notion-h-title{
   color:var(--color-red)
 }
 
@@ -504,8 +507,9 @@ summary > .notion-h {
   text-decoration: none;
   position: absolute;
   right: 0rem;
-  bottom: 0.625rem;
+  /* bottom: 0.625rem; */
   fill: var(--grey-4);
+  color: var(--grey-4);
 }
 
 .notion-page-cover {

@@ -92,6 +92,13 @@ const NotionPage = ({ post, className }) => {
         }
       }, 800)
     }
+    // 修改h标题后面的链接icon，替换成#标识
+    const hashLinks = document.querySelectorAll('.notion-hash-link');
+    hashLinks.forEach(link => {
+      const textNode = document.createTextNode('#');
+      link.innerHTML = '';
+      link.appendChild(textNode);
+    });
 
     /**
      * 处理页面内连接跳转
