@@ -214,12 +214,12 @@ const renderCustomCode = () => {
     codeElements.forEach(codeElement => {
       const language = codeElement.className.replace('language-', '');
       const firstChild = codeElement.firstChild;
-      if (firstChild && firstChild.classList.contains('comment')) {
+      if (firstChild) {
         const firstComment = firstChild.textContent || '';
         const isCustomLink = {
           css: firstComment.includes('/* custom-link */'),
           javascript: firstComment.includes('// custom-link')
-        }[language];
+        }[language]; 
         const isCustom = {
           html: firstComment.includes('<!-- custom -->'),
           css: firstComment.includes('/* custom */'),
