@@ -100,7 +100,7 @@ export const initDarkMode = (updateDarkMode, defaultDarkMode) => {
 
   // 查看localStorage中用户记录的是否深色模式
   const userDarkMode = loadDarkModeFromLocalStorage()
-  console.log('深色模式',userDarkMode)
+  // console.log('深色模式',userDarkMode)
   if (userDarkMode) {
     newDarkMode = userDarkMode === 'dark' || userDarkMode === 'true'
   }
