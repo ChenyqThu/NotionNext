@@ -4,7 +4,7 @@ import { GlobalStyle } from './GlobalStyle'
 import LA51 from './LA51'
 import WebWhiz from './Webwhiz'
 // import TianLiGPT from './TianliGPT'
-import { GlobalStyle } from './GlobalStyle'
+// import { GlobalStyle } from './GlobalStyle'
 
 import { CUSTOM_EXTERNAL_CSS, CUSTOM_EXTERNAL_JS } from '@/blog.config'
 import { isBrowser, loadExternalResource } from '@/lib/utils'
