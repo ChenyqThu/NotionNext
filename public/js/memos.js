@@ -53,7 +53,7 @@ var memo = {
     domId: '#memos',
     username: '陈源泉',
     name: '尘歌',
-    accessToken: "eyJhbGciOiJIUzI1NiIsImtpZCI6InYxIiwidHlwIjoiSldUIn0.eyJuYW1lIjoiY2hlbnlxLnRodUBnbWFpbC5jb20iLCJpc3MiOiJtZW1vcyIsInN1YiI6IjEiLCJhdWQiOlsidXNlci5hY2Nlc3MtdG9rZW4iXSwiZXhwIjo0ODcxMDY2NDYwLCJpYXQiOjE3MTc0NjY0NjB9.-Rat0D_w4TX6kB_r0ABpEpgTBsyVoIZRWA4mGPHTxCg"
+    accessToken: "eyJhbGciOiJIUzI1NiIsImtpZCI6InYxIiwidHlwIjoiSldUIn0.eyJuYW1lIjoiY2hlbmdlIiwiaXNzIjoibWVtb3MiLCJzdWIiOiIxIiwiYXVkIjpbInVzZXIuYWNjZXNzLXRva2VuIl0sImlhdCI6MTcxNzUxMjEyMH0.Zo4fPj6sQGA09XGe4q_32c5eefgsCIl5ECKwqBmeDug"
 }
 if (typeof (memos) !== "undefined") {
     for (var key in memos) {
@@ -136,7 +136,7 @@ function getNextList() {
 }
 
 // 标签选择
-
+// ⚠ 0605备注，目前Tag的API改动后消失，暂时无法支持点击tag筛选过滤memos，无法正确显示。
 document.addEventListener('click', function (event) {
     var target = event.target;
     if (target.tagName.toLowerCase() === 'a' && target.getAttribute('href').startsWith('#')) {    
@@ -175,7 +175,7 @@ function getTagFirstList() {
     nextLength = 0;
     nextDom = '';
     memoDom.innerHTML = "";
-    var memoUrl_tag = memoUrl + "&limit=" + limit + "&tag=" + tag;
+    var memoUrl_tag = memoUrl + "&tag=" + tag;
     fetch(memoUrl_tag).then(res => res.json()).then(resdata => {
         updateHTMl(resdata);
         var nowLength = resdata.length
@@ -246,19 +246,21 @@ function updateHTMl(data) {
             .replace(YOUTUBE_REG, "<div class='video-wrapper'><iframe src='https://www.youtube.com/embed/$1' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='YouTube Video'></iframe></div>")
 
         // 解析内置资源文件
-        if (data[i].resourceList && data[i].resourceList.length > 0) {
-            var resourceList = data[i].resourceList;
+        if (data[i].resources && data[i].resources.length > 0) {
+            var resourceList = data[i].resources;
             var imgUrl = '', resUrl = '', resImgLength = 0;
+
             for (var j = 0; j < resourceList.length; j++) {
                 var resType = resourceList[j].type;
                 var resFilename = resourceList[j].filename;
                 var resName = resourceList[j].name;
                 var resexlink = resourceList[j].externalLink;
-                var resLink = ''
+                var resLink = '';
+
                 if (resexlink) {
                     resLink = resexlink
                 } else {
-                    fileId = resourceList[j].publicId || resName
+                    var fileId = resourceList[j].publicId || resName
                     resLink = memos+'/file/'+fileId+ '/' + resFilename
                 }
                 if (resType.startsWith('image')) {
@@ -277,7 +279,8 @@ function updateHTMl(data) {
                 memoContREG += '<div class="resource-wrapper "><p class="datasource">' + resUrl + '</p></div>'
             }
         }
-        memoResult += '<li class="timeline"><div class="memos__content"><div class="memos__text"><div class="memos__userinfo"><div>' + memo.name + '</div><div><svg viewBox="0 0 24 24" aria-label="认证账号" class="memos__verify"><g><path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z"></path></g></svg></div><div class="memos__id">@' + memo.username + '</div></div><p>' + memoContREG + '</p></div><div class="memos__meta"><small class="memos__date">' + moment(data[i].createdTs * 1000).twitter() + ' • 来自「<a href="' + memo.host + '/m' + data[i].uid + '" target="_blank">Memos</a>」</small></div></div></li>'
+        //console.log(memoContREG)
+        memoResult += '<li class="timeline"><div class="memos__content"><div class="memos__text"><div class="memos__userinfo"><div>' + memo.name + '</div><div><svg viewBox="0 0 24 24" aria-label="认证账号" class="memos__verify"><g><path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z"></path></g></svg></div><div class="memos__id">@' + memo.username + '</div></div><p>' + memoContREG + '</p></div><div class="memos__meta"><small class="memos__date">' + moment(data[i].createTime).twitter() + ' • 来自「<a href="' + memo.host + '/m/' + data[i].uid + '" target="_blank">Memos</a>」</small></div></div></li>'
     }
     var memoBefore = '<ul class="">'
     var memoAfter = '</ul>'
@@ -374,8 +377,7 @@ function getTotal() {
     fetch(totalUrl, {
         method: 'GET',
         headers: {
-            'Content-Type': 'application/json',
-            'Cookie': 'memos.access-token=' + accessToken
+            'Authorization': 'Bearer ' + accessToken
         }
     }).then(res => res.json()).then(resdata => {
         if (resdata && resdata.stats) {

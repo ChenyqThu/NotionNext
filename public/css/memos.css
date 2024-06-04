@@ -131,20 +131,37 @@ blockquote {
     color: var(--color-main);
 }
 
-h2 {
-    margin-bottom: 16px;
+.memos h1 {
     font-weight: 600;
     line-height: 1.25;
     margin: .67em 0;
-    margin-top: 0.67em;
-    margin-bottom: 0.67em;
-    font-weight: 600;
-    padding-bottom: .3em;
     font-size: 2em;
     border-bottom: 1px solid var(--color-border-muted);
 }
 
-.total {
+.memos h2 {
+    font-weight: 600;
+    line-height: 1.25;
+    margin: .67em 0;
+    font-size: 1.75em;
+    border-bottom: 1px solid var(--color-border-muted);
+}
+
+.memos h3 {
+    font-weight: 600;
+    line-height: 1.1;
+    margin: .67em 0;
+    font-size: 1.5em;
+}
+
+.memos h4 {
+    font-weight: 600;
+    line-height: 1.1;
+    margin: .67em 0;
+    font-size: 1.2em;
+}
+
+.memos .total {
     text-align: left;
 } 
 
@@ -226,8 +243,16 @@ h2 {
     margin-left: 0.1rem;
 }
 
-.memos__text ul li {
-    list-style: none;
+.memos__text ul {
+    list-style-type: disc; /* 设置无序列表的黑点样式 */
+}
+
+.memos__text ol {
+    list-style-type: decimal; /* 设置有序列表的数字样式 */
+}
+
+.memos__text li {
+    margin-left: 20px;
 }
 
 .memos__text i {
