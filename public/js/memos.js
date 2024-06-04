@@ -64,7 +64,7 @@ if (typeof (memos) !== "undefined") {
 
 var limit = memo.limit
 var memos = memo.host.replace(/\/$/, '')
-var memoUrl = memos + "/api/v1/memo?creatorId=" + memo.creatorId + "&rowStatus=NORMAL"
+var memoUrl = memos + "/api/v1/memo?filter=creator=='users/" + memo.creatorId + "'&rowStatus=NORMAL"
 var page = 1,
     offset = 0,
     nextLength = 0,
@@ -359,7 +359,7 @@ window.ViewImage && ViewImage.init('.container img');
 // Memos Total Start
 // Get Memos total count
 function getTotal() {
-    var totalUrl = memos + "/api/v1/memo/stats?creatorId=" + memo.creatorId
+    var totalUrl = memos + "/api/v1/memo/stats?name=users/" + memo.creatorId
     fetch(totalUrl).then(res => res.json()).then(resdata => {
         if (resdata) {
             var allnums = resdata.length
