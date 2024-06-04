@@ -65,13 +65,14 @@ if (typeof (memos) !== "undefined") {
 
 var limit = memo.limit
 var memos = memo.host.replace(/\/$/, '')
-var memoUrl = memos + "/api/v1/memos?filter=creator=='users/" + memo.creatorId + "'&rowStatus=NORMAL"
+var memoUrl = memos + "/api/v1/memos?pageSize=" + memo.limit + "&filter=creator=='users/" + memo.creatorId + "'&&visibilities==['PUBLIC']"
 var page = 1,
     offset = 0,
     nextLength = 0,
     nextDom = '';
 var tag='';
-var btnRemove = 0
+var btnRemove = 0;
+var pageToken = null;
 var memoDom = document.querySelector(memo.domId);
 var load = '<button class="load-btn button-load">努力加载中……</button>'
 if (memoDom) {
@@ -93,10 +94,12 @@ if (memoDom) {
 }
 
 function getFirstList() {
-    var memoUrl_first = memoUrl + "&limit=" + limit;
+    var memoUrl_first = memoUrl;
     fetch(memoUrl_first).then(res => res.json()).then(resdata => {
-        updateHTMl(resdata)
-        var nowLength = resdata.length
+        updateHTMl(resdata.memos)
+        var nowLength = resdata.memos.length
+        pageToken = resdata.nextPageToken
+
         if (nowLength < limit) { // 返回数据条数小于 limit 则直接移除“加载更多”按钮，中断预加载
             document.querySelector("button.button-load").remove()
             btnRemove = 1
@@ -109,22 +112,27 @@ function getFirstList() {
 }
 // 预加载下一页数据
 function getNextList() {
-    if (tag){
-        var memoUrl_next = memoUrl + "&limit=" + limit + "&offset=" + offset + "&tag=" + tag;
-    } else {
-        var memoUrl_next = memoUrl + "&limit=" + limit + "&offset=" + offset;
+    if (!pageToken) {
+        document.querySelector("button.button-load").remove();
+        btnRemove = 1;
+        return;
     }
-    fetch(memoUrl_next).then(res => res.json()).then(resdata => {
-        nextDom = resdata
-        nextLength = nextDom.length
-        page++
-        offset = limit * (page - 1)
-        if (nextLength < 1) { // 返回数据条数为 0 ，隐藏
-            document.querySelector("button.button-load").remove()
-            btnRemove = 1
-            return
-        }
-    })
+
+    var memoUrl_next = memoUrl + "&pageToken=" + pageToken;
+
+    fetch(memoUrl_next)
+        .then(res => res.json())
+        .then(resdata => {
+            nextDom = resdata.memos;
+            nextLength = nextDom.length;
+            pageToken = resdata.nextPageToken;
+
+            if (nextLength < 1) { // 返回数据条数为 0 ，隐藏
+                document.querySelector("button.button-load").remove();
+                btnRemove = 1;
+                return;
+            }
+        });
 }
 
 // 标签选择
@@ -360,7 +368,7 @@ window.ViewImage && ViewImage.init('.container img');
 // Memos Total Start
 // Get Memos total count
 function getTotal() {
-    var totalUrl = memos + "/api/v1/memos/stats?name=users/" + memo.creatorId + "&filter=visibilities=['PUBLIC']";
+    var totalUrl = memos + "/api/v1/memos/stats?name=users/" + memo.creatorId + "&filter=visibilities==['PUBLIC']";
     var accessToken = memo.accessToken;
     fetch(totalUrl, {
         method: 'GET',
