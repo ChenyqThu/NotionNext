@@ -250,21 +250,22 @@ function updateHTMl(data) {
             var resourceList = data[i].resourceList;
             var imgUrl = '', resUrl = '', resImgLength = 0;
             for (var j = 0; j < resourceList.length; j++) {
-                var resType = resourceList[j].type.slice(0, 5);
+                var resType = resourceList[j].type;
+                var resFilename = resourceList[j].filename;
+                var resName = resourceList[j].name;
                 var resexlink = resourceList[j].externalLink;
                 var resLink = ''
                 if (resexlink) {
                     resLink = resexlink
                 } else {
-                    fileId = resourceList[j].publicId || resourceList[j].name
-                    resLink = memos+'/o/r/'+fileId
+                    fileId = resourceList[j].publicId || resName
+                    resLink = memos+'/file/'+fileId+ '/' + resFilename
                 }
-                if (resType == 'image') {
+                if (resType.startsWith('image')) {
                     imgUrl += '<div class="resimg"><img loading="lazy" src="' + resLink + '"/></div>'
                     resImgLength = resImgLength + 1
-                }
-                if (resType !== 'image') {
-                    resUrl += '<a target="_blank" rel="noreferrer" href="' + resLink + '">' + resourceList[j].filename + '</a>'
+                } else {
+                    resUrl += '<a target="_blank" rel="noreferrer" href="' + resLink + '">' + resFilename + '</a>'
                 }
             }
             if (imgUrl) {
