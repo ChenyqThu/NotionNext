@@ -52,7 +52,8 @@ var memo = {
     creatorId: '1',
     domId: '#memos',
     username: '陈源泉',
-    name: '尘歌'
+    name: '尘歌',
+    accessToken: "eyJhbGciOiJIUzI1NiIsImtpZCI6InYxIiwidHlwIjoiSldUIn0.eyJuYW1lIjoiY2hlbnlxLnRodUBnbWFpbC5jb20iLCJpc3MiOiJtZW1vcyIsInN1YiI6IjEiLCJhdWQiOlsidXNlci5hY2Nlc3MtdG9rZW4iXSwiZXhwIjo0ODcxMDY2NDYwLCJpYXQiOjE3MTc0NjY0NjB9.-Rat0D_w4TX6kB_r0ABpEpgTBsyVoIZRWA4mGPHTxCg"
 }
 if (typeof (memos) !== "undefined") {
     for (var key in memos) {
@@ -359,18 +360,28 @@ window.ViewImage && ViewImage.init('.container img');
 // Memos Total Start
 // Get Memos total count
 function getTotal() {
-    var totalUrl = memos + "/api/v1/memos/stats?name=users/" + memo.creatorId
-    fetch(totalUrl).then(res => res.json()).then(resdata => {
-        if (resdata) {
-            var allnums = resdata.length
+    var totalUrl = memos + "/api/v1/memos/stats?name=users/" + memo.creatorId + "&filter=visibilities=['PUBLIC']";
+    var accessToken = memo.accessToken;
+    fetch(totalUrl, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Cookie': 'memos.access-token=' + accessToken
+        }
+    }).then(res => res.json()).then(resdata => {
+        if (resdata && resdata.stats) {
+            var stats = resdata.stats;
+            var allnums = Object.values(stats).reduce((acc, count) => acc + count, 0);
             var memosCount = document.getElementById('total');
             memosCount.innerHTML = allnums;
         }
     }).catch(err => {
-        // Do something for an error here
+        // Handle the error here
+        console.error(err);
     });
-};
-window.onload = getTotal();
+}
+
+window.onload = getTotal;
 // Memos Total End
 
 // Toggle Darkmode
