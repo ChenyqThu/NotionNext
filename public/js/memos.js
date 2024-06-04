@@ -52,8 +52,7 @@ var memo = {
     creatorId: '1',
     domId: '#memos',
     username: '陈源泉',
-    name: '尘歌',
-    accessToken: "eyJhbGciOiJIUzI1NiIsImtpZCI6InYxIiwidHlwIjoiSldUIn0.eyJuYW1lIjoiY2hlbmdlIiwiaXNzIjoibWVtb3MiLCJzdWIiOiIxIiwiYXVkIjpbInVzZXIuYWNjZXNzLXRva2VuIl0sImlhdCI6MTcxNzUxMjEyMH0.Zo4fPj6sQGA09XGe4q_32c5eefgsCIl5ECKwqBmeDug"
+    name: '尘歌'
 }
 if (typeof (memos) !== "undefined") {
     for (var key in memos) {
@@ -371,28 +370,28 @@ window.ViewImage && ViewImage.init('.container img');
 
 // Memos Total Start
 // Get Memos total count
-function getTotal() {
-    var totalUrl = memos + "/api/v1/memos/stats?name=users/" + memo.creatorId + "&filter=visibilities==['PUBLIC']";
-    var accessToken = memo.accessToken;
-    fetch(totalUrl, {
-        method: 'GET',
-        headers: {
-            'Authorization': 'Bearer ' + accessToken
-        }
-    }).then(res => res.json()).then(resdata => {
-        if (resdata && resdata.stats) {
-            var stats = resdata.stats;
-            var allnums = Object.values(stats).reduce((acc, count) => acc + count, 0);
-            var memosCount = document.getElementById('total');
-            memosCount.innerHTML = allnums;
-        }
-    }).catch(err => {
-        // Handle the error here
-        console.error(err);
-    });
-}
+// function getTotal() {
+//     var totalUrl = memos + "/api/v1/memos/stats?name=users/" + memo.creatorId + "&filter=visibilities==['PUBLIC']";
+//     var accessToken = memo.accessToken;
+//     fetch(totalUrl, {
+//         method: 'GET',
+//         headers: {
+//             'Authorization': 'Bearer ' + accessToken
+//         }
+//     }).then(res => res.json()).then(resdata => {
+//         if (resdata && resdata.stats) {
+//             var stats = resdata.stats;
+//             var allnums = Object.values(stats).reduce((acc, count) => acc + count, 0);
+//             var memosCount = document.getElementById('total');
+//             memosCount.innerHTML = allnums;
+//         }
+//     }).catch(err => {
+//         // Handle the error here
+//         console.error(err);
+//     });
+// }
 
-window.onload = getTotal;
+// window.onload = getTotal;
 // Memos Total End
 
 // Toggle Darkmode

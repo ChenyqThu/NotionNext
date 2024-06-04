@@ -131,6 +131,19 @@ blockquote {
     color: var(--color-main);
 }
 
+h2 {
+    margin-bottom: 16px;
+    font-weight: 600;
+    line-height: 1.25;
+    margin: .67em 0;
+    margin-top: 0.67em;
+    margin-bottom: 0.67em;
+    font-weight: 600;
+    padding-bottom: .3em;
+    font-size: 2em;
+    border-bottom: 1px solid var(--color-border-muted);
+}
+
 .memos h1 {
     font-weight: 600;
     line-height: 1.25;
