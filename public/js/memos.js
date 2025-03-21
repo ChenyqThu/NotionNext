@@ -64,7 +64,7 @@ if (typeof (memos) !== "undefined") {
 
 var limit = memo.limit
 var memos = memo.host.replace(/\/$/, '')
-var memoUrl = memos + "/api/v1/memos?pageSize=" + memo.limit + "&filter=visibilities==['PUBLIC']&&creator=='users/" + memo.creatorId + "'&rowStatus==ACTIVE"
+var memoUrl = memos + "/api/v1/memos?pageSize=" + memo.limit + "&creator=='users/" + memo.creatorId + "'&rowStatus==ACTIVE"
 var page = 1,
     offset = 0,
     nextLength = 0,
