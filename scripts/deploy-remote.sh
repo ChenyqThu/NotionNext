@@ -78,54 +78,54 @@ POST_DEPLOY_CMD=$post_deploy_cmd_q
 HEALTHCHECK_CMD=$healthcheck_cmd_q
 
 run_step() {
-  local title="$1"
-  local command="$2"
+  local title="\$1"
+  local command="\$2"
 
-  if [[ -z "$command" || "$command" == ":" ]]; then
+  if [[ -z "\$command" || "\$command" == ":" ]]; then
     return 0
   fi
 
-  echo "==> ${title}"
-  eval "$command"
+  echo "==> \${title}"
+  eval "\$command"
 }
 
-cd "$APP_DIR"
+cd "\$APP_DIR"
 
 if [[ ! -d .git ]]; then
-  echo "error: ${APP_DIR} is not a git repository on the remote server." >&2
+  echo "error: \${APP_DIR} is not a git repository on the remote server." >&2
   exit 1
 fi
 
-if [[ "$ALLOW_DIRTY_REMOTE" != "true" ]] && [[ -n "$(git status --porcelain)" ]]; then
+if [[ "\$ALLOW_DIRTY_REMOTE" != "true" ]] && [[ -n "\$(git status --porcelain)" ]]; then
   echo "error: remote working tree is dirty. Commit/stash changes or set ALLOW_DIRTY_REMOTE=true." >&2
   exit 1
 fi
 
-echo "==> Fetching ${REMOTE_NAME}/${BRANCH}"
-git fetch "$REMOTE_NAME" --prune
+echo "==> Fetching \${REMOTE_NAME}/\${BRANCH}"
+git fetch "\$REMOTE_NAME" --prune
 
-echo "==> Checking out ${BRANCH}"
-git checkout "$BRANCH"
-git pull --ff-only "$REMOTE_NAME" "$BRANCH"
+echo "==> Checking out \${BRANCH}"
+git checkout "\$BRANCH"
+git pull --ff-only "\$REMOTE_NAME" "\$BRANCH"
 
-if [[ "$SYNC_NEXT_PUBLIC_VERSION" == "true" ]] && [[ -f package.json ]] && [[ -f .env.local ]]; then
-  package_version="$(node -p "require('./package.json').version")"
+if [[ "\$SYNC_NEXT_PUBLIC_VERSION" == "true" ]] && [[ -f package.json ]] && [[ -f .env.local ]]; then
+  package_version="\$(node -p "require('./package.json').version")"
 
   if grep -q '^NEXT_PUBLIC_VERSION=' .env.local; then
-    sed -i "s/^NEXT_PUBLIC_VERSION=.*/NEXT_PUBLIC_VERSION=${package_version}/" .env.local
+    sed -i "s/^NEXT_PUBLIC_VERSION=.*/NEXT_PUBLIC_VERSION=\${package_version}/" .env.local
   else
-    printf '\nNEXT_PUBLIC_VERSION=%s\n' "$package_version" >> .env.local
+    printf '\nNEXT_PUBLIC_VERSION=%s\n' "\$package_version" >> .env.local
   fi
 fi
 
-run_step "Running pre-deploy command" "$PRE_DEPLOY_CMD"
-run_step "Installing dependencies" "$INSTALL_CMD"
-run_step "Building application" "$BUILD_CMD"
-run_step "Restarting service" "$RESTART_CMD"
-run_step "Running post-deploy command" "$POST_DEPLOY_CMD"
-run_step "Running health check" "$HEALTHCHECK_CMD"
+run_step "Running pre-deploy command" "\$PRE_DEPLOY_CMD"
+run_step "Installing dependencies" "\$INSTALL_CMD"
+run_step "Building application" "\$BUILD_CMD"
+run_step "Restarting service" "\$RESTART_CMD"
+run_step "Running post-deploy command" "\$POST_DEPLOY_CMD"
+run_step "Running health check" "\$HEALTHCHECK_CMD"
 
-echo "==> Remote HEAD: $(git rev-parse --short HEAD)"
+echo "==> Remote HEAD: \$(git rev-parse --short HEAD)"
 REMOTE
 
 echo "==> Deployment finished"
