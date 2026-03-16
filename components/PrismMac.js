@@ -57,6 +57,7 @@ const PrismMac = () => {
       }
 
       renderPrismMac(codeLineNumbers)
+      renderCustomCode()
       renderMermaid(mermaidCDN)
       renderCollapseCode(codeCollapse, codeCollapseExpandDefault)
     })
@@ -155,6 +156,137 @@ const renderCollapseCode = (codeCollapse, codeCollapseExpandDefault) => {
       header.click()
     }
   }
+}
+
+/**
+ * @author https://github.com/chenyqthu, 基于 RylanBot
+ * 支持在 Html、CSS、JavaScript 代码块中用约定注释触发直接渲染。
+ * 注释约定：
+ * html 使用 <!-- custom -->
+ * css 使用 slash-star custom star-slash / slash-star custom-link star-slash
+ * javascript 使用 // custom / // custom-link
+ */
+const containsCustomCodeBlock = block => {
+  const textContent = block?.textContent || ''
+  return (
+    textContent.includes('<!-- custom -->') ||
+    textContent.includes('/* custom */') ||
+    textContent.includes('/* custom-link */') ||
+    textContent.includes('// custom')
+  )
+}
+
+const renderCustomCode = () => {
+  const toolbars = document.querySelectorAll('div.code-toolbar')
+
+  toolbars.forEach(toolbarEl => {
+    if (!containsCustomCodeBlock(toolbarEl)) {
+      return
+    }
+
+    const codeElements = toolbarEl.querySelectorAll('code')
+    codeElements.forEach(codeElement => {
+      const language = codeElement.className.replace('language-', '')
+      const firstChild = codeElement.firstChild
+      if (!firstChild) {
+        return
+      }
+
+      const firstComment = firstChild.textContent || ''
+      const isCustomLink = {
+        css: firstComment.includes('/* custom-link */'),
+        javascript: firstComment.includes('// custom-link')
+      }[language]
+
+      const isCustom = {
+        html: firstComment.includes('<!-- custom -->'),
+        css: firstComment.includes('/* custom */'),
+        javascript: firstComment.includes('// custom')
+      }[language]
+
+      if (!isCustomLink && !isCustom) {
+        return
+      }
+
+      let originalCode = codeElement.textContent || ''
+      const toolbarParent = toolbarEl.parentNode
+      if (!toolbarParent) {
+        return
+      }
+
+      originalCode = originalCode
+        .replace(
+          /(\/\/ custom-link)|(\/\* custom-link \*\/)|(<!-- custom -->)|(\/\* custom \*\/)|(\/\/ custom)/,
+          ''
+        )
+        .trim()
+
+      switch (language) {
+        case 'html': {
+          const htmlContainer = document.createElement('div')
+          htmlContainer.innerHTML = originalCode
+          Array.from(htmlContainer.childNodes).forEach(node => {
+            toolbarParent.insertBefore(node.cloneNode(true), toolbarEl)
+          })
+          break
+        }
+        case 'css': {
+          if (isCustomLink) {
+            const urls = originalCode
+              .split('\n')
+              .map(line => line.trim())
+              .filter(Boolean)
+
+            urls.forEach(url => {
+              const linkElement = document.createElement('link')
+              linkElement.rel = 'stylesheet'
+              linkElement.href = url
+              document.head.appendChild(linkElement)
+            })
+          } else {
+            const styleElement = document.createElement('style')
+            styleElement.textContent = originalCode
+            document.head.appendChild(styleElement)
+          }
+          break
+        }
+        case 'javascript': {
+          if (isCustomLink) {
+            const scriptContainer = document.createElement('div')
+            scriptContainer.innerHTML = originalCode
+            Array.from(scriptContainer.querySelectorAll('script')).forEach(
+              script => {
+                const newScript = document.createElement('script')
+                if (script.src) {
+                  newScript.src = script.src
+                  if (script.defer) newScript.defer = true
+                  if (script.async) newScript.async = true
+                } else {
+                  newScript.textContent = script.textContent
+                }
+
+                const insertIntoHead = script.getAttribute('head') !== null
+                if (insertIntoHead) {
+                  document.head.appendChild(newScript)
+                } else {
+                  document.body.appendChild(newScript)
+                }
+              }
+            )
+          } else {
+            const scriptElement = document.createElement('script')
+            scriptElement.textContent = originalCode
+            document.body.appendChild(scriptElement)
+          }
+          break
+        }
+        default:
+          return
+      }
+
+      toolbarParent.removeChild(toolbarEl)
+    })
+  })
 }
 
 /**
