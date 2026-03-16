@@ -30,6 +30,7 @@ PUSH_BEFORE_DEPLOY="${PUSH_BEFORE_DEPLOY:-false}"
 PUSH_REMOTE="${PUSH_REMOTE:-origin}"
 PUSH_BRANCH="${PUSH_BRANCH:-$BRANCH}"
 ALLOW_DIRTY_REMOTE="${ALLOW_DIRTY_REMOTE:-false}"
+SYNC_NEXT_PUBLIC_VERSION="${SYNC_NEXT_PUBLIC_VERSION:-false}"
 
 PRE_DEPLOY_CMD="${PRE_DEPLOY_CMD:-:}"
 INSTALL_CMD="${INSTALL_CMD:-yarn install --frozen-lockfile}"
@@ -50,6 +51,7 @@ ssh "$SSH_TARGET" /usr/bin/env \
   BRANCH="$BRANCH" \
   REMOTE_NAME="$REMOTE_NAME" \
   ALLOW_DIRTY_REMOTE="$ALLOW_DIRTY_REMOTE" \
+  SYNC_NEXT_PUBLIC_VERSION="$SYNC_NEXT_PUBLIC_VERSION" \
   PRE_DEPLOY_CMD="$PRE_DEPLOY_CMD" \
   INSTALL_CMD="$INSTALL_CMD" \
   BUILD_CMD="$BUILD_CMD" \
@@ -89,6 +91,16 @@ git fetch "$REMOTE_NAME" --prune
 echo "==> Checking out ${BRANCH}"
 git checkout "$BRANCH"
 git pull --ff-only "$REMOTE_NAME" "$BRANCH"
+
+if [[ "$SYNC_NEXT_PUBLIC_VERSION" == "true" ]] && [[ -f package.json ]] && [[ -f .env.local ]]; then
+  package_version="$(node -p "require('./package.json').version")"
+
+  if grep -q '^NEXT_PUBLIC_VERSION=' .env.local; then
+    sed -i "s/^NEXT_PUBLIC_VERSION=.*/NEXT_PUBLIC_VERSION=${package_version}/" .env.local
+  else
+    printf '\nNEXT_PUBLIC_VERSION=%s\n' "$package_version" >> .env.local
+  fi
+fi
 
 run_step "Running pre-deploy command" "$PRE_DEPLOY_CMD"
 run_step "Installing dependencies" "$INSTALL_CMD"
