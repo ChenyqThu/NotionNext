@@ -1,10 +1,11 @@
 import { useGlobal } from '@/lib/global'
 import { useImperativeHandle } from 'react'
+import { Moon, Sun } from './HeroIcons'
 
 /**
  * 深色模式按钮
  */
-const DarkModeButton = (props) => {
+const DarkModeButton = props => {
   const { cRef, className } = props
   const { isDarkMode, toggleDarkMode } = useGlobal()
 
@@ -20,8 +21,16 @@ const DarkModeButton = (props) => {
   })
 
   return (
-    <div id='darkModeButton' onClick={toggleDarkMode} className={`${className || ''} cursor-pointer dark:text-white hover:bg-black hover:bg-opacity-10 rounded-full w-10 h-10 flex justify-center items-center duration-200 transition-all`}>
-      <i className={`iconfont ${isDarkMode ? 'icon-moon' : 'icon-sun'}`} />
-    </div>)
+    <div
+      className={`${className || ''} flex justify-center dark:text-gray-200 text-gray-800`}>
+      <div
+        onClick={toggleDarkMode}
+        id='darkModeButton'
+        className=' hover:scale-110 cursor-pointer transform duration-200 w-5 h-5'>
+        {' '}
+        {isDarkMode ? <Sun /> : <Moon />}
+      </div>
+    </div>
+  )
 }
 export default DarkModeButton

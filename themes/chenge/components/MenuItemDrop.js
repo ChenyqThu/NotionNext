@@ -6,13 +6,15 @@ export const MenuItemDrop = ({ link }) => {
   const [show, changeShow] = useState(false)
   const hasSubMenu = link?.subMenus?.length > 0
   const router = useRouter();
+  const linkHref = link?.to || link?.href
+  const openTarget = linkHref?.indexOf('http') === 0 ? '_blank' : '_self'
 
   // 判断当前项或其子菜单项是否激活
   const isActive = hasSubMenu ? 
-    link.subMenus.some(subLink => router.asPath === subLink.to) : 
-    router.asPath === link.to;
+    link.subMenus.some(subLink => router.asPath === (subLink?.to || subLink?.href)) : 
+    router.asPath === linkHref;
 
-  if (!link || !link.show) {
+  if (!link || !link.show || (!hasSubMenu && !linkHref)) {
     return null
   }
 
@@ -21,7 +23,7 @@ export const MenuItemDrop = ({ link }) => {
         {!hasSubMenu &&
             <Link
                 id={isActive ? `active-menu` : 'menu-item'}
-                href={link?.to} target={link?.to?.indexOf('http') === 0 ? '_blank' : '_self'}
+                href={linkHref} target={openTarget}
                 className={`${isActive ? 'text-hexo-aqua border-b-2 border-hexo-aqua': 'menu-link'} font-sans px-1 mx-3 tracking-widest pb-1`}>
                 {link?.icon && <i className={link?.icon}/>} {link?.name}
                 {hasSubMenu && <i className='px-2 fa fa-angle-down'></i>}
@@ -37,9 +39,13 @@ export const MenuItemDrop = ({ link }) => {
         {/* 子菜单 */}
         {hasSubMenu && <ul style={{ backdropFilter: 'blur(3px)' }} className={`${show ? 'visible opacity-100 top-[3rem]' : 'invisible opacity-0 top-[7rem]'} drop-shadow-md text-shadow-none overflow-hidden rounded-tr-lg rounded-bl-lg text-black dark:text-hexo-grey bg-white dark:bg-black transition-all duration-300 z-20 absolute block  `}>
             {link.subMenus.map((sLink, index) => {
+              const subLinkHref = sLink?.to || sLink?.href
+              if (!subLinkHref) {
+                return null
+              }
               return <li key={index} className='cursor-pointer hover:bg-tab hover:text-black tracking-widest transition-all duration-200 dark:border-gray-800  py-2 pr-6 pl-3 hover:scale-105'>
-                    <Link href={sLink.to} target={link?.to?.indexOf('http') === 0 ? '_blank' : '_self'}>
-                        <span className='text-sm text-nowrap font-medium'>{link?.icon && <i className={sLink?.icon} > &nbsp; </i>}{sLink.title}</span>
+                    <Link href={subLinkHref} target={openTarget}>
+                        <span className='text-sm text-nowrap font-medium'>{link?.icon && <i className={sLink?.icon} > &nbsp; </i>}{sLink.title || sLink.name}</span>
                     </Link>
                 </li>
             })}

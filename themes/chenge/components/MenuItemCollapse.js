@@ -11,6 +11,8 @@ export const MenuItemCollapse = (props) => {
   const { link } = props
   const [show, changeShow] = useState(false)
   const hasSubMenu = link?.subMenus?.length > 0
+  const linkHref = link?.to || link?.href
+  const openTarget = linkHref?.indexOf('http') === 0 ? '_blank' : '_self'
 
   const [isOpen, changeIsOpen] = useState(false)
 
@@ -22,14 +24,14 @@ export const MenuItemCollapse = (props) => {
     changeIsOpen(!isOpen)
   }
 
-  if (!link || !link.show) {
+  if (!link || !link.show || (!hasSubMenu && !linkHref)) {
     return null
   }
 
   return <>
         <div className='w-full px-4 py-3 text-left dark:bg-hexo-black-gray' onClick={toggleShow} >
             {!hasSubMenu && <Link
-                href={link?.to} target={link?.to?.indexOf('http') === 0 ? '_blank' : '_self'}
+                href={linkHref} target={openTarget}
                 className="font-extralight  flex justify-between pl-2 pr-4 dark:text-gray-200 no-underline tracking-widest pb-1">
                 <span className=' transition-all items-center duration-200'>{link?.icon && <i className={link.icon + ' mr-4'} />}{link?.name}</span>
             </Link>}
@@ -44,9 +46,13 @@ export const MenuItemCollapse = (props) => {
         {/* 折叠子菜单 */}
         {hasSubMenu && <Collapse isOpen={isOpen} onHeightChange={props.onHeightChange}>
             {link.subMenus.map((sLink, index) => {
+              const subLinkHref = sLink?.to || sLink?.href
+              if (!subLinkHref) {
+                return null
+              }
               return <div key={index} className='dark:bg-black dark:text-gray-200 text-left px-5 justify-start bg-gray-50 hover:bg-gray-50 dark:hover:bg-gray-900 tracking-widest transition-all duration-200  py-3 pr-6'>
-                    <Link href={sLink.to} target={link?.to?.indexOf('http') === 0 ? '_blank' : '_self'}>
-                        <span className='text-sm ml-4 whitespace-nowrap'>{link?.icon && <i className={sLink.icon + ' mr-2'} />} {sLink.title}</span>
+                    <Link href={subLinkHref} target={openTarget}>
+                        <span className='text-sm ml-4 whitespace-nowrap'>{link?.icon && <i className={sLink.icon + ' mr-2'} />} {sLink.title || sLink.name}</span>
                     </Link>
                 </div>
             })}

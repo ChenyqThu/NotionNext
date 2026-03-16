@@ -1,26 +1,26 @@
 const BLOG = require('./blog.config')
-const { fontFamilies } = require('./lib/font')
+const { fontFamilies } = require('./lib/utils/font')
 
 module.exports = {
-  content: ['./pages/**/*.js', './components/**/*.js', './layouts/**/*.js', './themes/**/*.js'],
+  content: [
+    './pages/**/*.js',
+    './components/**/*.js',
+    './layouts/**/*.js',
+    './themes/**/*.js'
+  ],
   darkMode: BLOG.APPEARANCE === 'class' ? 'media' : 'class', // or 'media' or 'class'
   theme: {
     fontFamily: fontFamilies,
     screens: {
       sm: '540px',
       // => @media (min-width: 576px) { ... }
-
       md: '720px',
       // => @media (min-width: 768px) { ... }
-
       lg: '960px',
       // => @media (min-width: 992px) { ... }
-
       xl: '1140px',
       // => @media (min-width: 1200px) { ... }
-
-      '2xl': '1320px'
-      // => @media (min-width: 1400px) { ... }
+      '2xl': '1536px'
     },
     container: {
       center: true,
@@ -35,16 +35,16 @@ module.exports = {
           DEFAULT: BLOG.BACKGROUND_DARK || '#111827'
         },
         hexo: {
-          'background': 'var(--grey-1)',
+          background: 'var(--grey-1)',
           'black-gray': '#101414',
           'light-gray': 'var(--grey-2)',
-          'front':'var(--grey-9)',
-          'aqua':'var(--aqua)',
-          'cyan-light': 'var(--color-cyan-light)', 
+          front: 'var(--grey-9)',
+          aqua: 'var(--aqua)',
+          'cyan-light': 'var(--color-cyan-light)',
           'pink-light': 'var(--color-pink-light)',
-          'grey': 'var(--grey)',
-          'orange':'var(--color-orange)',
-          'primary':'var(--color-red)'
+          grey: 'var(--grey)',
+          orange: 'var(--color-orange)',
+          primary: 'var(--color-red)'
         },
         // black: '#212b36',
         'dark-700': '#090e34b3',
@@ -58,11 +58,11 @@ module.exports = {
           7: '#D1D5DB',
           8: '#E5E7EB'
         },
-        ai:{
-          'bg':'var(--ai-bg)',
-          'title':'var(--ai-title)',
-          'title-text':'var(--ai-title-text)',
-          'card-bg':'var(--ai-card-bg)'
+        ai: {
+          bg: 'var(--ai-bg)',
+          title: 'var(--ai-title)',
+          'title-text': 'var(--ai-title-text)',
+          'card-bg': 'var(--ai-card-bg)'
         },
         primary: '#3758F9',
         'blue-dark': '#1B44C8',
@@ -73,33 +73,35 @@ module.exports = {
         stroke: '#DFE4EA',
         'gray-1': '#F9FAFB',
         'gray-2': '#F3F4F6',
-        'gray-7': '#CED4DA',
+        'gray-7': '#CED4DA'
       },
       backgroundImage: {
-        'gradient': 'var(--nav-bg)',
-        'tab': 'var(--tab-bg)',
+        gradient: 'var(--nav-bg)',
+        tab: 'var(--tab-bg)'
       },
       maxWidth: {
         side: '14rem',
-        '9/10' : '90%',
+        '9/10': '90%',
         '90p': '90%',
-        '75p': '75%', 
-        'custom':'calc(100% - 18rem);'
+        '75p': '75%',
+        custom: 'calc(100% - 18rem)',
+        'screen-3xl': '1440px',
+        'screen-4xl': '1560px'
       },
       borderWidth: {
-        'ai-card': '1px',
+        'ai-card': '1px'
       },
       borderColor: {
-        'ai-card': 'var(--ai-card-border)',
+        'ai-card': 'var(--ai-card-border)'
       },
-      width:{
-        '50p':'50%',
+      width: {
+        '50p': '50%'
       },
       animation: {
-        'spin-slow': 'spin 6s linear infinite',
+        'spin-slow': 'spin 6s linear infinite'
       },
       boxShadow: {
-        'main': '0 0rem 1rem 0.1125rem var(--body-bg-shadow)', 
+        main: '0 0rem 1rem 0.1125rem var(--body-bg-shadow)',
         input: '0px 7px 20px rgba(0, 0, 0, 0.03)',
         form: '0px 1px 55px -11px rgba(0, 0, 0, 0.01)',
         pricing: '0px 0px 40px 0px rgba(0, 0, 0, 0.08)',
