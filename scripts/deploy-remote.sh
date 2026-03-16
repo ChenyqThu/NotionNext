@@ -46,20 +46,36 @@ fi
 
 echo "==> Deploying branch ${BRANCH} to ${SSH_TARGET}:${APP_DIR}"
 
-ssh "$SSH_TARGET" /usr/bin/env \
-  APP_DIR="$APP_DIR" \
-  BRANCH="$BRANCH" \
-  REMOTE_NAME="$REMOTE_NAME" \
-  ALLOW_DIRTY_REMOTE="$ALLOW_DIRTY_REMOTE" \
-  SYNC_NEXT_PUBLIC_VERSION="$SYNC_NEXT_PUBLIC_VERSION" \
-  PRE_DEPLOY_CMD="$PRE_DEPLOY_CMD" \
-  INSTALL_CMD="$INSTALL_CMD" \
-  BUILD_CMD="$BUILD_CMD" \
-  RESTART_CMD="$RESTART_CMD" \
-  POST_DEPLOY_CMD="$POST_DEPLOY_CMD" \
-  HEALTHCHECK_CMD="$HEALTHCHECK_CMD" \
-  bash -s <<'REMOTE'
+quote() {
+  printf '%q' "$1"
+}
+
+app_dir_q="$(quote "$APP_DIR")"
+branch_q="$(quote "$BRANCH")"
+remote_name_q="$(quote "$REMOTE_NAME")"
+allow_dirty_remote_q="$(quote "$ALLOW_DIRTY_REMOTE")"
+sync_next_public_version_q="$(quote "$SYNC_NEXT_PUBLIC_VERSION")"
+pre_deploy_cmd_q="$(quote "$PRE_DEPLOY_CMD")"
+install_cmd_q="$(quote "$INSTALL_CMD")"
+build_cmd_q="$(quote "$BUILD_CMD")"
+restart_cmd_q="$(quote "$RESTART_CMD")"
+post_deploy_cmd_q="$(quote "$POST_DEPLOY_CMD")"
+healthcheck_cmd_q="$(quote "$HEALTHCHECK_CMD")"
+
+ssh "$SSH_TARGET" bash -s <<REMOTE
 set -euo pipefail
+
+APP_DIR=$app_dir_q
+BRANCH=$branch_q
+REMOTE_NAME=$remote_name_q
+ALLOW_DIRTY_REMOTE=$allow_dirty_remote_q
+SYNC_NEXT_PUBLIC_VERSION=$sync_next_public_version_q
+PRE_DEPLOY_CMD=$pre_deploy_cmd_q
+INSTALL_CMD=$install_cmd_q
+BUILD_CMD=$build_cmd_q
+RESTART_CMD=$restart_cmd_q
+POST_DEPLOY_CMD=$post_deploy_cmd_q
+HEALTHCHECK_CMD=$healthcheck_cmd_q
 
 run_step() {
   local title="$1"
