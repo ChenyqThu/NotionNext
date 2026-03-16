@@ -63,6 +63,19 @@ const PrismMac = () => {
     })
   }, [router, isDarkMode])
 
+  useEffect(() => {
+    const observer = new MutationObserver(mutationsList => {
+      for (const mutation of mutationsList) {
+        if (mutation.type === 'childList') {
+          renderCustomCode()
+        }
+      }
+    })
+
+    observer.observe(document.body, { childList: true, subtree: true })
+    return () => observer.disconnect()
+  }, [])
+
   return <></>
 }
 
@@ -112,7 +125,10 @@ const renderCollapseCode = (codeCollapse, codeCollapseExpandDefault) => {
   const codeBlocks = document.querySelectorAll('.code-toolbar')
   for (const codeBlock of codeBlocks) {
     // 判断当前元素是否被包裹
-    if (codeBlock.closest('.collapse-wrapper')) {
+    if (
+      codeBlock.closest('.collapse-wrapper') ||
+      containsCustomCodeBlock(codeBlock)
+    ) {
       continue // 如果被包裹了，跳过当前循环
     }
 
