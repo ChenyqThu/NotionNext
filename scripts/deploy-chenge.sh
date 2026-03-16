@@ -66,7 +66,18 @@ eval "\$RESTART_CMD"
 pm2 save >/dev/null
 
 echo "==> Running health check"
-eval "\$HEALTHCHECK_CMD"
+for attempt in {1..15}; do
+  if eval "\$HEALTHCHECK_CMD"; then
+    break
+  fi
+
+  if [[ "\$attempt" -eq 15 ]]; then
+    echo "error: health check failed after service restart." >&2
+    exit 1
+  fi
+
+  sleep 2
+done
 
 echo "==> Deployed commit: \$LOCAL_HEAD"
 echo "==> Package version: \$package_version"
