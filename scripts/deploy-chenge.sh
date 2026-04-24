@@ -31,7 +31,11 @@ rsync -az --delete \
   --exclude '.env.local' \
   --exclude '.next' \
   --exclude 'node_modules' \
+  --exclude '.omc' \
   --exclude '.omx' \
+  --exclude 'public/sitemap.xml' \
+  --exclude 'public/robots.txt' \
+  --exclude 'public/rss' \
   ./ "${SSH_TARGET}:${APP_DIR}/"
 
 echo "==> Running remote deploy steps"
@@ -54,6 +58,10 @@ if [[ -f .env.local ]]; then
     printf '\nNEXT_PUBLIC_VERSION=%s\n' "\$package_version" >> .env.local
   fi
 fi
+
+echo "==> Cleaning stale build artifacts in public/"
+rm -f public/sitemap.xml public/robots.txt
+rm -rf public/rss
 
 echo "==> Installing dependencies"
 yarn install --frozen-lockfile --ignore-engines
