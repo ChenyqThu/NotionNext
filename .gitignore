@@ -7,6 +7,7 @@
 
 # testing
 /coverage
+/test-results
 
 # next.js
 /.next/
@@ -52,7 +53,10 @@ package-lock.json
 # yarn.lock
 
 .notion-api-lock
-
 # local tooling state
 .omc/
 .omx/
+.tmp/
+.perf/
+tsconfig.tsbuildinfo
+webpack-internal:/

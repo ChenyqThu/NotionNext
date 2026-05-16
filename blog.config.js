@@ -93,6 +93,9 @@ const BLOG = {
   ],
   FONT_AWESOME: process.env.NEXT_PUBLIC_FONT_AWESOME_PATH || 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css', // font-awesome 字体图标地址; 可选 /css/all.min.css ， https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css
   ICON_FONT: process.env.NEXT_PUBLIC_ICON_FONT || 'https://at.alicdn.com/t/c/font_2601021_5rcdwnlejt8.css',
+  // 新增配置：仅引入 HEAD 未内联的部分（避免覆盖 fork 自定义）
+  ...require('./conf/top-tag.config'), // 置顶文章全局配置 (upstream)
+  ...require('./conf/performance.config'), // 性能优化配置 (upstream)
 
   // END ************网站字体*****************
 
@@ -138,6 +141,8 @@ const BLOG = {
   // 自定义外部脚本，外部样式
   CUSTOM_EXTERNAL_JS: [''], // e.g. ['http://xx.com/script.js','http://xx.com/script.js']
   CUSTOM_EXTERNAL_CSS: [''], // e.g. ['http://xx.com/style.css','http://xx.com/style.css']
+
+  ...require('./conf/techgrow.config'), // 公众号导流插件（TechGrow, upstream）
 
   // 侧栏布局 是否反转(左变右,右变左) 已支持主题: hexo next medium fukasawa example
   LAYOUT_SIDEBAR_REVERSE: process.env.NEXT_PUBLIC_LAYOUT_SIDEBAR_REVERSE || false,
